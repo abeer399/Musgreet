@@ -23,15 +23,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
 var login = 0;
 void _navigateToNextScreen(BuildContext context) {
-  if (login == 1){
+  if (login == 1) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Home()));
+  } else {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => Home()));
-  }
-  else{
-  Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => RegistrationPage()));
+        .push(MaterialPageRoute(builder: (context) => RegistrationPage()));
   }
 }
 
@@ -46,9 +45,10 @@ Widget _buildContent(BuildContext context) {
           //color: Colors.amber,
           padding: EdgeInsets.all(25.0),
           child: Image.asset(
-              'assets/images/logo.png',
+            'assets/images/logo.png',
             width: 100,
-            height: 100,),
+            height: 100,
+          ),
         ),
       ),
       SizedBox(
@@ -113,8 +113,8 @@ Widget _buildContent(BuildContext context) {
         padding: EdgeInsets.all(20.0),
         child: SizedBox(
           width: double.infinity, // <-- match_parent
-          child:RaisedButton(
-            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
+          child: ElevatedButton(
+            // padding: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
             child: Text(
               'Login',
               style: TextStyle(
@@ -123,13 +123,22 @@ Widget _buildContent(BuildContext context) {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            color: Colors.green[800],
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(8.0),
-                )),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.green[800]),
+              padding: MaterialStateProperty.all(
+                  EdgeInsets.symmetric(horizontal: 50, vertical: 7)),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                Radius.circular(8.0),
+              ))),
+            ),
+            // color: Colors.green[800],
+            // shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.all(
+            //       Radius.circular(8.0),
+            //     )),
             onPressed: () {
-              login =1;
+              login = 1;
               _navigateToNextScreen(context);
             },
           ),

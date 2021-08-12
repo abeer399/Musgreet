@@ -65,6 +65,7 @@ import 'models/UserFamily.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:mus_greet/pages/mosque_screen/mosque_details/mosque_prayers/mosque_prayers_upload_screen.dart';
 import 'package:mus_greet/pages/mosque_screen/mosque_details/mosque_about_tab/community_manager.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -116,13 +117,32 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: Constants.APP_NAME,
       locale: Locale("en"),
       debugShowCheckedModeBanner: false,
-      home: MyDB(),
+      home: FutureBuilder(
+        // Initialize FlutterFire:
+        future: _initialization,
+        builder: (context, snapshot) {
+          // Check for errors
+          if (snapshot.hasError) {
+            return somethingWentWrong();
+          }
+
+          // Once complete, show your application
+          if (snapshot.connectionState == ConnectionState.done) {
+            return MyDB();
+          }
+
+          // Otherwise, show something whilst waiting for initialization to complete
+          return loading();
+        },
+      ),
+
       initialRoute: AppRoutes.SPLASH,
       //initialRoute: AppRoutes.MOSQUE_PRAYERS_UPLOAD_SCREEN,
       routes: _registerRoutes(),
@@ -177,6 +197,22 @@ class _MyAppState extends State<MyApp> {
       AppRoutes.FACILITIES: (context) => FacilityScreen(),
       AppRoutes.COMMUNITY_MANAGER: (context) => CommunityManagerScreen(),
     };
+  }
+
+  Widget somethingWentWrong() {
+    return Scaffold(
+      body: Center(
+        child: Text("Some theing is wrong"),
+      ),
+    );
+  }
+
+  Widget loading() {
+    return Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
 }
 
