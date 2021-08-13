@@ -72,20 +72,21 @@ class _HomeScreenState extends State<HomeScreen> {
     print(sessionUser);
     print("after Timer");
     //print(Postss.length);
-    return AppDrawer(
-      child: FutureBuilder<List<Posts>>(
-        future: queryPosts(),
-        builder: (ctx, snapshot) {
-          //List<Posts> PostsData = snapshot.data;
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              Postss = snapshot.data;
-              return _buildUI(Postss, sessionUser);
-            default:
-              return _buildLoadingScreen();
-          }
-        },
-      ),
+    return
+        // AppDrawer(
+        //   child: ,)
+        FutureBuilder<List<Posts>>(
+      future: queryPosts(),
+      builder: (ctx, snapshot) {
+        //List<Posts> PostsData = snapshot.data;
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            Postss = snapshot.data;
+            return _buildUI(Postss, sessionUser);
+          default:
+            return _buildLoadingScreen();
+        }
+      },
     );
   }
 
