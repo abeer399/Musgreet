@@ -7,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mus_greet/core/config/navigation.dart';
+import 'package:mus_greet/core/services/firebase_auth.dart';
+import 'package:mus_greet/core/services/firebase_user_verify_screen.dart';
 //import 'package:mus_greet/core/utils/arguments.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
@@ -20,6 +22,7 @@ import 'package:mus_greet/models/Users.dart';
 import 'package:mus_greet/pages/login/login_screen.dart';
 import 'package:mus_greet/pages/verify_email_screen/verify_email_screen.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -868,28 +871,33 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   print('length zero case');
 
                   //signing up user in Cognito
-                  Map<String, String> userAttributes = {
-                    'email': _emailController.text.trim(),
-                    'phone_number': '+447448479715',
-                    // additional attributes as needed
-                  };
+                  // Map<String, String> userAttributes = {
+                  //   'email': _emailController.text.trim(),
+                  //   'phone_number': '+447448479715',
+                  //   // additional attributes as needed
+                  // };
 
-                  SignUpResult res = await Amplify.Auth.signUp(
-                      username: _emailController.text.trim(),
-                      password: _passwordController.text.trim(),
-                      options:
-                          CognitoSignUpOptions(userAttributes: userAttributes));
+                  // SignUpResult res = await Amplify.Auth.signUp(
+                  //     username: _emailController.text.trim(),
+                  //     password: _passwordController.text.trim(),
+                  //     options:
+                  //         CognitoSignUpOptions(userAttributes: userAttributes));
 
-                  if (res.isSignUpComplete) {
+                  dynamic result = await AuthService()
+                      .registerWithEmailAndPassword(
+                          _emailController.text, _passwordController.text);
+                  if (result != null) {
                     print('User registration successful');
                     //Add user to DB
                     insertUser();
 
                     if (users != null) {
-                      Navigation.intentWithData(context, AppRoutes.VERIFYEMAIL,
-                          RegistrationArgumentClass(users[0]));
-                      return;
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => VerifyScreen()));
+                      // return;
                     }
+                  } else if (result == null) {
+                    print("error in registration");
                   }
                 }
               } else {

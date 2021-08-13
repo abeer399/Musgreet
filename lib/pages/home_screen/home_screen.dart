@@ -96,14 +96,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return WillPopScope(
       onWillPop: () => _onWillPop(),
-      child: Scaffold(
-        key: _drawerKey,
-        backgroundColor: AppColors.GREY_KIND,
-        endDrawerEnableOpenDragGesture: false,
-        appBar: _getAppBar(),
-        // drawer: DrawerWidget(),
-        body: _getBody(postss, sessionUser),
-        bottomNavigationBar: _getBottomNavigation(),
+      child: AppDrawer(
+        child: Scaffold(
+          key: _drawerKey,
+          backgroundColor: AppColors.GREY_KIND,
+          endDrawerEnableOpenDragGesture: false,
+          appBar: _getAppBar(),
+          // drawer: DrawerWidget(),
+          body: _getBody(postss, sessionUser),
+          bottomNavigationBar: _getBottomNavigation(),
+        ),
       ),
     );
   }

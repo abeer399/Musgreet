@@ -4,6 +4,7 @@ import 'package:mus_greet/pages/otp/email_otp_screen.dart';
 //import 'package:musgreet/pages/otp/email_otp_screen.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 final ctrlFistName = TextEditingController();
 final ctrlLastName = TextEditingController();
@@ -35,7 +36,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
 Future<void> register(BuildContext context) async {
   try {
     Map<String, String> userAttributes = {
-
       'email': ctrlEmail.text,
       'phone_number': '+447448479715',
       // additional attributes as needed
@@ -43,17 +43,13 @@ Future<void> register(BuildContext context) async {
     SignUpResult res = await Amplify.Auth.signUp(
         username: ctrlEmail.text,
         password: ctrlPwd.text,
-        options: CognitoSignUpOptions(
-            userAttributes: userAttributes
-        )
-    );
+        options: CognitoSignUpOptions(userAttributes: userAttributes));
 
     if (res.isSignUpComplete) {
       print('User registration successful');
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => OtpScreen()));
-    }
-    else {
+    } else {
       print('User registration failed');
     }
     // setState(() {
@@ -63,14 +59,12 @@ Future<void> register(BuildContext context) async {
   } on AuthException catch (e) {
     print(e.message);
   }
-
 }
 
 void _navigateToNextScreen(BuildContext context) {
   Navigator.of(context)
-     .push(MaterialPageRoute(builder: (context) => OtpScreen()));
-      //Home()
-
+      .push(MaterialPageRoute(builder: (context) => OtpScreen()));
+  //Home()
 }
 
 bool checked = true;
@@ -235,7 +229,7 @@ Widget _buildContent(context) {
         //padding: EdgeInsets.all(20.0),
         child: SizedBox(
           width: 350, // <-- match_parent
-          child:RaisedButton(
+          child: RaisedButton(
             padding: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
             child: Text(
               'Continue',
@@ -248,8 +242,8 @@ Widget _buildContent(context) {
             color: Colors.green[800],
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
-                  Radius.circular(8.0),
-                )),
+              Radius.circular(8.0),
+            )),
             onPressed: () {
               register(context);
               //_navigateToNextScreen(context);

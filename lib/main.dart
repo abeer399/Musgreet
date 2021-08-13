@@ -315,8 +315,8 @@ class _MyDBState extends State<MyDB> {
     //clearData();
     //Future<bool> flag = createMasterData();
 
-    // clearData();
-    createMasterData();
+    clearData();
+    // createMasterData();
     //listUsers1();
     // _checkStateforMasterData().then((value) {
     //    print('entered');

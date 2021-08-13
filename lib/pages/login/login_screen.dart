@@ -5,6 +5,7 @@ import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mus_greet/core/services/firebase_auth.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/widgets/asset_image_widget.dart';
@@ -58,14 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
   _getBody() {
     return SingleChildScrollView(
       child: Container(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
-        height: MediaQuery
-            .of(context)
-            .size
-            .height,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.only(left: 30, right: 30),
         child: Column(
           children: [
@@ -137,10 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _getLogoAndBack() {
     return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       child: AssetImageWidget(
         image: ImageConstants.IC_LOGIN_LOGO,
         height: 125,
@@ -208,12 +200,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Radius.circular(12.0),
                       ),
                       borderSide:
-                      BorderSide(color: AppColors.green_light, width: 2.0)),
+                          BorderSide(color: AppColors.green_light, width: 2.0)),
 
                   //contentPadding: EdgeInsetsDirectional.only(bottom: 7),
-                  contentPadding: new EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 10.0),
-
+                  contentPadding:
+                      new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                   prefixIcon: Padding(
                     padding: EdgeInsetsDirectional.only(
                         start: 10, end: 20, top: 0, bottom: 3),
@@ -223,19 +214,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 25,
                     ),
                   ),
-
                   hintText: 'Email',
                   hintStyle: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: AppColors.light_grey,
-                  )
-              ),
+                  )),
             ),
           ),
         ],
       ),
-
     );
   }
 
@@ -276,12 +264,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Radius.circular(12.0),
                       ),
                       borderSide:
-                      BorderSide(color: AppColors.green_light, width: 2.0)),
+                          BorderSide(color: AppColors.green_light, width: 2.0)),
 
                   //contentPadding: EdgeInsetsDirectional.only(bottom: 7),
-                  contentPadding: new EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 10.0),
-
+                  contentPadding:
+                      new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                   prefixIcon: Padding(
                     padding: EdgeInsetsDirectional.only(
                         start: 10, end: 20, top: 0, bottom: 3),
@@ -291,43 +278,39 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 20,
                     ),
                   ),
-
                   suffixIcon: true
                       ? GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isObscure = !_isObscure;
-                      });
-                    },
-                    child: Padding(
-                      padding:
-                      EdgeInsetsDirectional.only(start: 6, end: 20, top: 5),
-                      child: AssetImageWidget(
-                        image: _isObscure
-                            ? ImageConstants.IC_INVISIBLE
-                            : ImageConstants.IC_VISIBLE,
-                        height: 10,
-                        width: 10,
-                      ),
-                    ),
-                  )
+                          onTap: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          },
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.only(
+                                start: 6, end: 20, top: 5),
+                            child: AssetImageWidget(
+                              image: _isObscure
+                                  ? ImageConstants.IC_INVISIBLE
+                                  : ImageConstants.IC_VISIBLE,
+                              height: 10,
+                              width: 10,
+                            ),
+                          ),
+                        )
                       : Container(
-                    height: 10,
-                    width: 10,
-                  ),
-
+                          height: 10,
+                          width: 10,
+                        ),
                   hintText: 'Password',
                   hintStyle: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: AppColors.light_grey,
-                  )
-              ),
+                  )),
             ),
           ),
         ],
       ),
-
     );
   }
 
@@ -343,10 +326,7 @@ class _LoginScreenState extends State<LoginScreen> {
   _getForgotPasswordText() {
     return Container(
       alignment: Alignment.centerRight,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       child: GestureDetector(
         onTap: () {
           ///Forgot password
@@ -367,10 +347,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _getSocialMediaText() {
     return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       alignment: Alignment.center,
       child: Text(
         AppTexts.SOCIAL_ACCOUNT_TO_LOGIN,
@@ -446,8 +423,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: AppColors.green,
                 decoration: TextDecoration.underline,
               ),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () => _registerUser(),
+              recognizer: TapGestureRecognizer()..onTap = () => _registerUser(),
             ),
           ]),
     );
@@ -469,211 +445,202 @@ class _LoginScreenState extends State<LoginScreen> {
     //     //   username: _emailController.text,
     //     //   password: _passwordController.text,
     //     // );
+    dynamic result = await AuthService().loginWithEmailAndPassword(
+        _emailController.text, _passwordController.text);
 
-    try {
-      print(_emailController.text);
-      print(_passwordController.text);
+    if (result != null) {
+      try {
+        print(_emailController.text);
+        print(_passwordController.text);
 
-      users = null;
+        users = null;
 
-      //if (passwordErrorMessage.length > 0) {
+        //if (passwordErrorMessage.length > 0) {
         passwordErrorMessage = '';
         emailErrorMessage = '';
-      //   setState(() {
-      //     passwordValidator = null;
-      //     emailValidator = null;
-      //   });
-      //}
+        //   setState(() {
+        //     passwordValidator = null;
+        //     emailValidator = null;
+        //   });
+        //}
 
-      //_loginKey.currentState.reset();
-      //_passwordKey.currentState.reset();
+        //_loginKey.currentState.reset();
+        //_passwordKey.currentState.reset();
 
-      //email validation
-      if (_emailController.text
-          .trim()
-          .length == 0) {
-        print('email empty case');
-        emailErrorMessage = "Email field is required";
-      } else {
-        users = await Amplify.DataStore.query(
-            Users.classType,
-            where: Users.EMAIL.eq(_emailController.text.trim()));
-        await Future.delayed(Duration(seconds: 1));
+        //email validation
+        if (_emailController.text.trim().length == 0) {
+          print('email empty case');
+          emailErrorMessage = "Email field is required";
+        } else {
+          users = await Amplify.DataStore.query(Users.classType,
+              where: Users.EMAIL.eq(_emailController.text.trim()));
+          await Future.delayed(Duration(seconds: 1));
 
-        print('after querying db');
+          print('after querying db');
 
-        print(users);
+          print(users);
 
-        if (users != null) {
-          if (users.length > 0) {
-            print('users length > 0 case');
-            // emailErrorMessage = '';
-            // setState(() {
-            //   emailValidator = null;
-            //   print('inside setState');
-            // });
+          if (users != null) {
+            if (users.length > 0) {
+              print('users length > 0 case');
+              // emailErrorMessage = '';
+              // setState(() {
+              //   emailValidator = null;
+              //   print('inside setState');
+              // });
 
-            //valid email exists, let's check for the valid password
-            if (_passwordController.text
-                .trim()
-                .length == 0) {
-              passwordErrorMessage = "Password field is required";
-            } else {
-              users = await Amplify.DataStore.query(
-                  Users.classType,
-                  where: Users.EMAIL.eq(_emailController.text.trim()).and(
-                      Users.PASSWORD.eq(_passwordController.text.trim())));
-              await Future.delayed(Duration(seconds: 1));
+              //valid email exists, let's check for the valid password
+              if (_passwordController.text.trim().length == 0) {
+                passwordErrorMessage = "Password field is required";
+              } else {
+                users = await Amplify.DataStore.query(Users.classType,
+                    where: Users.EMAIL.eq(_emailController.text.trim()).and(
+                        Users.PASSWORD.eq(_passwordController.text.trim())));
+                await Future.delayed(Duration(seconds: 1));
 
-              if (users != null) {
-                if (users.length > 0) {
-                  loggedUser = users[0];
+                if (users != null) {
+                  if (users.length > 0) {
+                    loggedUser = users[0];
 
-                  // setState(() {
-                  //   emailValidator = null;
-                  //   passwordValidator = null;
-                  // });
-                  //navigate user to next screen
-                  print('navigating user');
-                  _navigateUser(loggedUser);
-                  return;
-
+                    // setState(() {
+                    //   emailValidator = null;
+                    //   passwordValidator = null;
+                    // });
+                    //navigate user to next screen
+                    print('navigating user');
+                    _navigateUser(loggedUser);
+                    return;
+                  } else {
+                    print('invalid pwd case');
+                    passwordErrorMessage = "Invalid password, please check";
+                  }
                 } else {
                   print('invalid pwd case');
                   passwordErrorMessage = "Invalid password, please check";
                 }
-              } else {
-                print('invalid pwd case');
-                passwordErrorMessage = "Invalid password, please check";
               }
-            }
-            if (passwordErrorMessage.length > 0) {
-              // setState(() {
-              //   this.passwordValidator = passwordErrorMessage;
-              // });
-              //
-              // if (_passwordKey.currentState.validate()) {}
+              if (passwordErrorMessage.length > 0) {
+                // setState(() {
+                //   this.passwordValidator = passwordErrorMessage;
+                // });
+                //
+                // if (_passwordKey.currentState.validate()) {}
+              } else {
+                emailErrorMessage =
+                    "Invalid email or email doesn't exist, please check";
+              }
             } else {
               emailErrorMessage =
-              "Invalid email or email doesn't exist, please check";
+                  "Invalid email or email doesn't exist, please check";
             }
-          } else {
-            emailErrorMessage =
-            "Invalid email or email doesn't exist, please check";
           }
         }
-      }
-      print('before checking email error msg length');
-      if (emailErrorMessage.length > 0) {
-        setState(() {
-          emailValidator = emailErrorMessage;
-        });
-      } else {
-        emailValidator = null;
-      }
-      if (_loginKey.currentState.validate()) {}
+        print('before checking email error msg length');
+        if (emailErrorMessage.length > 0) {
+          setState(() {
+            emailValidator = emailErrorMessage;
+          });
+        } else {
+          emailValidator = null;
+        }
+        if (_loginKey.currentState.validate()) {}
 
-      if (passwordErrorMessage.length > 0) {
-        setState(() {
-          this.passwordValidator = passwordErrorMessage;
-        });
-      } else {
-        setState(() {
-          this.passwordValidator = null;
-        });
+        if (passwordErrorMessage.length > 0) {
+          setState(() {
+            this.passwordValidator = passwordErrorMessage;
+          });
+        } else {
+          setState(() {
+            this.passwordValidator = null;
+          });
+        }
+        if (_passwordKey.currentState.validate()) {}
+      } catch (e) {
+        print("Error in _loginUser function");
+        print(e.message);
       }
-      if (_passwordKey.currentState.validate()) {}
-
-    } catch (e) {
-      print("Error in _loginUser function");
-      print(e.message);
     }
   }
 
-  _navigateUser(Users loggedUser) async{
-      //Checking user profile
+  _navigateUser(Users loggedUser) async {
+    //Checking user profile
 
-      List<UserProfile> userProfile = await Amplify.DataStore.query(
-          UserProfile.classType,
-          where: UserProfile.USERSID.eq(loggedUser.id));
-      await Future.delayed(Duration(seconds: 1));
+    List<UserProfile> userProfile = await Amplify.DataStore.query(
+        UserProfile.classType,
+        where: UserProfile.USERSID.eq(loggedUser.id));
+    await Future.delayed(Duration(seconds: 1));
 
-      //email_verification check
-      if (loggedUser.email_verification == false) {
-        //send email with code and then navigate user to email verification page
-        Navigation.intentWithData(context, AppRoutes.VERIFYEMAIL,
-            RegistrationArgumentClass(loggedUser));
+    //email_verification check
+    if (loggedUser.email_verification == false) {
+      //send email with code and then navigate user to email verification page
+      Navigation.intentWithData(context, AppRoutes.VERIFYEMAIL,
+          RegistrationArgumentClass(loggedUser));
 
-        //phone_verification check
-      } else if (loggedUser.phone_verification == false) {
-        Navigation.intentWithData(context, AppRoutes.PHONEINPUT,
-            VerifyEmailArgumentClass(loggedUser));
+      //phone_verification check
+    } else if (loggedUser.phone_verification == false) {
+      Navigation.intentWithData(
+          context, AppRoutes.PHONEINPUT, VerifyEmailArgumentClass(loggedUser));
 
-        //age check
-      } else if (loggedUser.age == null) {
-        Navigation.intentWithData(context, AppRoutes.AGEREGISTER,
-            PhoneOTPArgumentClass(loggedUser));
+      //age check
+    } else if (loggedUser.age == null) {
+      Navigation.intentWithData(
+          context, AppRoutes.AGEREGISTER, PhoneOTPArgumentClass(loggedUser));
 
-        //parent verification check
-      } else if (int.parse(loggedUser.age) < 16 &&
-          loggedUser.parent_verification == false) {
+      //parent verification check
+    } else if (int.parse(loggedUser.age) < 16 &&
+        loggedUser.parent_verification == false) {
+      Navigation.intentWithData(context, AppRoutes.PARENTEMAIL,
+          AgeRegistrationArgumentClass(loggedUser));
 
-        Navigation.intentWithData(context, AppRoutes.PARENTEMAIL,
-            AgeRegistrationArgumentClass(loggedUser));
-
-        //address verification check
-      } else if (loggedUser.address_verification == false) {
-
-        if (loggedUser.address_verification_mode == 'Manual') {
-
-          if (loggedUser.manual_address_taken_date == null) {
-            //send user to address verification screen, so that again he/she can get both manual and auto options
-            //Navigation.intentWithData(context, AppRoutes.MANUALADDRESS1,AgeRegistrationArgumentClass(sessionUser));
-            Navigation.intentWithData(context, AppRoutes.VERIFYADDRESS,
-                AgeRegistrationArgumentClass(loggedUser));
-          } else if (loggedUser.manual_address_code_sent_date == null) {
-            //user confirmed his/her address manually, but code not yet sent via post by admin user
-
-          } else {
-            //Need to allow user to input code sent via post
-            Navigation.intentWithData(
-                context, AppRoutes.MANUALADDRESSOTP,
-                AddressVerificationArgumentClass(loggedUser));
-          }
-        } else {
+      //address verification check
+    } else if (loggedUser.address_verification == false) {
+      if (loggedUser.address_verification_mode == 'Manual') {
+        if (loggedUser.manual_address_taken_date == null) {
+          //send user to address verification screen, so that again he/she can get both manual and auto options
+          //Navigation.intentWithData(context, AppRoutes.MANUALADDRESS1,AgeRegistrationArgumentClass(sessionUser));
           Navigation.intentWithData(context, AppRoutes.VERIFYADDRESS,
               AgeRegistrationArgumentClass(loggedUser));
+        } else if (loggedUser.manual_address_code_sent_date == null) {
+          //user confirmed his/her address manually, but code not yet sent via post by admin user
+
+        } else {
+          //Need to allow user to input code sent via post
+          Navigation.intentWithData(context, AppRoutes.MANUALADDRESSOTP,
+              AddressVerificationArgumentClass(loggedUser));
         }
-
-        //user profile check
-      } else if (userProfile.length == 0) {
-        //print(userProfile.length);
-        Navigation.intentWithData(context, AppRoutes.NEARLYFINISHED,
-            AddressVerificationArgumentClass(loggedUser));
-
-        //photo verification check
-      } else if (loggedUser.photo_verification == false) {
-        Navigation.intentWithData(context, AppRoutes.TIMETOSMILE,
-            NearlyFinishedArgumentClass(loggedUser));
-
-        //terms, privacy policy agreement check
-      } else if (loggedUser.terms_privacy_policy_agree == null) {
-        Navigation.intentWithData(context, AppRoutes.FINALSTEP,
-            TimetoSmileArgumentClass(loggedUser));
-
-        //community promise check
-      } else if (loggedUser.community_promise_agree == null) {
-        //Navigation.intentWithData(context, AppRoutes.FINALSTEP,TimetoSmileArgumentClass(loggedUser));
-        Navigation.intentWithData(context, AppRoutes.ACCOUNTSUCCESS,
-            FinalStepArgumentClass(loggedUser));
+      } else {
+        Navigation.intentWithData(context, AppRoutes.VERIFYADDRESS,
+            AgeRegistrationArgumentClass(loggedUser));
       }
-      //if all the verifications are done, then take user to Home screen
-      else {
-        Navigation.intentWithData(context, AppRoutes.HOME,
-            CommunityPromiseArgumentClass(loggedUser));
-      }
+
+      //user profile check
+    } else if (userProfile.length == 0) {
+      //print(userProfile.length);
+      Navigation.intentWithData(context, AppRoutes.NEARLYFINISHED,
+          AddressVerificationArgumentClass(loggedUser));
+
+      //photo verification check
+    } else if (loggedUser.photo_verification == false) {
+      Navigation.intentWithData(context, AppRoutes.TIMETOSMILE,
+          NearlyFinishedArgumentClass(loggedUser));
+
+      //terms, privacy policy agreement check
+    } else if (loggedUser.terms_privacy_policy_agree == null) {
+      Navigation.intentWithData(
+          context, AppRoutes.FINALSTEP, TimetoSmileArgumentClass(loggedUser));
+
+      //community promise check
+    } else if (loggedUser.community_promise_agree == null) {
+      //Navigation.intentWithData(context, AppRoutes.FINALSTEP,TimetoSmileArgumentClass(loggedUser));
+      Navigation.intentWithData(context, AppRoutes.ACCOUNTSUCCESS,
+          FinalStepArgumentClass(loggedUser));
+    }
+    //if all the verifications are done, then take user to Home screen
+    else {
+      Navigation.intentWithData(
+          context, AppRoutes.HOME, CommunityPromiseArgumentClass(loggedUser));
+    }
   }
-
 }
 
 class LoginAndRegisterScreenButton extends StatefulWidget {
@@ -696,10 +663,7 @@ class _ActionButtonWidgetState extends State<LoginAndRegisterScreenButton> {
       onTap: () => widget.callBack(),
       child: Container(
         alignment: Alignment.center,
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
+        width: MediaQuery.of(context).size.width,
         height: 55,
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.background_color),
@@ -714,7 +678,7 @@ class _ActionButtonWidgetState extends State<LoginAndRegisterScreenButton> {
             fontWeight: FontWeight.bold,
             fontFamily: FontConstants.FONT,
             color:
-            widget.isFilled ? AppColors.white : AppColors.background_color,
+                widget.isFilled ? AppColors.white : AppColors.background_color,
           ),
         ),
       ),
@@ -729,12 +693,12 @@ class loginValidator extends TextFieldValidator {
   List<Users> users;
   Users loggedUser;
 
-  loginValidator({
-    String errorText, // = "Email doesn't exist, please check",
-    this.email,
-    this.pwd,
-    this.fldEmail
-  }) : super(errorText);
+  loginValidator(
+      {String errorText, // = "Email doesn't exist, please check",
+      this.email,
+      this.pwd,
+      this.fldEmail})
+      : super(errorText);
 
   // return false if you want the validator to return error
   // message when the value is empty.
@@ -753,71 +717,67 @@ class loginValidator extends TextFieldValidator {
 
     if (this.fldEmail) {
       //server side email validation
-    print('only email case');
+      print('only email case');
 
-    //if (loggedUser == null) {
+      //if (loggedUser == null) {
       getUser(this.email, null);
       //Timer(Duration(seconds: 2),() => _checkUserExists());
-   // }
-    //TemporalDate date=new TemporalDate(DateTime.now());
-   // DateFormat('SS').format(date);
+      // }
+      //TemporalDate date=new TemporalDate(DateTime.now());
+      // DateFormat('SS').format(date);
 
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
+      DateTime now = DateTime.now();
+      String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
 
-    //delaying for 2 seconds
-    print('before delay');
-    _checkUserExists();
-    print(formattedDate);
-    //sleep(const Duration(seconds: 4));
+      //delaying for 2 seconds
+      print('before delay');
+      _checkUserExists();
+      print(formattedDate);
+      //sleep(const Duration(seconds: 4));
 
-    int i = 0;
-    while (i < 200000) {
-      i+=1;
-    }
-    i = 0;
-    while (i < 200000) {
-      i+=1;
-    }
-    i = 0;
-    while (i < 200000) {
-      i+=1;
-    }
-    i = 0;
-    while (i < 200000) {
-      i+=1;
-    }
-    i = 0;
-    while (i < 200000) {
-      i+=1;
-    }
+      int i = 0;
+      while (i < 200000) {
+        i += 1;
+      }
+      i = 0;
+      while (i < 200000) {
+        i += 1;
+      }
+      i = 0;
+      while (i < 200000) {
+        i += 1;
+      }
+      i = 0;
+      while (i < 200000) {
+        i += 1;
+      }
+      i = 0;
+      while (i < 200000) {
+        i += 1;
+      }
 
-    print('after delay');
-    DateTime now2 = DateTime.now();
-    String formattedDate2 = DateFormat('kk:mm:ss \n EEE d MMM').format(now2);
-    print(formattedDate2);
+      print('after delay');
+      DateTime now2 = DateTime.now();
+      String formattedDate2 = DateFormat('kk:mm:ss \n EEE d MMM').format(now2);
+      print(formattedDate2);
 
+      _checkUserExists();
 
-
-    _checkUserExists();
-
-    if (loggedUser == null) {
-      //user doesn't exist in the DB");
-      print('null case');
-      return false;
-    }
-    else {
-      print('true case');
-      return true;
-    }
-
+      if (loggedUser == null) {
+        //user doesn't exist in the DB");
+        print('null case');
+        return false;
+      } else {
+        print('true case');
+        return true;
+      }
     } else {
       // server side email and password validation
       print('email and pwd case');
 
       //if (loggedUser == null) {
-        getUser(this.email, this.pwd);
-        //Timer(Duration(seconds: 2),() => _checkUserExists());
+      getUser(this.email, this.pwd);
+      //Timer(Duration(seconds: 2),() => _checkUserExists());
       //}
 
       sleep(const Duration(seconds: 2));
@@ -828,8 +788,6 @@ class loginValidator extends TextFieldValidator {
       //   i+=1;
       // }
 
-
-
       _checkUserExists();
 
       if (loggedUser == null) {
@@ -838,8 +796,7 @@ class loginValidator extends TextFieldValidator {
         print(users);
         print(loggedUser);
         return false;
-      }
-      else {
+      } else {
         //user exists with valid credentials
         print('after getuser call, loggedUser null case');
         print(users);
@@ -856,12 +813,13 @@ class loginValidator extends TextFieldValidator {
       print('inside getUser');
       if (pwd == null) {
         print(email);
-        users = await Amplify.DataStore.query(
-            Users.classType, where: Users.EMAIL.eq(email));
+        users = await Amplify.DataStore.query(Users.classType,
+            where: Users.EMAIL.eq(email));
         await Future.delayed(Duration(seconds: 1));
         print('after querying db');
         DateTime now2 = DateTime.now();
-        String formattedDate2 = DateFormat('kk:mm:ss \n EEE d MMM').format(now2);
+        String formattedDate2 =
+            DateFormat('kk:mm:ss \n EEE d MMM').format(now2);
         print(formattedDate2);
         print(users);
 
@@ -880,7 +838,6 @@ class loginValidator extends TextFieldValidator {
           } else {
             //return false;
           }
-
         } else {
           print(users);
           //return false;
@@ -888,21 +845,17 @@ class loginValidator extends TextFieldValidator {
 
         _checkUserExists();
       } else {
-        users = await Amplify.DataStore.query(
-            Users.classType, where: Users.EMAIL.eq(this.email).and(Users.PASSWORD.eq(this.pwd)));
+        users = await Amplify.DataStore.query(Users.classType,
+            where: Users.EMAIL.eq(this.email).and(Users.PASSWORD.eq(this.pwd)));
         //await Future.delayed(Duration(seconds: 2));
 
         return users;
-
       }
     } catch (e) {
       print("Error in getUser method: " + e);
     }
 
-
-
     //Timer(Duration(seconds: 2),() => _checkUserExists());
-
   }
 
   bool _checkUserExists() {
@@ -915,11 +868,9 @@ class loginValidator extends TextFieldValidator {
       if (users.length > 0) {
         loggedUser = users[0];
         return true;
-
       } else {
         return false;
       }
-
     } else {
       print(users);
       return false;
@@ -928,7 +879,7 @@ class loginValidator extends TextFieldValidator {
 //     listUsers();
   }
 
-  Future<void> listUsers() async{
+  Future<void> listUsers() async {
     try {
       print('In list users');
       List<Users> Userss = await Amplify.DataStore.query(Users.classType);
