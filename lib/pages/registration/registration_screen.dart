@@ -886,18 +886,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   dynamic result = await AuthService()
                       .registerWithEmailAndPassword(
                           _emailController.text, _passwordController.text);
-                  if (result != null) {
+                  if (result == "ok") {
                     print('User registration successful');
                     //Add user to DB
                     insertUser();
 
-                    if (users != null) {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => VerifyScreen()));
-                      // return;
-                    }
-                  } else if (result == null) {
-                    print("error in registration");
+                    Navigation.intentWithData(context, AppRoutes.VERIFYEMAIL,
+                        RegistrationArgumentClass(users[0]));
+                    return;
+
+                    // if (users != null) {
+                    //   // Navigator.of(context).push(MaterialPageRoute(
+                    //   //     builder: (context) => VerifyScreen()));
+                    //   Navigation.intentWithData(context, AppRoutes.VERIFYEMAIL,
+                    //       RegistrationArgumentClass(users[0]));
+                    //   return;
+                    // }
                   }
                 }
               } else {

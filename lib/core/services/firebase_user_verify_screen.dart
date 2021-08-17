@@ -2,9 +2,6 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mus_greet/core/config/navigation.dart';
-import 'package:mus_greet/core/utils/routes.dart';
-import 'package:mus_greet/main.dart';
 import 'package:mus_greet/pages/registration/registration_screen.dart';
 
 class VerifyScreen extends StatefulWidget {
@@ -22,7 +19,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
     user = auth.currentUser;
     user.sendEmailVerification();
 
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(Duration(seconds: 5), (timer) {
       checkEmailVerified();
     });
     super.initState();
@@ -34,6 +31,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
     super.dispose();
   }
 
+  RegistrationScreen _regScreen = RegistrationScreen();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +47,9 @@ class _VerifyScreenState extends State<VerifyScreen> {
     if (user.emailVerified) {
       print(user.emailVerified);
       timer.cancel();
-      Navigation.intentWithData(
-          context, AppRoutes.VERIFYEMAIL, RegistrationArgumentClass(users[0]));
+      Navigator.pop(context);
+      // Navigation.intentWithData(
+      //     context, AppRoutes.VERIFYEMAIL, RegistrationArgumentClass(users[0]));
     }
   }
 }

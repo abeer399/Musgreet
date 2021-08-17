@@ -448,117 +448,116 @@ class _LoginScreenState extends State<LoginScreen> {
     dynamic result = await AuthService().loginWithEmailAndPassword(
         _emailController.text, _passwordController.text);
 
-    if (result != null) {
-      try {
-        print(_emailController.text);
-        print(_passwordController.text);
+    try {
+      print(_emailController.text);
+      print(_passwordController.text);
 
-        users = null;
+      users = null;
 
-        //if (passwordErrorMessage.length > 0) {
-        passwordErrorMessage = '';
-        emailErrorMessage = '';
-        //   setState(() {
-        //     passwordValidator = null;
-        //     emailValidator = null;
-        //   });
-        //}
+      //if (passwordErrorMessage.length > 0) {
+      passwordErrorMessage = '';
+      emailErrorMessage = '';
+      //   setState(() {
+      //     passwordValidator = null;
+      //     emailValidator = null;
+      //   });
+      //}
 
-        //_loginKey.currentState.reset();
-        //_passwordKey.currentState.reset();
+      //_loginKey.currentState.reset();
+      //_passwordKey.currentState.reset();
 
-        //email validation
-        if (_emailController.text.trim().length == 0) {
-          print('email empty case');
-          emailErrorMessage = "Email field is required";
-        } else {
-          users = await Amplify.DataStore.query(Users.classType,
-              where: Users.EMAIL.eq(_emailController.text.trim()));
-          await Future.delayed(Duration(seconds: 1));
+      //email validation
+      if (_emailController.text.trim().length == 0) {
+        print('email empty case');
+        emailErrorMessage = "Email field is required";
+      } else {
+        users = await Amplify.DataStore.query(Users.classType,
+            where: Users.EMAIL.eq(_emailController.text.trim()));
+        await Future.delayed(Duration(seconds: 1));
 
-          print('after querying db');
+        print('after querying db');
 
-          print(users);
+        print(users);
 
-          if (users != null) {
-            if (users.length > 0) {
-              print('users length > 0 case');
-              // emailErrorMessage = '';
-              // setState(() {
-              //   emailValidator = null;
-              //   print('inside setState');
-              // });
+        if (users != null) {
+          if (users.length > 0) {
+            print('users length > 0 case');
+            // emailErrorMessage = '';
+            // setState(() {
+            //   emailValidator = null;
+            //   print('inside setState');
+            // });
 
-              //valid email exists, let's check for the valid password
-              if (_passwordController.text.trim().length == 0) {
-                passwordErrorMessage = "Password field is required";
-              } else {
-                users = await Amplify.DataStore.query(Users.classType,
-                    where: Users.EMAIL.eq(_emailController.text.trim()).and(
-                        Users.PASSWORD.eq(_passwordController.text.trim())));
-                await Future.delayed(Duration(seconds: 1));
+            //valid email exists, let's check for the valid password
+            if (_passwordController.text.trim().length == 0) {
+              passwordErrorMessage = "Password field is required";
+            } else {
+              users = await Amplify.DataStore.query(Users.classType,
+                  where: Users.EMAIL
+                      .eq(_emailController.text.trim())
+                      .and(Users.PASSWORD.eq(_passwordController.text.trim())));
+              await Future.delayed(Duration(seconds: 1));
 
-                if (users != null) {
-                  if (users.length > 0) {
-                    loggedUser = users[0];
+              if (users != null) {
+                if (users.length > 0) {
+                  loggedUser = users[0];
 
-                    // setState(() {
-                    //   emailValidator = null;
-                    //   passwordValidator = null;
-                    // });
-                    //navigate user to next screen
-                    print('navigating user');
-                    _navigateUser(loggedUser);
-                    return;
-                  } else {
-                    print('invalid pwd case');
-                    passwordErrorMessage = "Invalid password, please check";
-                  }
+                  // setState(() {
+                  //   emailValidator = null;
+                  //   passwordValidator = null;
+                  // });
+                  //navigate user to next screen
+                  print('navigating user');
+                  _navigateUser(loggedUser);
+                  return;
                 } else {
                   print('invalid pwd case');
                   passwordErrorMessage = "Invalid password, please check";
                 }
-              }
-              if (passwordErrorMessage.length > 0) {
-                // setState(() {
-                //   this.passwordValidator = passwordErrorMessage;
-                // });
-                //
-                // if (_passwordKey.currentState.validate()) {}
               } else {
-                emailErrorMessage =
-                    "Invalid email or email doesn't exist, please check";
+                print('invalid pwd case');
+                passwordErrorMessage = "Invalid password, please check";
               }
+            }
+            if (passwordErrorMessage.length > 0) {
+              // setState(() {
+              //   this.passwordValidator = passwordErrorMessage;
+              // });
+              //
+              // if (_passwordKey.currentState.validate()) {}
             } else {
               emailErrorMessage =
                   "Invalid email or email doesn't exist, please check";
             }
+          } else {
+            emailErrorMessage =
+                "Invalid email or email doesn't exist, please check";
           }
         }
-        print('before checking email error msg length');
-        if (emailErrorMessage.length > 0) {
-          setState(() {
-            emailValidator = emailErrorMessage;
-          });
-        } else {
-          emailValidator = null;
-        }
-        if (_loginKey.currentState.validate()) {}
-
-        if (passwordErrorMessage.length > 0) {
-          setState(() {
-            this.passwordValidator = passwordErrorMessage;
-          });
-        } else {
-          setState(() {
-            this.passwordValidator = null;
-          });
-        }
-        if (_passwordKey.currentState.validate()) {}
-      } catch (e) {
-        print("Error in _loginUser function");
-        print(e.message);
       }
+      print('before checking email error msg length');
+      if (emailErrorMessage.length > 0) {
+        setState(() {
+          emailValidator = emailErrorMessage;
+        });
+      } else {
+        emailValidator = null;
+      }
+      if (_loginKey.currentState.validate()) {}
+
+      if (passwordErrorMessage.length > 0) {
+        setState(() {
+          this.passwordValidator = passwordErrorMessage;
+        });
+      } else {
+        setState(() {
+          this.passwordValidator = null;
+        });
+      }
+      if (_passwordKey.currentState.validate()) {}
+    } catch (e) {
+      print("Error in _loginUser function");
+      print(e.message);
     }
   }
 

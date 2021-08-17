@@ -21,30 +21,30 @@ class AuthService {
       emailVerification();
       print("registerWithEmailAndPassword main register ho gaya hai.");
       return userCredential;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
+    } catch (e) {
+      if (e == 'weak-password') {
         print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
+      } else if (e == 'email-already-in-use') {
         print('The account already exists for that email.');
       }
-    } catch (e) {
-      print(e);
+      return "ok";
     }
   }
 
   //Sign In With Email And Password.
   Future loginWithEmailAndPassword(var emailText, var passwordText) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: emailText, password: passwordText);
-      print("login main signup ho gaya hai.");
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: emailText, password: passwordText);
+      print("login main signin ho gaya hai.");
       return userCredential;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
+    } catch (e) {
+      if (e == 'user-not-found') {
         print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
+      } else if (e == 'wrong-password') {
         print('Wrong password provided for that user.');
       }
+      return null;
     }
   }
 }
