@@ -1,0 +1,218 @@
+type MosqueDonations @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  user_id: ID
+  first_name: String
+  last_nam: String
+  email: String
+  donation_amount: Float
+  frequency: String
+  user_covers_cost: Boolean
+  transaction_date: AWSDate
+  transaction_status: String
+  next_donation_date: AWSDateTime
+  mosque_id: ID
+  transaction_time: AWSTime
+}
+
+type Notification @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  sent_by: ID
+  sent_to_list: AWSJSON
+  type: String
+  message: String
+  sent_date: AWSDate
+  sent_time: AWSTime
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  first_name: String
+  last_name: String
+  email: String
+  password: String
+  phone: String
+  dob: AWSDate
+  gender: String
+  parent_email: String
+  house_number: String
+  street: String
+  city: String
+  postcode: String
+  country: String
+  latitude: String
+  longitude: String
+  parent_consent_form_agree: Boolean
+  terms_privacy_policy_agree: Boolean
+  community_promise_agree: Boolean
+  email_verification: Boolean
+  phone_verification: Boolean
+  parent_verification: Boolean
+  address_verification: Boolean
+  photo_verification: Boolean
+  joined_date: AWSDate
+  active_status: Boolean
+  address_verification_mode: String
+  manual_address_code: String
+  manual_address_taken_date: AWSDate
+  manual_address_code_sent_date: AWSDate
+  mosque_admin: Boolean
+  photo_path: String
+  selfie_path: String
+}
+
+type Post @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  post: String
+  post_image_path: String
+  description: String
+  visibility: String
+  mosque_id: ID
+  user_id: ID
+  created_date: AWSDate
+}
+
+type Mosque @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  mosque_name: String
+  about: String
+  is_verified: Boolean
+  sect: String
+  mosque_photos_list: AWSJSON
+  mosque_facilities_list: AWSJSON
+  contact_description: String
+  phone: String
+  email: String
+  url: String
+  house_number: String
+  street: String
+  city: String
+  postcode: String
+  country: String
+  mosque_admin_id: ID
+  latitude: String
+  longitude: String
+}
+
+type PostComment @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  comment: String
+  parent_id: String
+  post_id: String
+  user_id: String
+}
+
+type PostLike @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  post_id: ID
+  user_id: ID
+  post_comment_id: ID
+}
+
+type MosquePhoto @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  photo_type: String
+  photo_path: String
+  mosque_id: ID
+}
+
+type MosqueUser @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  designation: String
+  role: String
+  photo_path: String
+  mosque_id: ID
+}
+
+type MosquePrayer @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  prayer: String
+  mosque_id: String
+  date: AWSDate
+  end_time: AWSTime
+  begin_time: AWSTime
+}
+
+type MosqueFollower @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  mosque_id: ID
+  user_id: ID
+}
+
+type FriendRequest @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  request_date: AWSDate
+  request_from_id: ID
+  request_to_id: ID
+  request_message: String
+  request_status: String
+  request_status_date: AWSDate
+  unfriend_date: AWSDate
+}
+
+type Friend @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  friends_list: AWSJSON
+  user_id: ID
+}
+
+type UserPhoto @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  photo_type: String
+  photo_path: String
+  user_id: ID
+}
+
+type UserEducation @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  institution: String
+  course: String
+  from: String
+  to: String
+  user_id: ID
+}
+
+type UserProfile @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  bio: String
+  relationship_status: String
+  languages_spoken: AWSJSON
+  sect: String
+  are_you_revert: Boolean
+  islam_interest: Boolean
+  profile_privacy: String
+  community_interests: AWSJSON
+  skills: AWSJSON
+  religious_interests: AWSJSON
+  user_id: ID
+  profile_photo_path: String
+  cover_photo_path: String
+}
+
+type Interest @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  photo_path: String
+  interest_name: String
+  description: String
+  category_name: String
+}
+
+type Facilities @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  icon_path: String
+  facility_header: String
+  description: String
+}
+
+type UserFamily @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  relationship: String
+  user_id: ID
+}
+
+type Language @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  language: String
+}
+ 
