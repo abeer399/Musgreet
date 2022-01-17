@@ -18,7 +18,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import '../../main.dart';
 
 class Bio extends StatefulWidget {
-  Users sessionUser;
+  User sessionUser;
   Bio({this.sessionUser});
   @override
   _BioState createState() => _BioState();
@@ -180,7 +180,7 @@ class _BioState extends State<Bio> {
   Future<void> userProfileData() async {
    // try {
       userProfile = await Amplify.DataStore.query(UserProfile.classType,
-          where: UserProfile.USERSID.eq(widget.sessionUser.id));
+          where: UserProfile.USER_ID.eq(widget.sessionUser.id));
       print(userProfile);
       print("inside the user profile");
     //} catch (e) {

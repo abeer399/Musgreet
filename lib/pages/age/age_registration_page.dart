@@ -6,7 +6,7 @@ import 'package:mus_greet/core/config/navigation.dart';
 //import 'package:mus_greet/core/utils/arguments.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/otp/components/phone_otp_view.dart';
 import 'package:mus_greet/pages/parent/parent_verification.dart';
 
@@ -20,7 +20,7 @@ class AgeRegistrationPage extends StatefulWidget {
 class _AgeRegistrationPageState extends State<AgeRegistrationPage> {
 
   PhoneOTPArgumentClass args;
-  Users sessionUser;
+  User sessionUser;
   var myController = TextEditingController();
   bool checked = true;
 
@@ -29,7 +29,7 @@ class _AgeRegistrationPageState extends State<AgeRegistrationPage> {
   String gender;
 
   List<DropdownMenuItem<int>> genderList = [];
-  List<Users> users;
+  List<User> users;
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +269,7 @@ class _AgeRegistrationPageState extends State<AgeRegistrationPage> {
     try {
       if (sessionUser != null) {
         final updatedItem = sessionUser.copyWith(
-            age: numberOne.toString(),
+            //age: numberOne.toString(),
             gender: gender.toString());
         await Amplify.DataStore.save(updatedItem);
         sessionUser = updatedItem;
@@ -293,7 +293,7 @@ class _AgeRegistrationPageState extends State<AgeRegistrationPage> {
 }
 
 class AgeRegistrationArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   AgeRegistrationArgumentClass(this.sessionUser);
 }
 

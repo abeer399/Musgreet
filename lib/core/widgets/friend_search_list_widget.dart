@@ -12,7 +12,7 @@ import 'asset_image_widget.dart';
 
 class FriendSearchListWidget extends StatefulWidget {
   final int index;
-  final Users UserObject;
+  final User UserObject;
   final String loginUserId;
   const FriendSearchListWidget({Key key, this.index,this.loginUserId, this.UserObject}) : super(key: key);
   @override

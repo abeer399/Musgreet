@@ -13,11 +13,11 @@ import 'package:mus_greet/core/widgets/post_card_widget.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
 
 class CommentScreen extends StatefulWidget {
-  final Posts PostObject;
-  final Users UserObject;
+  final Post PostObject;
+  final User UserObject;
   final Mosque MosqueObject;
   final String CommentsCount;
-  final Users LogedInUser;
+  final User LogedInUser;
 
   CommentScreen({this.PostObject, this.UserObject, this.CommentsCount, this.MosqueObject,this.LogedInUser});
   @override
@@ -26,12 +26,12 @@ class CommentScreen extends StatefulWidget {
 
 class _CommentScreenState extends State<CommentScreen> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  List<PostComments> PostCommentss;
-  List<PostComments> Comments;
+  List<PostComment> PostCommentss;
+  List<PostComment> Comments;
   //List<PostComments> RepliesList = [];
   List RepliesList = [];
   //PostComments Reply;
-  List<Users> UsersList;
+  List<User> UsersList;
   int RepliesCount = 0;
   int CommentsCount = 0;
 
@@ -109,7 +109,7 @@ class _CommentScreenState extends State<CommentScreen> {
   }
 
   _getCommentSection() {
-    return FutureBuilder<List<PostComments>>(
+    return FutureBuilder<List<PostComment>>(
       future: queryComments(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -122,7 +122,7 @@ class _CommentScreenState extends State<CommentScreen> {
       },
     );
   }
-  _buildComments(List<PostComments> postCommentss) {
+  _buildComments(List<PostComment> postCommentss) {
     return Container(
       padding: EdgeInsets.only(top: 10, left: 20, right: 20),
       color: AppColors.comment_wall_color,
@@ -188,7 +188,7 @@ class _CommentScreenState extends State<CommentScreen> {
     );
   }
 
-  _getUsersComment(List<PostComments> postCommentss) {
+  _getUsersComment(List<PostComment> postCommentss) {
     print(postCommentss.length);
     return ListView.separated(
       //physics: NeverScrollableScrollPhysics(),
@@ -226,14 +226,14 @@ class _CommentScreenState extends State<CommentScreen> {
     );
   }
 
-  _getCommentedUSerDetailsWidget(PostComments postComments){
-    return FutureBuilder<Users>(
+  _getCommentedUSerDetailsWidget(PostComment postComments){
+    return FutureBuilder<User>(
       //future: _getUser(postData.usersID),
-      future: _getCommentedUser(postComments.usersID),
+      future: _getCommentedUser(postComments.user_id),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            Users commentedUserData = snapshot.data;
+            User commentedUserData = snapshot.data;
             return _getCommentsUI(postComments,commentedUserData);
           default:
             return _buildLoadingScreen();
@@ -243,7 +243,7 @@ class _CommentScreenState extends State<CommentScreen> {
 
   }
 
-  _getCommentsUI(PostComments postComments, Users commentedUserData){
+  _getCommentsUI(PostComment postComments, User commentedUserData){
     return Center(
         child: postComments.parent_id == "" ? Container(
           padding: EdgeInsets.only(left: 20),
@@ -264,11 +264,11 @@ class _CommentScreenState extends State<CommentScreen> {
     );
   }
 
-  Future<Users> _getCommentedUser(String usersID) async {
+  Future<User> _getCommentedUser(String usersID) async {
     print("User");
     print(usersID);
     try {
-     List<Users> UserObjectList = await Amplify.DataStore.query(Users.classType ,where :Users.ID.eq(usersID));
+     List<User> UserObjectList = await Amplify.DataStore.query(User.classType ,where :User.ID.eq(usersID));
       //print(User[0].first_name);
       print(UserObjectList.length);
       print(UserObjectList[0].first_name);
@@ -338,17 +338,17 @@ class _CommentScreenState extends State<CommentScreen> {
 
   }
 
-  _addCommentTextField(List<PostComments> postCommentss,) {
+  _addCommentTextField(List<PostComment> postCommentss,) {
     _CommentsCounter();
     return AppCommentTextFieldWidget(hintText: "Write your Comment", ScreenType: "Comment",PostObject: widget.PostObject, UserObject: widget.UserObject, ParentID: "", commentsCount: widget.CommentsCount, sessionUser: widget.LogedInUser);
   }
 
-  Future<List<PostComments>> queryComments() async {
+  Future<List<PostComment>> queryComments() async {
     try {
       //print(widget.PostID + "    Helloooooo");
       //print("Welcome to comments query");
-      Comments = await Amplify.DataStore.query(PostComments.classType,
-          where: PostComments.POSTSID.eq(widget.PostObject.id));
+      Comments = await Amplify.DataStore.query(PostComment.classType,
+          where: PostComment.POST_ID.eq(widget.PostObject.id));
       //PostCommentss = await Amplify.DataStore.query(PostComments.classType);
       //print(PostCommentss[6]);
       //await Future.delayed(Duration(seconds: 2));
@@ -368,9 +368,9 @@ class _CommentScreenState extends State<CommentScreen> {
     final updatedItem = PostCommentss[6].copyWith(
         comment: "Really great job sindhuja, Keep it up",
         parent_id: "",
-        postsID: "bc440d02-350e-4d67-abc5-f4ffc7e6e301",
-        usersID: "40d605ff-0ce4-4b4f-ae43-9e97d37c6cfc",
-        Comments_PostLikes: []);
+        post_id: "bc440d02-350e-4d67-abc5-f4ffc7e6e301",
+        user_id: "40d605ff-0ce4-4b4f-ae43-9e97d37c6cfc");
+        //Comments_PostLikes: []);
     await Amplify.DataStore.save(updatedItem);
   }
 
@@ -379,13 +379,13 @@ class _CommentScreenState extends State<CommentScreen> {
   Future<void> _getUserDetails(String UserID) async {
     try {
       UsersList = await Amplify.DataStore.query(
-          Users.classType, where: Users.ID.eq(UserID));
+          User.classType, where: User.ID.eq(UserID));
     } catch (e) {
       print("Could not query DataStore: " + e);
     }
   }
 
-  _addReplies(PostComments Reply) {
+  _addReplies(PostComment Reply) {
     print("Welcome");
     print(RepliesList.length);
     var i;

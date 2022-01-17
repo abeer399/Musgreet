@@ -5,7 +5,7 @@ import 'package:mus_greet/core/config/navigation.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/utils/size_config.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 //import 'package:international_phone_input/international_phone_input.dart';
 import 'package:mus_greet/pages/otp/phone_otp_screen.dart';
 import 'package:mus_greet/pages/final/community_promise_page.dart';
@@ -20,7 +20,7 @@ class AccountVerificationSuccessPage extends StatefulWidget {
 class _AccountVerificationSuccessPageState extends State<AccountVerificationSuccessPage> {
 
   FinalStepArgumentClass args;
-  Users sessionUser;
+  User sessionUser;
   
   @override
   Widget build(BuildContext context) {
@@ -165,6 +165,6 @@ class _AccountVerificationSuccessPageState extends State<AccountVerificationSucc
 }
 
 class AccountSuccessArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   AccountSuccessArgumentClass(this.sessionUser);
 }

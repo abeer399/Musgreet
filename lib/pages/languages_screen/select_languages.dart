@@ -18,7 +18,7 @@ class LanguagesScreen extends StatefulWidget {
   final List<String> skillsList;
   final String gender;
   final String age;
-  final Users sessionId;
+  final User sessionId;
   final List<UserProfile> userProfile;
   //final List<Users> genderFilteredUsers;
   //final List<Users> ageFilteredUsers;
@@ -190,9 +190,9 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
          "Languages"));
    }
 
-  Future<void> userDetails(Users sessionId) async{
+  Future<void> userDetails(User sessionId) async{
     print("user id" +sessionId.id);
-    userProfile = await Amplify.DataStore.query(UserProfile.classType , where: UserProfile.USERSID.eq(widget.sessionId.id));
+    userProfile = await Amplify.DataStore.query(UserProfile.classType , where: UserProfile.USER_ID.eq(widget.sessionId.id));
     print(userProfile);
      String link=userProfile[0].languages_spoken;
      var a=link.split(",");
@@ -215,7 +215,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
    {
      print("creating the user profile");
      final Item = UserProfile(
-         usersID: widget.sessionId.id,
+         user_id: widget.sessionId.id,
          languages_spoken: languages);
      await Amplify.DataStore.save(Item);
    }
@@ -224,7 +224,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
    {
      print("updating the user profile");
      final updatedItem = userProfile[0].copyWith(
-         usersID: widget.sessionId.id,
+         user_id: widget.sessionId.id,
          languages_spoken: languages);
 
      await Amplify.DataStore.save(updatedItem);

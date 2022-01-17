@@ -1,5 +1,3 @@
-
-
 import 'dart:typed_data';
 
 import 'package:amplify_datastore/amplify_datastore.dart';
@@ -15,8 +13,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:mus_greet/main.dart';
 import 'package:mus_greet/models/Mosque.dart';
-import 'package:mus_greet/models/MosquePrayers.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/MosquePrayer.dart';
+import 'package:mus_greet/models/User.dart';
 //import 'dart:html';
 import 'dart:io';
 //import 'package:path/path.dart';
@@ -28,11 +26,12 @@ import '../mosques_detail_screen.dart';
 
 class MosquePrayersUploadScreen extends StatefulWidget {
   final List<Mosque> mosque;
-  final Users sessionUser;
+  final User sessionUser;
   MosquePrayersUploadScreen({this.mosque, this.sessionUser});
 
   @override
-  _MosquePrayersUploadScreenState createState() => _MosquePrayersUploadScreenState();
+  _MosquePrayersUploadScreenState createState() =>
+      _MosquePrayersUploadScreenState();
 }
 
 class _MosquePrayersUploadScreenState extends State<MosquePrayersUploadScreen> {
@@ -48,15 +47,15 @@ class _MosquePrayersUploadScreenState extends State<MosquePrayersUploadScreen> {
   FileType _pickingType;
   String _filePath;
 
-  List<Mosque> mosque=[];
-  List<MosquePrayers> mosquePrayers=[];
+  List<Mosque> mosque = [];
+  List<MosquePrayer> mosquePrayers = [];
 
   String mosqueID;
 
   @override
   Widget build(BuildContext context) {
-print('in mosque prayers upload build');
-    mosqueID = widget.mosque[0].id;  // '6661a72d-445d-42ba-b151-7928aa054826';
+    print('in mosque prayers upload build');
+    mosqueID = widget.mosque[0].id; // '6661a72d-445d-42ba-b151-7928aa054826';
     print(mosqueID);
     print(mosque);
 
@@ -94,7 +93,7 @@ print('in mosque prayers upload build');
               padding: EdgeInsets.all(8.0),
               child: SizedBox(
                 width: double.infinity, // <-- match_parent
-                child:  RaisedButton(
+                child: RaisedButton(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   child: Text(
                     'Please choose your excel file',
@@ -107,17 +106,16 @@ print('in mosque prayers upload build');
                   color: Colors.green[800],
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
-                        Radius.circular(8.0),
-                      )),
+                    Radius.circular(8.0),
+                  )),
                   onPressed: () {
-                    getFilePath();
+                    // getFilePath();
                     //_openFileExplorer();
                     // updateUserDetails();
                     // Timer(Duration(seconds: 2),() => _navigateToNextScreen(context));
                     //_navigateToNextScreen(context);
                   },
                 ),
-
               ),
             ),
             CustomSpacerWidget(
@@ -126,45 +124,44 @@ print('in mosque prayers upload build');
             new Builder(
               builder: (BuildContext context) => _loadingPath
                   ? Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: const CircularProgressIndicator())
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: const CircularProgressIndicator())
                   : _path != null || _paths != null
-                  ? new Container(
-                padding: const EdgeInsets.only(bottom: 30.0),
-                height: MediaQuery.of(context).size.height * 0.50,
-                child: new Scrollbar(
-                    child: new ListView.separated(
-                      itemCount: _paths != null && _paths.isNotEmpty
-                          ? _paths.length
-                          : 1,
-                      itemBuilder: (BuildContext context, int index) {
-                        final bool isMultiPath =
-                            _paths != null && _paths.isNotEmpty;
-                        final String name = 'File $index: ' +
-                            (isMultiPath
-                                ? _paths.keys.toList()[index]
-                                : _fileName ?? '...');
-                        final path = isMultiPath
-                            ? _paths.values.toList()[index].toString()
-                            : _path;
+                      ? new Container(
+                          padding: const EdgeInsets.only(bottom: 30.0),
+                          height: MediaQuery.of(context).size.height * 0.50,
+                          child: new Scrollbar(
+                              child: new ListView.separated(
+                            itemCount: _paths != null && _paths.isNotEmpty
+                                ? _paths.length
+                                : 1,
+                            itemBuilder: (BuildContext context, int index) {
+                              final bool isMultiPath =
+                                  _paths != null && _paths.isNotEmpty;
+                              final String name = 'File $index: ' +
+                                  (isMultiPath
+                                      ? _paths.keys.toList()[index]
+                                      : _fileName ?? '...');
+                              final path = isMultiPath
+                                  ? _paths.values.toList()[index].toString()
+                                  : _path;
 
-                        return new ListTile(
-                          title: new Text(
-                            //name,
-                            _fileName,
-                            //_path,
-                          ),
-                          subtitle: new Text(path),
-                        );
-                      },
-                      separatorBuilder:
-                          (BuildContext context, int index) =>
-                      new Divider(),
-                    )),
-              )
-                  : new Container(),
+                              return new ListTile(
+                                title: new Text(
+                                  //name,
+                                  _fileName,
+                                  //_path,
+                                ),
+                                subtitle: new Text(path),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    new Divider(),
+                          )),
+                        )
+                      : new Container(),
             ),
-
             _getUploadAndCancelButton(),
           ],
         ),
@@ -172,63 +169,62 @@ print('in mosque prayers upload build');
     );
   }
 
+  // void _openFileExplorer() async {
+  //   if (_pickingType != FileType.CUSTOM || _hasValidMime) {
+  //     setState(() => _loadingPath = true);
+  //     try {
+  //       if (_multiPick) {
+  //         _path = null;
+  //         _paths = await FilePicker.getMultiFilePath(
+  //             type: _pickingType);
+  //         //type: _pickingType, fileExtension: _extension);
+  //       } else {
+  //         _paths = null;
+  //         _path = await FilePicker.getFilePath();
+  //         //type: _pickingType, fileExtension: _extension);
+  //       }
+  //     } on PlatformException catch (e) {
+  //       print("Unsupported operation" + e.toString());
+  //     }
+  //     if (!mounted) return;
+  //     print('picked file:');
+  //     print(_path);
+  //     print(_paths);
+  //     setState(() {
+  //       _loadingPath = false;
+  //       _fileName = _path != null
+  //           ? _path.split('/').last
+  //           : _paths != null ? _paths.keys.toString() : '...';
+  //     });
+  //   }
+  // }
 
-  void _openFileExplorer() async {
-    if (_pickingType != FileType.CUSTOM || _hasValidMime) {
-      setState(() => _loadingPath = true);
-      try {
-        if (_multiPick) {
-          _path = null;
-          _paths = await FilePicker.getMultiFilePath(
-              type: _pickingType);
-          //type: _pickingType, fileExtension: _extension);
-        } else {
-          _paths = null;
-          _path = await FilePicker.getFilePath();
-          //type: _pickingType, fileExtension: _extension);
-        }
-      } on PlatformException catch (e) {
-        print("Unsupported operation" + e.toString());
-      }
-      if (!mounted) return;
-      print('picked file:');
-      print(_path);
-      print(_paths);
-      setState(() {
-        _loadingPath = false;
-        _fileName = _path != null
-            ? _path.split('/').last
-            : _paths != null ? _paths.keys.toString() : '...';
-      });
-    }
-  }
-
-  void _navigateToMosqueDetailsScreen() async{
-
+  void _navigateToMosqueDetailsScreen() async {
     await Future.delayed(Duration(seconds: 2));
 
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => MosquesDetailsScreen(sessionUser:widget.sessionUser,CallingScreen: "Create_Mosque")));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => MosquesDetailsScreen(
+            sessionUser: widget.sessionUser, CallingScreen: "Create_Mosque")));
   }
 
-  void getFilePath() async {
-    try {
-      String filePath = await FilePicker.getFilePath();
-      if (filePath == '') {
-        return;
-      }
-      print("File path: " + filePath);
-      setState(() {
-        this._path = filePath;
-        _fileName = _path != null
-            ? _path.split('/').last
-            : _paths != null ? _paths.keys.toString() : '...';
-      });
+  // void getFilePath() async {
+  //   try {
+  //     String filePath = await FilePicker.getFilePath();
+  //     if (filePath == '') {
+  //       return;
+  //     }
+  //     print("File path: " + filePath);
+  //     setState(() {
+  //       this._path = filePath;
+  //       _fileName = _path != null
+  //           ? _path.split('/').last
+  //           : _paths != null ? _paths.keys.toString() : '...';
+  //     });
 
-    } on PlatformException catch (e) {
-      print("Error while picking the file: " + e.toString());
-    }
-  }
+  //   } on PlatformException catch (e) {
+  //     print("Error while picking the file: " + e.toString());
+  //   }
+  // }
 
   void backup() async {
     //final file = getSomeCorrectFile(); // File
@@ -243,13 +239,9 @@ print('in mosque prayers upload build');
     // Uint8List bytes2 = Uint8List.fromList(File(_path).readAsBytesSync());
     // var excel = Excel.decodeBytes(bytes2);
 
-
-
     //var file = "Path_to_pre_existing_Excel_File/excel_file.xlsx";
     // var bytes = File(_path).readAsBytesSync();
     // var excel = Excel.decodeBytes(bytes);
-
-
 
     // ByteData data = await rootBundle.load("assets/test.xlsx");
     // var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
@@ -270,22 +262,22 @@ print('in mosque prayers upload build');
   }
 
   Future<void> createMosque() async {
-    try{
-      mosque=await Amplify.DataStore.query(Mosque.classType);
+    try {
+      mosque = await Amplify.DataStore.query(Mosque.classType);
       print(mosque.length);
       print(mosque);
       // List<String> facilityUserList=[facilities[0].id,facilities[1].id,facilities[2].id,facilities[3].id,facilities[4].id];
       // List<String>  facilityUserList1=[facilities[0].getId()  + "," + facilities[3].getId()+ "," + facilities[4].getId()+ "," + facilities[5].getId()+ "," + facilities[6].getId()];
       // List<String>  facilityUserList2=[facilities[0].getId()  + "," + facilities[2].getId() + "," + facilities[3].getId() + "," + facilities[4].getId() + "," + facilities[5].getId()];
       // print(userProfile);
-      if(mosque.isEmpty)
-      {
+      if (mosque.isEmpty) {
         final item = Mosque(
             mosque_name: "Lewish Islamic Center",
             about: "Lorem ipsum dolor sit amet",
             is_verified: true,
             sect: "Sunni",
-            mosque_photos_list:"https://musgreetphase1images184452-staging.s3.eu-west-2.amazonaws.com/public/img_mosque.png",
+            mosque_photos_list:
+                "https://musgreetphase1images184452-staging.s3.eu-west-2.amazonaws.com/public/img_mosque.png",
             //mosque_facility_list: jsonEncode(facilityUserList),
             contact_description: "Lorem ipsum dolor sit amet",
             phone: "020 8690 5090",
@@ -301,67 +293,64 @@ print('in mosque prayers upload build');
         print("Mosque Created");
       }
       // createUserProfile();
-    } catch(e)
-    {
+    } catch (e) {
       print(e);
     }
-
   }
 
   Future<void> createMosquePrayers() async {
-    try{
-      TemporalDate date=new TemporalDate(DateTime.now());
+    try {
+      TemporalDate date = new TemporalDate(DateTime.now());
 
-      mosquePrayers=await Amplify.DataStore.query(MosquePrayers.classType);
+      mosquePrayers = await Amplify.DataStore.query(MosquePrayer.classType);
       //await Amplify.DataStore.delete(mosquePrayers[0]);
       print(mosquePrayers.length);
       print(mosquePrayers);
-      if(mosquePrayers.isEmpty) {
-        final Day1Prayer1 = MosquePrayers(
-            mosqueID: mosque[0].getId(),
+      if (mosquePrayers.isEmpty) {
+        final Day1Prayer1 = MosquePrayer(
+            mosque_id: mosque[0].getId(),
             prayer: "Fajir",
-            Date: date,
+            date: date,
             end_time: TemporalTime.fromString("08:44"),
             begin_time: TemporalTime.fromString("08:14"));
         await Amplify.DataStore.save(Day1Prayer1);
 
-        final Day1Prayer2 = MosquePrayers(
-            mosqueID: mosque[0].getId(),
+        final Day1Prayer2 = MosquePrayer(
+            mosque_id: mosque[0].getId(),
             prayer: "DHUMAR",
-            Date: date,
+            date: date,
             end_time: TemporalTime.fromString("13:15"),
             begin_time: TemporalTime.fromString("13:00"));
         await Amplify.DataStore.save(Day1Prayer2);
 
-        final Day1Prayer3 = MosquePrayers(
-            mosqueID: mosque[0].getId(),
+        final Day1Prayer3 = MosquePrayer(
+            mosque_id: mosque[0].getId(),
             prayer: "ASR",
-            Date: date,
+            date: date,
             end_time: TemporalTime.fromString("12:30"),
             begin_time: TemporalTime.fromString("12:14"));
         await Amplify.DataStore.save(Day1Prayer3);
 
-        final Day1Prayer4 = MosquePrayers(
-            mosqueID: mosque[0].getId(),
+        final Day1Prayer4 = MosquePrayer(
+            mosque_id: mosque[0].getId(),
             prayer: "MAGHRIB",
-            Date: date,
+            date: date,
             end_time: TemporalTime.fromString("16:29"),
             begin_time: TemporalTime.fromString("16:14"));
         await Amplify.DataStore.save(Day1Prayer4);
 
-        final Day1Prayer5 = MosquePrayers(
-            mosqueID: mosque[0].getId(),
+        final Day1Prayer5 = MosquePrayer(
+            mosque_id: mosque[0].getId(),
             prayer: "JUMMAH",
-            Date: date,
+            date: date,
             end_time: TemporalTime.fromString("18:30"),
             begin_time: TemporalTime.fromString("18:14"));
         await Amplify.DataStore.save(Day1Prayer5);
 
-
-        final Day1Prayer6 = MosquePrayers(
-            mosqueID: mosque[0].getId(),
+        final Day1Prayer6 = MosquePrayer(
+            mosque_id: mosque[0].getId(),
             prayer: "ISHA",
-            Date: date,
+            date: date,
             end_time: TemporalTime.fromString("20:30"),
             begin_time: TemporalTime.fromString("20:14"));
         await Amplify.DataStore.save(Day1Prayer6);
@@ -422,15 +411,12 @@ print('in mosque prayers upload build');
         // await Amplify.DataStore.save(Day2Prayer6);
         // //await Future.delayed(Duration(milliseconds: 500));
 
-
       }
-    } catch(e)
-    {
+    } catch (e) {
       print(e);
     }
     //
   }
-
 
   void uploadFromExcel() async {
     try {
@@ -439,10 +425,8 @@ print('in mosque prayers upload build');
       print(mosque);
 
       if (mosqueID.length > 0) {
-        mosquePrayers = await Amplify.DataStore.query(
-            MosquePrayers.classType,
-            where: MosquePrayers.MOSQUEID.eq(mosqueID)
-        );
+        mosquePrayers = await Amplify.DataStore.query(MosquePrayer.classType,
+            where: MosquePrayer.MOSQUE_ID.eq(mosqueID));
         //await Amplify.DataStore.delete(mosquePrayers[0]);
         print(mosquePrayers.length);
         print(mosquePrayers);
@@ -450,7 +434,6 @@ print('in mosque prayers upload build');
         if (mosquePrayers.isEmpty) {
           //Add Mode
           print('Add mode');
-
         } else {
           //Edit Mode
           print('Edit mode');
@@ -480,8 +463,9 @@ print('in mosque prayers upload build');
           // print(mosquePrayers[21]);
           // print(mosquePrayers[22]);
 
-
-          for (int rowIndex = 0; rowIndex <= mosquePrayers.length-1; rowIndex++) {
+          for (int rowIndex = 0;
+              rowIndex <= mosquePrayers.length - 1;
+              rowIndex++) {
             await Amplify.DataStore.delete(mosquePrayers[rowIndex]);
           }
         }
@@ -500,154 +484,148 @@ print('in mosque prayers upload build');
 
           int totalRows = excel.tables[table].maxRows;
 
-          for (int rowIndex = 0; rowIndex <= totalRows-1; rowIndex++) {
+          for (int rowIndex = 0; rowIndex <= totalRows - 1; rowIndex++) {
             if (rowIndex > 1 && rowIndex <= excel.tables[table].maxRows) {
-
               print('Row Index: $rowIndex');
               print(excel.tables[table].maxRows);
 
               var formatter = new DateFormat('yyyy-MM-dd');
-              String formattedDate = formatter.format(DateTime.parse(sheetObject.cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: rowIndex)).value.toString()));
+              String formattedDate = formatter.format(DateTime.parse(sheetObject
+                  .cell(CellIndex.indexByColumnRow(
+                      columnIndex: 0, rowIndex: rowIndex))
+                  .value
+                  .toString()));
               TemporalDate date = TemporalDate.fromString(formattedDate);
               print(date);
               //print(formattedTime);
               //String formattedTime = DateFormat('kk:mm:a').format(now);
 
-              final DayPrayer1 = MosquePrayers(
-                  mosqueID: mosqueID,
+              final DayPrayer1 = MosquePrayer(
+                  mosque_id: mosqueID,
                   prayer: sheetObject
-                      .cell(
-                      CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 0))
+                      .cell(CellIndex.indexByColumnRow(
+                          columnIndex: 1, rowIndex: 0))
                       .value
                       .toString(),
-                  Date: date,
+                  date: date,
                   begin_time: TemporalTime.fromString(sheetObject
                       .cell(CellIndex.indexByColumnRow(
-                      columnIndex: 1, rowIndex: rowIndex))
+                          columnIndex: 1, rowIndex: rowIndex))
                       .value
                       .toString()),
                   end_time: TemporalTime.fromString(sheetObject
                       .cell(CellIndex.indexByColumnRow(
-                      columnIndex: 2, rowIndex: rowIndex))
+                          columnIndex: 2, rowIndex: rowIndex))
                       .value
-                      .toString())
-              );
+                      .toString()));
               await Amplify.DataStore.save(DayPrayer1);
 
-              final DayPrayer2 = MosquePrayers(
-                  mosqueID: mosqueID,
+              final DayPrayer2 = MosquePrayer(
+                  mosque_id: mosqueID,
                   prayer: sheetObject
-                      .cell(
-                      CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: 0))
+                      .cell(CellIndex.indexByColumnRow(
+                          columnIndex: 3, rowIndex: 0))
                       .value
                       .toString(),
-                  Date: date,
+                  date: date,
                   begin_time: TemporalTime.fromString(sheetObject
                       .cell(CellIndex.indexByColumnRow(
-                      columnIndex: 3, rowIndex: rowIndex))
+                          columnIndex: 3, rowIndex: rowIndex))
                       .value
                       .toString()),
                   end_time: TemporalTime.fromString(sheetObject
                       .cell(CellIndex.indexByColumnRow(
-                      columnIndex: 4, rowIndex: rowIndex))
+                          columnIndex: 4, rowIndex: rowIndex))
                       .value
-                      .toString())
-              );
+                      .toString()));
               await Amplify.DataStore.save(DayPrayer2);
 
-              final DayPrayer3 = MosquePrayers(
-                  mosqueID: mosqueID,
+              final DayPrayer3 = MosquePrayer(
+                  mosque_id: mosqueID,
                   prayer: sheetObject
-                      .cell(
-                      CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: 0))
+                      .cell(CellIndex.indexByColumnRow(
+                          columnIndex: 5, rowIndex: 0))
                       .value
                       .toString(),
-                  Date: date,
+                  date: date,
                   begin_time: TemporalTime.fromString(sheetObject
                       .cell(CellIndex.indexByColumnRow(
-                      columnIndex: 5, rowIndex: rowIndex))
+                          columnIndex: 5, rowIndex: rowIndex))
                       .value
                       .toString()),
                   end_time: TemporalTime.fromString(sheetObject
                       .cell(CellIndex.indexByColumnRow(
-                      columnIndex: 6, rowIndex: rowIndex))
+                          columnIndex: 6, rowIndex: rowIndex))
                       .value
-                      .toString())
-              );
+                      .toString()));
               await Amplify.DataStore.save(DayPrayer3);
 
-              final DayPrayer4 = MosquePrayers(
-                  mosqueID: mosqueID,
+              final DayPrayer4 = MosquePrayer(
+                  mosque_id: mosqueID,
                   prayer: sheetObject
-                      .cell(
-                      CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: 0))
+                      .cell(CellIndex.indexByColumnRow(
+                          columnIndex: 7, rowIndex: 0))
                       .value
                       .toString(),
-                  Date: date,
+                  date: date,
                   begin_time: TemporalTime.fromString(sheetObject
                       .cell(CellIndex.indexByColumnRow(
-                      columnIndex: 7, rowIndex: rowIndex))
+                          columnIndex: 7, rowIndex: rowIndex))
                       .value
                       .toString()),
                   end_time: TemporalTime.fromString(sheetObject
                       .cell(CellIndex.indexByColumnRow(
-                      columnIndex: 8, rowIndex: rowIndex))
+                          columnIndex: 8, rowIndex: rowIndex))
                       .value
-                      .toString())
-              );
+                      .toString()));
               await Amplify.DataStore.save(DayPrayer4);
 
-              final DayPrayer5 = MosquePrayers(
-                  mosqueID: mosqueID,
+              final DayPrayer5 = MosquePrayer(
+                  mosque_id: mosqueID,
                   prayer: sheetObject
-                      .cell(
-                      CellIndex.indexByColumnRow(columnIndex: 9, rowIndex: 0))
+                      .cell(CellIndex.indexByColumnRow(
+                          columnIndex: 9, rowIndex: 0))
                       .value
                       .toString(),
-                  Date: date,
+                  date: date,
                   begin_time: TemporalTime.fromString(sheetObject
                       .cell(CellIndex.indexByColumnRow(
-                      columnIndex: 9, rowIndex: rowIndex))
+                          columnIndex: 9, rowIndex: rowIndex))
                       .value
                       .toString()),
                   end_time: TemporalTime.fromString(sheetObject
                       .cell(CellIndex.indexByColumnRow(
-                      columnIndex: 10, rowIndex: rowIndex))
+                          columnIndex: 10, rowIndex: rowIndex))
                       .value
-                      .toString())
-              );
+                      .toString()));
               await Amplify.DataStore.save(DayPrayer5);
 
-              final DayPrayer6 = MosquePrayers(
-                  mosqueID: mosqueID,
+              final DayPrayer6 = MosquePrayer(
+                  mosque_id: mosqueID,
                   prayer: sheetObject
-                      .cell(
-                      CellIndex.indexByColumnRow(columnIndex: 11, rowIndex: 0))
+                      .cell(CellIndex.indexByColumnRow(
+                          columnIndex: 11, rowIndex: 0))
                       .value
                       .toString(),
-                  Date: date,
+                  date: date,
                   begin_time: TemporalTime.fromString(sheetObject
                       .cell(CellIndex.indexByColumnRow(
-                      columnIndex: 11, rowIndex: rowIndex))
+                          columnIndex: 11, rowIndex: rowIndex))
                       .value
                       .toString()),
                   end_time: TemporalTime.fromString(sheetObject
                       .cell(CellIndex.indexByColumnRow(
-                      columnIndex: 12, rowIndex: rowIndex))
+                          columnIndex: 12, rowIndex: rowIndex))
                       .value
-                      .toString())
-              );
+                      .toString()));
               await Amplify.DataStore.save(DayPrayer6);
-
             }
           }
         }
-
       }
-    } catch(e) {
+    } catch (e) {
       print('Exception in uploadFromExcel method, error: $e');
     }
-
   }
 
   _getHeaderAndBack() {
@@ -671,7 +649,8 @@ print('in mosque prayers upload build');
           left: 0,
           top: 17,
           child: GestureDetector(
-            onTap: ()=>    _navigateToMosqueDetailsScreen(), // Navigation.back(context),
+            onTap: () =>
+                _navigateToMosqueDetailsScreen(), // Navigation.back(context),
             child: AssetImageWidget(
               image: ImageConstants.IC_BACK,
               height: 15,
@@ -696,7 +675,9 @@ print('in mosque prayers upload build');
               _navigateToMosqueDetailsScreen();
             },
           ),
-          CustomSpacerWidget(width: 20,),
+          CustomSpacerWidget(
+            width: 20,
+          ),
           Expanded(
             child: ActionButtonWidget(
               text: AppTexts.UPLOAD,

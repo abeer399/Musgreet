@@ -41,20 +41,20 @@ class FriendRequest extends Model {
 
   const FriendRequest._internal(
       {@required this.id,
-      @required this.request_date,
-      @required this.request_from_id,
-      @required this.request_to_id,
-      @required this.request_message,
+      this.request_date,
+      this.request_from_id,
+      this.request_to_id,
+      this.request_message,
       this.request_status,
       this.request_status_date,
       this.unfriend_date});
 
   factory FriendRequest(
       {String id,
-      @required TemporalDate request_date,
-      @required String request_from_id,
-      @required String request_to_id,
-      @required String request_message,
+      TemporalDate request_date,
+      String request_from_id,
+      String request_to_id,
+      String request_message,
       String request_status,
       TemporalDate request_status_date,
       TemporalDate unfriend_date}) {
@@ -192,22 +192,22 @@ class FriendRequest extends Model {
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: FriendRequest.REQUEST_DATE,
-        isRequired: true,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.date)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: FriendRequest.REQUEST_FROM_ID,
-        isRequired: true,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: FriendRequest.REQUEST_TO_ID,
-        isRequired: true,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: FriendRequest.REQUEST_MESSAGE,
-        isRequired: true,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(

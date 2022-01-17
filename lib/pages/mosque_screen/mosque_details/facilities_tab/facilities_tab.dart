@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/main.dart';
-import 'package:mus_greet/models/Facilitiesmaster.dart';
+import 'package:mus_greet/models/Facilities.dart';
 import 'package:mus_greet/models/Mosque.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/facility/facility.dart';
 
 
@@ -16,7 +16,7 @@ import 'package:mus_greet/pages/facility/facility.dart';
 
 class FacilitiesTab extends StatefulWidget {
   final List<Mosque> mosque;
-  final Users sessionUser;
+  final User sessionUser;
   //FacilitiesTab(List<Mosque> mosque);
   FacilitiesTab({this.mosque,this.sessionUser});
   @override
@@ -28,7 +28,7 @@ class _FacilitiesTabState extends State<FacilitiesTab> {
  // List<Mosque> mosque;
   List<String> idStringString;
   Map<String,String> SAMPLE={};
-  List<Facilitiesmaster> facilities = [];
+  List<Facilities> facilities = [];
   List<String> facilitiesid=[];
   bool mosqueAdmin;
 
@@ -41,7 +41,7 @@ class _FacilitiesTabState extends State<FacilitiesTab> {
 
     mosqueAdmin = widget.sessionUser.mosque_admin;
 
-    return FutureBuilder<List<Facilitiesmaster>>(
+    return FutureBuilder<List<Facilities>>(
       future: facility(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -59,7 +59,7 @@ class _FacilitiesTabState extends State<FacilitiesTab> {
   }
 
 
-  _buildUI(List<Facilitiesmaster> facilities)
+  _buildUI(List<Facilities> facilities)
   {
     _getList();
     return Container(
@@ -143,7 +143,7 @@ class _FacilitiesTabState extends State<FacilitiesTab> {
   {
     facilitiesid.clear();
     SAMPLE.clear();
-    var a=widget.mosque[0].mosque_facility_list;
+    var a=widget.mosque[0].mosque_facilities_list;
     print("mosque facility list");
     print(a);
 
@@ -191,10 +191,10 @@ class _FacilitiesTabState extends State<FacilitiesTab> {
       ),
     );
   }
-  Future<List<Facilitiesmaster>> facility() async
+  Future<List<Facilities>> facility() async
   {
     try {
-      facilities = await Amplify.DataStore.query(Facilitiesmaster.classType);
+      facilities = await Amplify.DataStore.query(Facilities.classType);
       print("inside the facilitiy tab");
       print(facilities);
     return facilities;

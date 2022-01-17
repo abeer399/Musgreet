@@ -18,15 +18,16 @@
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the MasterIntrests type in your schema. */
+/** This is an auto generated class representing the MosqueUser type in your schema. */
 @immutable
-class MasterIntrests extends Model {
-  static const classType = const _MasterIntrestsModelType();
+class MosqueUser extends Model {
+  static const classType = const _MosqueUserModelType();
   final String id;
+  final String name;
+  final String designation;
+  final String role;
   final String photo_path;
-  final String intrest_name;
-  final String decription;
-  final String category_name;
+  final String mosque_id;
 
   @override
   getInstanceType() => classType;
@@ -36,25 +37,28 @@ class MasterIntrests extends Model {
     return id;
   }
 
-  const MasterIntrests._internal(
+  const MosqueUser._internal(
       {@required this.id,
+      this.name,
+      this.designation,
+      this.role,
       this.photo_path,
-      this.intrest_name,
-      this.decription,
-      this.category_name});
+      this.mosque_id});
 
-  factory MasterIntrests(
+  factory MosqueUser(
       {String id,
+      String name,
+      String designation,
+      String role,
       String photo_path,
-      String intrest_name,
-      String decription,
-      String category_name}) {
-    return MasterIntrests._internal(
+      String mosque_id}) {
+    return MosqueUser._internal(
         id: id == null ? UUID.getUUID() : id,
+        name: name,
+        designation: designation,
+        role: role,
         photo_path: photo_path,
-        intrest_name: intrest_name,
-        decription: decription,
-        category_name: category_name);
+        mosque_id: mosque_id);
   }
 
   bool equals(Object other) {
@@ -64,12 +68,13 @@ class MasterIntrests extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is MasterIntrests &&
+    return other is MosqueUser &&
         id == other.id &&
+        name == other.name &&
+        designation == other.designation &&
+        role == other.role &&
         photo_path == other.photo_path &&
-        intrest_name == other.intrest_name &&
-        decription == other.decription &&
-        category_name == other.category_name;
+        mosque_id == other.mosque_id;
   }
 
   @override
@@ -79,56 +84,61 @@ class MasterIntrests extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write("MasterIntrests {");
+    buffer.write("MosqueUser {");
     buffer.write("id=" + "$id" + ", ");
+    buffer.write("name=" + "$name" + ", ");
+    buffer.write("designation=" + "$designation" + ", ");
+    buffer.write("role=" + "$role" + ", ");
     buffer.write("photo_path=" + "$photo_path" + ", ");
-    buffer.write("intrest_name=" + "$intrest_name" + ", ");
-    buffer.write("decription=" + "$decription" + ", ");
-    buffer.write("category_name=" + "$category_name");
+    buffer.write("mosque_id=" + "$mosque_id");
     buffer.write("}");
 
     return buffer.toString();
   }
 
-  MasterIntrests copyWith(
+  MosqueUser copyWith(
       {String id,
+      String name,
+      String designation,
+      String role,
       String photo_path,
-      String intrest_name,
-      String decription,
-      String category_name}) {
-    return MasterIntrests(
+      String mosque_id}) {
+    return MosqueUser(
         id: id ?? this.id,
+        name: name ?? this.name,
+        designation: designation ?? this.designation,
+        role: role ?? this.role,
         photo_path: photo_path ?? this.photo_path,
-        intrest_name: intrest_name ?? this.intrest_name,
-        decription: decription ?? this.decription,
-        category_name: category_name ?? this.category_name);
+        mosque_id: mosque_id ?? this.mosque_id);
   }
 
-  MasterIntrests.fromJson(Map<String, dynamic> json)
+  MosqueUser.fromJson(Map<String, dynamic> json)
       : id = json['id'],
+        name = json['name'],
+        designation = json['designation'],
+        role = json['role'],
         photo_path = json['photo_path'],
-        intrest_name = json['intrest_name'],
-        decription = json['decription'],
-        category_name = json['category_name'];
+        mosque_id = json['mosque_id'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'name': name,
+        'designation': designation,
+        'role': role,
         'photo_path': photo_path,
-        'intrest_name': intrest_name,
-        'decription': decription,
-        'category_name': category_name
+        'mosque_id': mosque_id
       };
 
-  static final QueryField ID = QueryField(fieldName: "masterIntrests.id");
+  static final QueryField ID = QueryField(fieldName: "mosqueUser.id");
+  static final QueryField NAME = QueryField(fieldName: "name");
+  static final QueryField DESIGNATION = QueryField(fieldName: "designation");
+  static final QueryField ROLE = QueryField(fieldName: "role");
   static final QueryField PHOTO_PATH = QueryField(fieldName: "photo_path");
-  static final QueryField INTREST_NAME = QueryField(fieldName: "intrest_name");
-  static final QueryField DECRIPTION = QueryField(fieldName: "decription");
-  static final QueryField CATEGORY_NAME =
-      QueryField(fieldName: "category_name");
+  static final QueryField MOSQUE_ID = QueryField(fieldName: "mosque_id");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "MasterIntrests";
-    modelSchemaDefinition.pluralName = "MasterIntrests";
+    modelSchemaDefinition.name = "MosqueUser";
+    modelSchemaDefinition.pluralName = "MosqueUsers";
 
     modelSchemaDefinition.authRules = [
       AuthRule(authStrategy: AuthStrategy.PUBLIC, operations: [
@@ -142,32 +152,37 @@ class MasterIntrests extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: MasterIntrests.PHOTO_PATH,
+        key: MosqueUser.NAME,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: MasterIntrests.INTREST_NAME,
+        key: MosqueUser.DESIGNATION,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: MasterIntrests.DECRIPTION,
+        key: MosqueUser.ROLE,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: MasterIntrests.CATEGORY_NAME,
+        key: MosqueUser.PHOTO_PATH,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: MosqueUser.MOSQUE_ID,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });
 }
 
-class _MasterIntrestsModelType extends ModelType<MasterIntrests> {
-  const _MasterIntrestsModelType();
+class _MosqueUserModelType extends ModelType<MosqueUser> {
+  const _MosqueUserModelType();
 
   @override
-  MasterIntrests fromJson(Map<String, dynamic> jsonData) {
-    return MasterIntrests.fromJson(jsonData);
+  MosqueUser fromJson(Map<String, dynamic> jsonData) {
+    return MosqueUser.fromJson(jsonData);
   }
 }

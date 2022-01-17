@@ -5,7 +5,7 @@ import 'package:mus_greet/core/widgets/advance_friend_search_context_widget.dart
 import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/core/widgets/interests_list_widget.dart';
-import 'package:mus_greet/models/MasterIntrests.dart';
+import 'package:mus_greet/models/Interest.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
 
@@ -15,7 +15,7 @@ class AddSkillsImagesScreen extends StatefulWidget {
 }
 
 class _AddSkillsImagesScreenState extends State<AddSkillsImagesScreen> {
-  List<MasterIntrests> masterIntrest;
+  List<Interest> masterIntrest;
   List<UserProfile> userProfile;
   Map<String,String> SKILLS_CATEGORIES={};
   List<String> skills;
@@ -161,7 +161,7 @@ class _AddSkillsImagesScreenState extends State<AddSkillsImagesScreen> {
         if (skillList == masterIntrest[i].id) {
           print("inside the master skilss");
           SKILLS_CATEGORIES.addAll({
-            masterIntrest[i].intrest_name :masterIntrest[i].photo_path,
+            masterIntrest[i].interest_name :masterIntrest[i].photo_path,
           });
         }
       }
@@ -170,7 +170,7 @@ class _AddSkillsImagesScreenState extends State<AddSkillsImagesScreen> {
   Future<void> _getSkills() async
   {
     try {
-      masterIntrest = await Amplify.DataStore.query(MasterIntrests.classType);
+      masterIntrest = await Amplify.DataStore.query(Interest.classType);
       print(masterIntrest);
     }
     catch (e) {

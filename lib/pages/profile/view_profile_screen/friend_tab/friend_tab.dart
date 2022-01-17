@@ -7,14 +7,14 @@ import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/core/widgets/rounded_button_widget.dart';
 import 'package:mus_greet/core/widgets/tab_style_widget.dart';
 import 'package:mus_greet/models/FriendRequest.dart';
-import 'package:mus_greet/models/Friends.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/Friend.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/friend_search/friend_search.dart';
 //import 'package:mus_greet/pages/friend_search/friend_search1.dart';
 
 
 class FriendTab extends StatefulWidget {
-  final Users sessionUser;
+  final User sessionUser;
   
   FriendTab({this.sessionUser});
   
@@ -26,13 +26,13 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
 
   TabController _tabFriendsController;
   List<FriendRequest> friendRequest;
-  List<Users> users=[];
-  List<Friends> friends=[];
+  List<User> users=[];
+  List<Friend> friends=[];
   List<FriendRequest> SentUsersList = [];
   List<FriendRequest> RequestUsersList = [];
-  Users sentUserObject;
-  Users requestUserObject;
-  List<Users> userFriendObject = [];
+  User sentUserObject;
+  User requestUserObject;
+  List<User> userFriendObject = [];
   List<String> intoFriendsList = [];
  // List<Friends> acceptedFriendsList;
   DateTime date=DateTime.now();
@@ -79,7 +79,7 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
 
   buildUi(List<FriendRequest> friendRequest) {
     //getListOfUsers
-    return FutureBuilder<List<Users>>(
+    return FutureBuilder<List<User>>(
       future: getListOfUsers(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -93,7 +93,7 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
     );
   }
 
-  buildUserList(List<Users> users) {
+  buildUserList(List<User> users) {
     //friendList();
    //getRequestMessages();
     return Container(
@@ -532,7 +532,7 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
   Future<void> friendsTable() async {
     print("Getting the data from Friends table");
     try {
-      friends = await Amplify.DataStore.query(Friends.classType);
+      friends = await Amplify.DataStore.query(Friend.classType);
       print(friends);
     } catch(e)
     {
@@ -549,11 +549,11 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
       }
     else {
       for (int i = 0; i < friends.length; i++)
-        if (loginUserId == friends[i].usersID) {
+        if (loginUserId == friends[i].user_id) {
           updateLoginTable(requestUser,friends[i]);
           for(int i=0 ;i<friends.length ;i++)
             {
-              if(requestUser.request_from_id == friends[i].usersID)
+              if(requestUser.request_from_id == friends[i].user_id)
                 {
                   updateFriendsTable(loginUserId ,friends[i]);
                 }else
@@ -567,7 +567,7 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
           insertIntoFriendsTable(loginUserId, requestUser.request_from_id);
           for(int i=0 ;i<friends.length ;i++)
           {
-            if(requestUser.request_from_id == friends[i].usersID)
+            if(requestUser.request_from_id == friends[i].user_id)
             {
               updateFriendsTable(loginUserId ,friends[i]);
             }else
@@ -585,14 +585,14 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
 
   insertLoginRowIntoFriendsTable(String userId, String friendId) async {
     print("inside the login row");
-    final item = Friends(
-        usersID: userId,
+    final item = Friend(
+        user_id: userId,
         friends_list: friendId );
     await Amplify.DataStore.save(item);
     print(item);
   }
 
-  Future<void> updateLoginTable(FriendRequest request, Friends friend) async{
+  Future<void> updateLoginTable(FriendRequest request, Friend friend) async{
     String friendsList;
     if(friends.isEmpty)
       {
@@ -609,13 +609,13 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
 
   Future<void> insertIntoFriendsTable(String fromId, String loginuser) async{
 
-    final item = Friends(
-        usersID: fromId,
+    final item = Friend(
+        user_id: fromId,
         friends_list:  loginuser);
     await Amplify.DataStore.save(item);
   }
 
- Future<void> updateFriendsTable(String loginUserId, Friends friend) async {
+ Future<void> updateFriendsTable(String loginUserId, Friend friend) async {
     String friendsList;
     if(friends.isEmpty)
     {
@@ -688,7 +688,7 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
 
   }
 
-  displayFriends(Users userFriendObject) {
+  displayFriends(User userFriendObject) {
     print("inside the display method");
     print(userFriendObject.first_name);
     return Row(mainAxisSize: MainAxisSize.max, children: [
@@ -760,7 +760,7 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
     intoFriendsList=[];
     for(int i=0; i<friends.length;i++)
       {
-        String friendid=friends[i].usersID;
+        String friendid=friends[i].user_id;
         if(friendid==loginUserId)
           {
             var splittingtheList=friends[i].friends_list;
@@ -1108,9 +1108,9 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
     }
   }
 
-  Future<List<Users>> getListOfUsers() async {
+  Future<List<User>> getListOfUsers() async {
     try {
-      users = await Amplify.DataStore.query(Users.classType);
+      users = await Amplify.DataStore.query(User.classType);
       print("list of users");
       print(users);
       return users;

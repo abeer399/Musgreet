@@ -9,7 +9,7 @@ import 'package:mus_greet/core/widgets/action_button_widget.dart';
 import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/main.dart';
-import 'package:mus_greet/models/MasterIntrests.dart';
+import 'package:mus_greet/models/Interest.dart';
 import 'package:mus_greet/models/UserProfile.dart';
 //import 'package:mus_greet/pages/add_skills_screen/add_skills_screen.dart';
 import 'package:mus_greet/pages/interest_screen/multi_line_chip.dart';
@@ -23,7 +23,7 @@ class InterestScreen extends StatefulWidget {
 }
 
 class _InterestScreenState extends State<InterestScreen> {
-  List<MasterIntrests> intrests;
+  List<Interest> intrests;
   //List<UserProfile> userProfile=[];
   List<String> idIntrest;
   List<String> HOBIE_CATEGORIES=[] ;
@@ -53,7 +53,7 @@ class _InterestScreenState extends State<InterestScreen> {
     print("inside the build context");
 
     //print(widget.userProfile);
-    return FutureBuilder<List<MasterIntrests>>(
+    return FutureBuilder<List<Interest>>(
       future: getIntrest(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -68,7 +68,7 @@ class _InterestScreenState extends State<InterestScreen> {
   }
 
 
-    buildUi(List<MasterIntrests> intrests)
+    buildUi(List<Interest> intrests)
     { print("inside the build List");
     //_generatingListId();
     return SafeArea(
@@ -271,9 +271,9 @@ class _InterestScreenState extends State<InterestScreen> {
   //   }
   // }
 
-  Future<List<MasterIntrests>> getIntrest() async{
+  Future<List<Interest>> getIntrest() async{
     try {
-      intrests = await Amplify.DataStore.query(MasterIntrests.classType);
+      intrests = await Amplify.DataStore.query(Interest.classType);
       print("inside the data store");
       print(intrests);
       return intrests;
@@ -296,24 +296,24 @@ class _InterestScreenState extends State<InterestScreen> {
        if(intrests[i].category_name =="Hobbie")
     {
       print(i);
-      print(intrests[i].intrest_name);
-      HOBIE_CATEGORIES.add(intrests[i].intrest_name);
+      print(intrests[i].interest_name);
+      HOBIE_CATEGORIES.add(intrests[i].interest_name);
     }else if(intrests[i].category_name == "Sports And Exercise")
     {
-      SPORTS_EXERCISE_CATEGORIES.add(intrests[i].intrest_name);
+      SPORTS_EXERCISE_CATEGORIES.add(intrests[i].interest_name);
     }
     else if(intrests[i].category_name =="Family And Outdoors")
     {
 
-      FAMILY_OUTDOORS_CATEGORIES.add(intrests[i].intrest_name);
+      FAMILY_OUTDOORS_CATEGORIES.add(intrests[i].interest_name);
     }else if(intrests[i].category_name == "Volunteer")
     {
 
-      VOLUNTEER_CATEGORIES.add(intrests[i].intrest_name);
+      VOLUNTEER_CATEGORIES.add(intrests[i].interest_name);
     }else if(intrests[i].category_name == "Community Involvement")
     {
 
-      COMMUNITY_INVOLVEMENT_CATEGORIES.add(intrests[i].intrest_name);
+      COMMUNITY_INVOLVEMENT_CATEGORIES.add(intrests[i].interest_name);
     }
     }
   }
@@ -328,7 +328,7 @@ class _InterestScreenState extends State<InterestScreen> {
         String nameOfHobby=_selectedIntrests[i];
         for(int i=0;i<intrests.length;i++)
           {
-            if(nameOfHobby ==intrests[i].intrest_name)
+            if(nameOfHobby ==intrests[i].interest_name)
               {
                 COMMUNITYINTREST.add(intrests[i].id);
                 print("Inside the List");
@@ -344,7 +344,7 @@ class _InterestScreenState extends State<InterestScreen> {
       String nameOfSports=_selectedSports[i];
       for(int i=0;i<intrests.length;i++)
       {
-        if(nameOfSports ==intrests[i].intrest_name)
+        if(nameOfSports ==intrests[i].interest_name)
         {
           COMMUNITYINTREST.add(intrests[i].id);
           print("Inside the List");
@@ -360,7 +360,7 @@ class _InterestScreenState extends State<InterestScreen> {
       String nameOfFamily=_selectedFamily[i];
       for(int i=0;i<intrests.length;i++)
       {
-        if(nameOfFamily ==intrests[i].intrest_name)
+        if(nameOfFamily ==intrests[i].interest_name)
         {
           COMMUNITYINTREST.add(intrests[i].id);
           print("Inside the List");
@@ -376,7 +376,7 @@ class _InterestScreenState extends State<InterestScreen> {
       String nameOfVolunteer=_selectedVolunteer[i];
       for(int i=0;i<intrests.length;i++)
       {
-        if(nameOfVolunteer ==intrests[i].intrest_name)
+        if(nameOfVolunteer ==intrests[i].interest_name)
         {
           COMMUNITYINTREST.add(intrests[i].id);
           print("Inside the List");
@@ -392,7 +392,7 @@ class _InterestScreenState extends State<InterestScreen> {
       String nameOfCommunity=_selectedCommunity[i];
       for(int i=0;i<intrests.length;i++)
       {
-        if(nameOfCommunity ==intrests[i].intrest_name)
+        if(nameOfCommunity ==intrests[i].interest_name)
         {
           COMMUNITYINTREST.add(intrests[i].id);
           print("Inside the List");

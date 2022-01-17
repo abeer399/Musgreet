@@ -9,7 +9,7 @@ import 'package:mus_greet/core/widgets/bottom_navigation_bar_widget.dart';
 import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/core/widgets/mosque_list_card_widget.dart';
 import 'package:mus_greet/core/widgets/search_text_field_widget.dart';
-import 'package:mus_greet/models/Facilitiesmaster.dart';
+import 'package:mus_greet/models/Facilities.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
 import 'package:mus_greet/models/Mosque.dart';
 import 'package:mus_greet/pages/home_screen/home_screen.dart';
@@ -21,7 +21,7 @@ import 'package:mus_greet/core/widgets/bottom_navigation_widget.dart';
 class MosqueSearchListView extends StatefulWidget {
   final Function callBack;
   final String CallingScreen;
-  final Users sessionUser;
+  final User sessionUser;
   const MosqueSearchListView({Key key, this.callBack,this.CallingScreen, this.sessionUser}) : super(key: key);
   //const MosqueSearchListView({this.CallingScreen});
 
@@ -38,10 +38,10 @@ class _MosqueSearchListViewState extends State<MosqueSearchListView> {
   List<Mosque> Mosques = [];
   List<Mosque> SearchedMosques = [];
   List<Mosque> ResultMosques = [];
-  List<Facilitiesmaster> Facilitiesmasters = [];
+  List<Facilities> Facilitiesmasters = [];
   List<Mosque> sectFilteredMosques = [];
   List<Mosque> facilityFilteredMosques = [];
-  List<MosqueFollowers> MosqueFollowerss =[];
+  List<MosqueFollower> MosqueFollowerss =[];
 
 
   @override
@@ -230,7 +230,7 @@ class _MosqueSearchListViewState extends State<MosqueSearchListView> {
     ///get the master facilitieslist
     try {
       Facilitiesmasters =
-      await Amplify.DataStore.query(Facilitiesmaster.classType);
+      await Amplify.DataStore.query(Facilities.classType);
       print(Facilitiesmasters);
     } catch (e) {
       print("Could not query DataStore: " + e);
@@ -317,7 +317,7 @@ class _MosqueSearchListViewState extends State<MosqueSearchListView> {
         print("SearchedMosques length loop inside ");
         print(SearchedMosques.length);
         for (var j in SearchedMosques) {
-          List<String> MosqueFacilitiesList = j.mosque_facility_list.split(',');
+          List<String> MosqueFacilitiesList = j.mosque_facilities_list.split(',');
           //print(MosqueFacilitiesList);
           for (var id in MosqueFacilitiesList) {
             for (var masterfacility in Facilitiesmasters) {
@@ -382,7 +382,7 @@ class _MosqueSearchListViewState extends State<MosqueSearchListView> {
     int count = 0;
     List<String> mosqueFacilityList = [];
     if (filteredMosque != null && advancedSearchFacilitiesList.isNotEmpty){
-      mosqueFacilityList = filteredMosque.mosque_facility_list.split(',');
+      mosqueFacilityList = filteredMosque.mosque_facilities_list.split(',');
       for (var facilityName in advancedSearchFacilitiesList){
         for(var facilityId in mosqueFacilityList){
           for(var masterFacility in Facilitiesmasters){
@@ -480,7 +480,7 @@ class _MosqueSearchListViewState extends State<MosqueSearchListView> {
  }
 
   Widget _getMosqueUI(List<Mosque> Mosques) {
-    return FutureBuilder<List<Facilitiesmaster>>(
+    return FutureBuilder<List<Facilities>>(
       future: _getFacilitiesMaster(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -495,8 +495,8 @@ class _MosqueSearchListViewState extends State<MosqueSearchListView> {
 
   }
 
-  Widget _getMosqueFollowersUI(List<Mosque> Mosques,List<Facilitiesmaster> Facilitiesmasters){
-    return FutureBuilder<List<MosqueFollowers>>(
+  Widget _getMosqueFollowersUI(List<Mosque> Mosques,List<Facilities> Facilitiesmasters){
+    return FutureBuilder<List<MosqueFollower>>(
       future: listMosqueFollowers(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -510,9 +510,9 @@ class _MosqueSearchListViewState extends State<MosqueSearchListView> {
     );
   }
 
-  Future<List<Facilitiesmaster>> _getFacilitiesMaster() async {
+  Future<List<Facilities>> _getFacilitiesMaster() async {
     try {
-      Facilitiesmasters = await Amplify.DataStore.query(Facilitiesmaster.classType);
+      Facilitiesmasters = await Amplify.DataStore.query(Facilities.classType);
       return Facilitiesmasters;
     } catch (e) {
       print("Could not query DataStore: " + e);
@@ -520,7 +520,7 @@ class _MosqueSearchListViewState extends State<MosqueSearchListView> {
 
   }
 
-  Widget _getFacilitiesAndMosque(List<Mosque> mosques, List<Facilitiesmaster> facilitiesmasters, List<MosqueFollowers> MosqueFollowerss) {
+  Widget _getFacilitiesAndMosque(List<Mosque> mosques, List<Facilities> facilitiesmasters, List<MosqueFollower> MosqueFollowerss) {
     // print("printing args");
     // args = ModalRoute.of(context).settings.arguments as ArgumentClass;
     // print(args);
@@ -551,7 +551,7 @@ class _MosqueSearchListViewState extends State<MosqueSearchListView> {
     );
   }
 
-  getMosquesList(List<Mosque> Mosques, List<Facilitiesmaster> Facilitiesmasters, List<String> advancedSearchSectList,List<String> advancedSearchFacilitiesList, bool  advanceSearchStatus) {
+  getMosquesList(List<Mosque> Mosques, List<Facilities> Facilitiesmasters, List<String> advancedSearchSectList,List<String> advancedSearchFacilitiesList, bool  advanceSearchStatus) {
     print("inside list mosques");
 
     ///get the master facilitieslist
@@ -578,9 +578,9 @@ class _MosqueSearchListViewState extends State<MosqueSearchListView> {
 
   }
 
-  Future<List<MosqueFollowers>> listMosqueFollowers() async{
+  Future<List<MosqueFollower>> listMosqueFollowers() async{
     try {
-      MosqueFollowerss = await Amplify.DataStore.query(MosqueFollowers.classType,where: MosqueFollowers.USERSID.eq(widget.sessionUser.id));
+      MosqueFollowerss = await Amplify.DataStore.query(MosqueFollower.classType,where: MosqueFollower.USER_ID.eq(widget.sessionUser.id));
       print(MosqueFollowerss);
       return MosqueFollowerss;
     } catch (e) {
@@ -607,7 +607,7 @@ class _MosqueSearchListViewState extends State<MosqueSearchListView> {
     //     index: 1,
     //   );
     // }
-    Users userObject;
+    User userObject;
     if(args != null )
       {
         userObject=args.sessionUser;
@@ -631,7 +631,7 @@ class _MosqueSearchListViewState extends State<MosqueSearchListView> {
 class ArgumentClass {
   final List<String> advancedSearchSectList;
   final List<String> advancedSearchFacilitiesList;
-  final Users sessionUser;
+  final User sessionUser;
   ArgumentClass(this.advancedSearchSectList, this.advancedSearchFacilitiesList, this.sessionUser);
 
 }

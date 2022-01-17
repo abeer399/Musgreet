@@ -15,22 +15,20 @@
 
 // ignore_for_file: public_member_api_docs
 
-import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Users type in your schema. */
+/** This is an auto generated class representing the User type in your schema. */
 @immutable
-class Users extends Model {
-  static const classType = const _UsersModelType();
+class User extends Model {
+  static const classType = const _UserModelType();
   final String id;
   final String first_name;
   final String last_name;
   final String email;
   final String password;
   final String phone;
-  final String age;
+  final TemporalDate dob;
   final String gender;
   final String parent_email;
   final String house_number;
@@ -50,19 +48,13 @@ class Users extends Model {
   final bool photo_verification;
   final TemporalDate joined_date;
   final bool active_status;
-  final List<PostComments> User_Comments;
-  final List<PostLikes> User_PostLikes;
-  final List<MosqueFollowers> User_MosqueFollowers;
-  final List<Friends> User_Friends;
-  final List<UserPhotos> User_Photos;
-  final List<UserEducation> User_Educations;
-  final List<UserProfile> User_Profiles;
-  final List<Posts> User_Posts;
   final String address_verification_mode;
-  final int manul_address_code;
+  final String manual_address_code;
   final TemporalDate manual_address_taken_date;
   final TemporalDate manual_address_code_sent_date;
   final bool mosque_admin;
+  final String photo_path;
+  final String selfie_path;
 
   @override
   getInstanceType() => classType;
@@ -72,14 +64,14 @@ class Users extends Model {
     return id;
   }
 
-  const Users._internal(
+  const User._internal(
       {@required this.id,
-      @required this.first_name,
-      @required this.last_name,
-      @required this.email,
-      @required this.password,
+      this.first_name,
+      this.last_name,
+      this.email,
+      this.password,
       this.phone,
-      this.age,
+      this.dob,
       this.gender,
       this.parent_email,
       this.house_number,
@@ -99,28 +91,22 @@ class Users extends Model {
       this.photo_verification,
       this.joined_date,
       this.active_status,
-      this.User_Comments,
-      this.User_PostLikes,
-      this.User_MosqueFollowers,
-      this.User_Friends,
-      this.User_Photos,
-      this.User_Educations,
-      this.User_Profiles,
-      this.User_Posts,
       this.address_verification_mode,
-      this.manul_address_code,
+      this.manual_address_code,
       this.manual_address_taken_date,
       this.manual_address_code_sent_date,
-      this.mosque_admin});
+      this.mosque_admin,
+      this.photo_path,
+      this.selfie_path});
 
-  factory Users(
+  factory User(
       {String id,
-      @required String first_name,
-      @required String last_name,
-      @required String email,
-      @required String password,
+      String first_name,
+      String last_name,
+      String email,
+      String password,
       String phone,
-      String age,
+      TemporalDate dob,
       String gender,
       String parent_email,
       String house_number,
@@ -140,27 +126,21 @@ class Users extends Model {
       bool photo_verification,
       TemporalDate joined_date,
       bool active_status,
-      List<PostComments> User_Comments,
-      List<PostLikes> User_PostLikes,
-      List<MosqueFollowers> User_MosqueFollowers,
-      List<Friends> User_Friends,
-      List<UserPhotos> User_Photos,
-      List<UserEducation> User_Educations,
-      List<UserProfile> User_Profiles,
-      List<Posts> User_Posts,
       String address_verification_mode,
-      int manul_address_code,
+      String manual_address_code,
       TemporalDate manual_address_taken_date,
       TemporalDate manual_address_code_sent_date,
-      bool mosque_admin}) {
-    return Users._internal(
+      bool mosque_admin,
+      String photo_path,
+      String selfie_path}) {
+    return User._internal(
         id: id == null ? UUID.getUUID() : id,
         first_name: first_name,
         last_name: last_name,
         email: email,
         password: password,
         phone: phone,
-        age: age,
+        dob: dob,
         gender: gender,
         parent_email: parent_email,
         house_number: house_number,
@@ -180,35 +160,13 @@ class Users extends Model {
         photo_verification: photo_verification,
         joined_date: joined_date,
         active_status: active_status,
-        User_Comments: User_Comments != null
-            ? List<PostComments>.unmodifiable(User_Comments)
-            : User_Comments,
-        User_PostLikes: User_PostLikes != null
-            ? List<PostLikes>.unmodifiable(User_PostLikes)
-            : User_PostLikes,
-        User_MosqueFollowers: User_MosqueFollowers != null
-            ? List<MosqueFollowers>.unmodifiable(User_MosqueFollowers)
-            : User_MosqueFollowers,
-        User_Friends: User_Friends != null
-            ? List<Friends>.unmodifiable(User_Friends)
-            : User_Friends,
-        User_Photos: User_Photos != null
-            ? List<UserPhotos>.unmodifiable(User_Photos)
-            : User_Photos,
-        User_Educations: User_Educations != null
-            ? List<UserEducation>.unmodifiable(User_Educations)
-            : User_Educations,
-        User_Profiles: User_Profiles != null
-            ? List<UserProfile>.unmodifiable(User_Profiles)
-            : User_Profiles,
-        User_Posts: User_Posts != null
-            ? List<Posts>.unmodifiable(User_Posts)
-            : User_Posts,
         address_verification_mode: address_verification_mode,
-        manul_address_code: manul_address_code,
+        manual_address_code: manual_address_code,
         manual_address_taken_date: manual_address_taken_date,
         manual_address_code_sent_date: manual_address_code_sent_date,
-        mosque_admin: mosque_admin);
+        mosque_admin: mosque_admin,
+        photo_path: photo_path,
+        selfie_path: selfie_path);
   }
 
   bool equals(Object other) {
@@ -218,14 +176,14 @@ class Users extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Users &&
+    return other is User &&
         id == other.id &&
         first_name == other.first_name &&
         last_name == other.last_name &&
         email == other.email &&
         password == other.password &&
         phone == other.phone &&
-        age == other.age &&
+        dob == other.dob &&
         gender == other.gender &&
         parent_email == other.parent_email &&
         house_number == other.house_number &&
@@ -245,21 +203,13 @@ class Users extends Model {
         photo_verification == other.photo_verification &&
         joined_date == other.joined_date &&
         active_status == other.active_status &&
-        DeepCollectionEquality().equals(User_Comments, other.User_Comments) &&
-        DeepCollectionEquality().equals(User_PostLikes, other.User_PostLikes) &&
-        DeepCollectionEquality()
-            .equals(User_MosqueFollowers, other.User_MosqueFollowers) &&
-        DeepCollectionEquality().equals(User_Friends, other.User_Friends) &&
-        DeepCollectionEquality().equals(User_Photos, other.User_Photos) &&
-        DeepCollectionEquality()
-            .equals(User_Educations, other.User_Educations) &&
-        DeepCollectionEquality().equals(User_Profiles, other.User_Profiles) &&
-        DeepCollectionEquality().equals(User_Posts, other.User_Posts) &&
         address_verification_mode == other.address_verification_mode &&
-        manul_address_code == other.manul_address_code &&
+        manual_address_code == other.manual_address_code &&
         manual_address_taken_date == other.manual_address_taken_date &&
         manual_address_code_sent_date == other.manual_address_code_sent_date &&
-        mosque_admin == other.mosque_admin;
+        mosque_admin == other.mosque_admin &&
+        photo_path == other.photo_path &&
+        selfie_path == other.selfie_path;
   }
 
   @override
@@ -269,14 +219,14 @@ class Users extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write("Users {");
+    buffer.write("User {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("first_name=" + "$first_name" + ", ");
     buffer.write("last_name=" + "$last_name" + ", ");
     buffer.write("email=" + "$email" + ", ");
     buffer.write("password=" + "$password" + ", ");
     buffer.write("phone=" + "$phone" + ", ");
-    buffer.write("age=" + "$age" + ", ");
+    buffer.write("dob=" + (dob != null ? dob.format() : "null") + ", ");
     buffer.write("gender=" + "$gender" + ", ");
     buffer.write("parent_email=" + "$parent_email" + ", ");
     buffer.write("house_number=" + "$house_number" + ", ");
@@ -328,9 +278,7 @@ class Users extends Model {
         ", ");
     buffer.write(
         "address_verification_mode=" + "$address_verification_mode" + ", ");
-    buffer.write("manul_address_code=" +
-        (manul_address_code != null ? manul_address_code.toString() : "null") +
-        ", ");
+    buffer.write("manual_address_code=" + "$manual_address_code" + ", ");
     buffer.write("manual_address_taken_date=" +
         (manual_address_taken_date != null
             ? manual_address_taken_date.format()
@@ -342,20 +290,23 @@ class Users extends Model {
             : "null") +
         ", ");
     buffer.write("mosque_admin=" +
-        (mosque_admin != null ? mosque_admin.toString() : "null"));
+        (mosque_admin != null ? mosque_admin.toString() : "null") +
+        ", ");
+    buffer.write("photo_path=" + "$photo_path" + ", ");
+    buffer.write("selfie_path=" + "$selfie_path");
     buffer.write("}");
 
     return buffer.toString();
   }
 
-  Users copyWith(
+  User copyWith(
       {String id,
       String first_name,
       String last_name,
       String email,
       String password,
       String phone,
-      String age,
+      TemporalDate dob,
       String gender,
       String parent_email,
       String house_number,
@@ -375,27 +326,21 @@ class Users extends Model {
       bool photo_verification,
       TemporalDate joined_date,
       bool active_status,
-      List<PostComments> User_Comments,
-      List<PostLikes> User_PostLikes,
-      List<MosqueFollowers> User_MosqueFollowers,
-      List<Friends> User_Friends,
-      List<UserPhotos> User_Photos,
-      List<UserEducation> User_Educations,
-      List<UserProfile> User_Profiles,
-      List<Posts> User_Posts,
       String address_verification_mode,
-      int manul_address_code,
+      String manual_address_code,
       TemporalDate manual_address_taken_date,
       TemporalDate manual_address_code_sent_date,
-      bool mosque_admin}) {
-    return Users(
+      bool mosque_admin,
+      String photo_path,
+      String selfie_path}) {
+    return User(
         id: id ?? this.id,
         first_name: first_name ?? this.first_name,
         last_name: last_name ?? this.last_name,
         email: email ?? this.email,
         password: password ?? this.password,
         phone: phone ?? this.phone,
-        age: age ?? this.age,
+        dob: dob ?? this.dob,
         gender: gender ?? this.gender,
         parent_email: parent_email ?? this.parent_email,
         house_number: house_number ?? this.house_number,
@@ -418,32 +363,26 @@ class Users extends Model {
         photo_verification: photo_verification ?? this.photo_verification,
         joined_date: joined_date ?? this.joined_date,
         active_status: active_status ?? this.active_status,
-        User_Comments: User_Comments ?? this.User_Comments,
-        User_PostLikes: User_PostLikes ?? this.User_PostLikes,
-        User_MosqueFollowers: User_MosqueFollowers ?? this.User_MosqueFollowers,
-        User_Friends: User_Friends ?? this.User_Friends,
-        User_Photos: User_Photos ?? this.User_Photos,
-        User_Educations: User_Educations ?? this.User_Educations,
-        User_Profiles: User_Profiles ?? this.User_Profiles,
-        User_Posts: User_Posts ?? this.User_Posts,
         address_verification_mode:
             address_verification_mode ?? this.address_verification_mode,
-        manul_address_code: manul_address_code ?? this.manul_address_code,
+        manual_address_code: manual_address_code ?? this.manual_address_code,
         manual_address_taken_date:
             manual_address_taken_date ?? this.manual_address_taken_date,
         manual_address_code_sent_date:
             manual_address_code_sent_date ?? this.manual_address_code_sent_date,
-        mosque_admin: mosque_admin ?? this.mosque_admin);
+        mosque_admin: mosque_admin ?? this.mosque_admin,
+        photo_path: photo_path ?? this.photo_path,
+        selfie_path: selfie_path ?? this.selfie_path);
   }
 
-  Users.fromJson(Map<String, dynamic> json)
+  User.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         first_name = json['first_name'],
         last_name = json['last_name'],
         email = json['email'],
         password = json['password'],
         phone = json['phone'],
-        age = json['age'],
+        dob = json['dob'] != null ? TemporalDate.fromString(json['dob']) : null,
         gender = json['gender'],
         parent_email = json['parent_email'],
         house_number = json['house_number'],
@@ -465,54 +404,8 @@ class Users extends Model {
             ? TemporalDate.fromString(json['joined_date'])
             : null,
         active_status = json['active_status'],
-        User_Comments = json['User_Comments'] is List
-            ? (json['User_Comments'] as List)
-                .map((e) =>
-                    PostComments.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        User_PostLikes = json['User_PostLikes'] is List
-            ? (json['User_PostLikes'] as List)
-                .map(
-                    (e) => PostLikes.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        User_MosqueFollowers = json['User_MosqueFollowers'] is List
-            ? (json['User_MosqueFollowers'] as List)
-                .map((e) =>
-                    MosqueFollowers.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        User_Friends = json['User_Friends'] is List
-            ? (json['User_Friends'] as List)
-                .map((e) => Friends.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        User_Photos = json['User_Photos'] is List
-            ? (json['User_Photos'] as List)
-                .map((e) =>
-                    UserPhotos.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        User_Educations = json['User_Educations'] is List
-            ? (json['User_Educations'] as List)
-                .map((e) =>
-                    UserEducation.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        User_Profiles = json['User_Profiles'] is List
-            ? (json['User_Profiles'] as List)
-                .map((e) =>
-                    UserProfile.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        User_Posts = json['User_Posts'] is List
-            ? (json['User_Posts'] as List)
-                .map((e) => Posts.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
         address_verification_mode = json['address_verification_mode'],
-        manul_address_code = json['manul_address_code'],
+        manual_address_code = json['manual_address_code'],
         manual_address_taken_date = json['manual_address_taken_date'] != null
             ? TemporalDate.fromString(json['manual_address_taken_date'])
             : null,
@@ -520,7 +413,9 @@ class Users extends Model {
             json['manual_address_code_sent_date'] != null
                 ? TemporalDate.fromString(json['manual_address_code_sent_date'])
                 : null,
-        mosque_admin = json['mosque_admin'];
+        mosque_admin = json['mosque_admin'],
+        photo_path = json['photo_path'],
+        selfie_path = json['selfie_path'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -529,7 +424,7 @@ class Users extends Model {
         'email': email,
         'password': password,
         'phone': phone,
-        'age': age,
+        'dob': dob?.format(),
         'gender': gender,
         'parent_email': parent_email,
         'house_number': house_number,
@@ -549,30 +444,23 @@ class Users extends Model {
         'photo_verification': photo_verification,
         'joined_date': joined_date?.format(),
         'active_status': active_status,
-        'User_Comments': User_Comments?.map((e) => e?.toJson())?.toList(),
-        'User_PostLikes': User_PostLikes?.map((e) => e?.toJson())?.toList(),
-        'User_MosqueFollowers':
-            User_MosqueFollowers?.map((e) => e?.toJson())?.toList(),
-        'User_Friends': User_Friends?.map((e) => e?.toJson())?.toList(),
-        'User_Photos': User_Photos?.map((e) => e?.toJson())?.toList(),
-        'User_Educations': User_Educations?.map((e) => e?.toJson())?.toList(),
-        'User_Profiles': User_Profiles?.map((e) => e?.toJson())?.toList(),
-        'User_Posts': User_Posts?.map((e) => e?.toJson())?.toList(),
         'address_verification_mode': address_verification_mode,
-        'manul_address_code': manul_address_code,
+        'manual_address_code': manual_address_code,
         'manual_address_taken_date': manual_address_taken_date?.format(),
         'manual_address_code_sent_date':
             manual_address_code_sent_date?.format(),
-        'mosque_admin': mosque_admin
+        'mosque_admin': mosque_admin,
+        'photo_path': photo_path,
+        'selfie_path': selfie_path
       };
 
-  static final QueryField ID = QueryField(fieldName: "users.id");
+  static final QueryField ID = QueryField(fieldName: "user.id");
   static final QueryField FIRST_NAME = QueryField(fieldName: "first_name");
   static final QueryField LAST_NAME = QueryField(fieldName: "last_name");
   static final QueryField EMAIL = QueryField(fieldName: "email");
   static final QueryField PASSWORD = QueryField(fieldName: "password");
   static final QueryField PHONE = QueryField(fieldName: "phone");
-  static final QueryField AGE = QueryField(fieldName: "age");
+  static final QueryField DOB = QueryField(fieldName: "dob");
   static final QueryField GENDER = QueryField(fieldName: "gender");
   static final QueryField PARENT_EMAIL = QueryField(fieldName: "parent_email");
   static final QueryField HOUSE_NUMBER = QueryField(fieldName: "house_number");
@@ -601,50 +489,20 @@ class Users extends Model {
   static final QueryField JOINED_DATE = QueryField(fieldName: "joined_date");
   static final QueryField ACTIVE_STATUS =
       QueryField(fieldName: "active_status");
-  static final QueryField USER_COMMENTS = QueryField(
-      fieldName: "User_Comments",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (PostComments).toString()));
-  static final QueryField USER_POSTLIKES = QueryField(
-      fieldName: "User_PostLikes",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (PostLikes).toString()));
-  static final QueryField USER_MOSQUEFOLLOWERS = QueryField(
-      fieldName: "User_MosqueFollowers",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (MosqueFollowers).toString()));
-  static final QueryField USER_FRIENDS = QueryField(
-      fieldName: "User_Friends",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Friends).toString()));
-  static final QueryField USER_PHOTOS = QueryField(
-      fieldName: "User_Photos",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (UserPhotos).toString()));
-  static final QueryField USER_EDUCATIONS = QueryField(
-      fieldName: "User_Educations",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (UserEducation).toString()));
-  static final QueryField USER_PROFILES = QueryField(
-      fieldName: "User_Profiles",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (UserProfile).toString()));
-  static final QueryField USER_POSTS = QueryField(
-      fieldName: "User_Posts",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Posts).toString()));
   static final QueryField ADDRESS_VERIFICATION_MODE =
       QueryField(fieldName: "address_verification_mode");
-  static final QueryField MANUL_ADDRESS_CODE =
-      QueryField(fieldName: "manul_address_code");
+  static final QueryField MANUAL_ADDRESS_CODE =
+      QueryField(fieldName: "manual_address_code");
   static final QueryField MANUAL_ADDRESS_TAKEN_DATE =
       QueryField(fieldName: "manual_address_taken_date");
   static final QueryField MANUAL_ADDRESS_CODE_SENT_DATE =
       QueryField(fieldName: "manual_address_code_sent_date");
   static final QueryField MOSQUE_ADMIN = QueryField(fieldName: "mosque_admin");
+  static final QueryField PHOTO_PATH = QueryField(fieldName: "photo_path");
+  static final QueryField SELFIE_PATH = QueryField(fieldName: "selfie_path");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "Users";
+    modelSchemaDefinition.name = "User";
     modelSchemaDefinition.pluralName = "Users";
 
     modelSchemaDefinition.authRules = [
@@ -659,210 +517,172 @@ class Users extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.FIRST_NAME,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.LAST_NAME,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.EMAIL,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.PASSWORD,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.PHONE,
+        key: User.FIRST_NAME,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.AGE,
+        key: User.LAST_NAME,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.GENDER,
+        key: User.EMAIL,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.PARENT_EMAIL,
+        key: User.PASSWORD,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.HOUSE_NUMBER,
+        key: User.PHONE,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.STREET,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.CITY,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.POSTCODE,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.COUNTRY,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.LATITUDE,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.LONGITUDE,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.PARENT_CONSENT_FORM_AGREE,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.TERMS_PRIVACY_POLICY_AGREE,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.COMMUNITY_PROMISE_AGREE,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.EMAIL_VERIFICATION,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.PHONE_VERIFICATION,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.PARENT_VERIFICATION,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.ADDRESS_VERIFICATION,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.PHOTO_VERIFICATION,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.JOINED_DATE,
+        key: User.DOB,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.date)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.ACTIVE_STATUS,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Users.USER_COMMENTS,
-        isRequired: false,
-        ofModelName: (PostComments).toString(),
-        associatedKey: PostComments.USERSID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Users.USER_POSTLIKES,
-        isRequired: false,
-        ofModelName: (PostLikes).toString(),
-        associatedKey: PostLikes.USERSID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Users.USER_MOSQUEFOLLOWERS,
-        isRequired: false,
-        ofModelName: (MosqueFollowers).toString(),
-        associatedKey: MosqueFollowers.USERSID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Users.USER_FRIENDS,
-        isRequired: false,
-        ofModelName: (Friends).toString(),
-        associatedKey: Friends.USERSID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Users.USER_PHOTOS,
-        isRequired: false,
-        ofModelName: (UserPhotos).toString(),
-        associatedKey: UserPhotos.USERSID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Users.USER_EDUCATIONS,
-        isRequired: false,
-        ofModelName: (UserEducation).toString(),
-        associatedKey: UserEducation.USERSID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Users.USER_PROFILES,
-        isRequired: false,
-        ofModelName: (UserProfile).toString(),
-        associatedKey: UserProfile.USERSID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Users.USER_POSTS,
-        isRequired: false,
-        ofModelName: (Posts).toString(),
-        associatedKey: Posts.USERSID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.ADDRESS_VERIFICATION_MODE,
+        key: User.GENDER,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.MANUL_ADDRESS_CODE,
+        key: User.PARENT_EMAIL,
         isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.int)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.MANUAL_ADDRESS_TAKEN_DATE,
+        key: User.HOUSE_NUMBER,
         isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.date)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.MANUAL_ADDRESS_CODE_SENT_DATE,
+        key: User.STREET,
         isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.date)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Users.MOSQUE_ADMIN,
+        key: User.CITY,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.POSTCODE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.COUNTRY,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.LATITUDE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.LONGITUDE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.PARENT_CONSENT_FORM_AGREE,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.TERMS_PRIVACY_POLICY_AGREE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.COMMUNITY_PROMISE_AGREE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.EMAIL_VERIFICATION,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.PHONE_VERIFICATION,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.PARENT_VERIFICATION,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.ADDRESS_VERIFICATION,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.PHOTO_VERIFICATION,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.JOINED_DATE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.date)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.ACTIVE_STATUS,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.ADDRESS_VERIFICATION_MODE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.MANUAL_ADDRESS_CODE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.MANUAL_ADDRESS_TAKEN_DATE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.date)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.MANUAL_ADDRESS_CODE_SENT_DATE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.date)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.MOSQUE_ADMIN,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.bool)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.PHOTO_PATH,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.SELFIE_PATH,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });
 }
 
-class _UsersModelType extends ModelType<Users> {
-  const _UsersModelType();
+class _UserModelType extends ModelType<User> {
+  const _UserModelType();
 
   @override
-  Users fromJson(Map<String, dynamic> jsonData) {
-    return Users.fromJson(jsonData);
+  User fromJson(Map<String, dynamic> jsonData) {
+    return User.fromJson(jsonData);
   }
 }

@@ -7,17 +7,17 @@ import 'package:mus_greet/core/utils/arguments.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/utils/size_config.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/age/age_registration_page.dart';
 import 'package:mus_greet/pages/final/nearly_finished_page.dart';
-import 'package:mus_greet/pages/login/login_page.dart';
 import 'package:mus_greet/pages/otp/components/phone_verification_view.dart';
 import '../../../main.dart';
 import 'otp_form.dart';
 import 'package:mus_greet/core/widgets/otp_field_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fb;
 
 import 'package:amplify_flutter/amplify.dart';
-//import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
 class PhoneOtpView extends StatefulWidget {
   @override
@@ -25,10 +25,15 @@ class PhoneOtpView extends StatefulWidget {
 }
 
 class _PhoneOtpViewState extends State<PhoneOtpView> {
-  List<Users> users;
+  //List<User> users;
   PhoneVerificationArgumentClass args;
-  Users sessionUser;
+  User sessionUser;
+
   final TextEditingController _codeController = TextEditingController();
+
+  fb.FirebaseAuth _auth  = fb.FirebaseAuth.instance;
+  String verificationId;
+  bool showLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +41,10 @@ class _PhoneOtpViewState extends State<PhoneOtpView> {
     SizeConfig().init(context);
     args = ModalRoute.of(context).settings.arguments as PhoneVerificationArgumentClass;
     sessionUser = args.sessionUser;
+    verificationId = args.verificationid;
     print(sessionUser);
+    print(verificationId);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.white,
@@ -281,7 +289,7 @@ class _PhoneOtpViewState extends State<PhoneOtpView> {
           // wrap content in flutter
           children: <Widget>[
             Text(
-              'Your phone verfication has failed.',
+              'Your phone verification has failed, try again',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20.0,
@@ -301,7 +309,7 @@ class _PhoneOtpViewState extends State<PhoneOtpView> {
                 child:  RaisedButton(
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
                   child: Text(
-                    'Resend code',
+                    'OK',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -329,6 +337,34 @@ class _PhoneOtpViewState extends State<PhoneOtpView> {
     );
   }
 
+  void signInWithAuth(
+      fb.PhoneAuthCredential phoneAuthCredential) async {
+    setState(() {
+      showLoading = true;
+    });
+
+    try{
+      final authCredential = await  _auth.signInWithCredential(phoneAuthCredential);
+
+      setState(() {
+        showLoading = true;
+      });
+      if(authCredential.user != null ){
+        print('Phone verification successful');
+        updatePhoneVerification();
+        _showDialog(context);
+      } else {
+        _showDialogFailed(context);
+      }
+
+    } on fb.FirebaseAuthException catch(e){
+      _showDialogFailed(context);
+      setState(() {
+        showLoading = false;
+      });
+    }
+  }
+
   void verifyPhoneNumber(BuildContext context) {
 
     print("inside the verify button");
@@ -340,20 +376,30 @@ class _PhoneOtpViewState extends State<PhoneOtpView> {
       //confirmationCode: _codeController.text,
       //);
 
-      String phoneCode = '123456';
+      // PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+      //     verificationId: verificationId,
+      //     smsCode: _codeController.text);
+      // signInWithAuth(phoneAuthCredential);
+
+      fb.PhoneAuthCredential phoneAuthCredential = fb.PhoneAuthProvider.credential(
+          verificationId: verificationId,
+          smsCode: _codeController.text);
+      signInWithAuth(phoneAuthCredential);
+
+      //String phoneCode = '123456';
 
       //if (true) {
-      if (_codeController.text == phoneCode) {
-        print('Email code verification successful');
-        updatePhoneVerification();
-        //Navigator.of(context)
-        //  .push(MaterialPageRoute(builder: (context) => OtpSuccessScreen()));
-        // builder:(BuildContext context) =>_buildContent(context);
-        _showDialog(context);
-      }
-      else {
-        _showDialogFailed(context);
-      }
+      // if (_codeController.text == phoneCode) {
+      //   print('Email code verification successful');
+      //   updatePhoneVerification();
+      //   //Navigator.of(context)
+      //   //  .push(MaterialPageRoute(builder: (context) => OtpSuccessScreen()));
+      //   // builder:(BuildContext context) =>_buildContent(context);
+      //   _showDialog(context);
+      // }
+      // else {
+      //   _showDialogFailed(context);
+      // }
       // setState(() {
       //   //isSignUpComplete = res.isSignUpComplete;
       // }
@@ -386,6 +432,6 @@ class _PhoneOtpViewState extends State<PhoneOtpView> {
 }
 
 class PhoneOTPArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   PhoneOTPArgumentClass(this.sessionUser);
 }

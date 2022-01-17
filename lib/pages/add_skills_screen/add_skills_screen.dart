@@ -9,7 +9,7 @@ import 'package:mus_greet/core/widgets/action_button_widget.dart';
 import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/core/widgets/rounded_button_widget.dart';
-import 'package:mus_greet/models/MasterIntrests.dart';
+import 'package:mus_greet/models/Interest.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:mus_greet/pages/advanced_search/search_skills_screen.dart';
@@ -34,7 +34,7 @@ class AddSkillsScreen extends StatefulWidget {
 }
 
 class _AddSkillsScreenState extends State<AddSkillsScreen> {
-  List<MasterIntrests> masterIntrest;
+  List<Interest> masterIntrest;
   //List<UserProfile> userProfile;
   List<String> SKILLS_CATEGORIES=[];
   List<String> skills;
@@ -47,7 +47,7 @@ class _AddSkillsScreenState extends State<AddSkillsScreen> {
   @override
   Widget build(BuildContext context) {
 
-    return FutureBuilder<List<MasterIntrests>>(
+    return FutureBuilder<List<Interest>>(
       future: _getSkills(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -61,7 +61,7 @@ class _AddSkillsScreenState extends State<AddSkillsScreen> {
     );
   }
 
-  buildUi(List<MasterIntrests> masterIntrest)
+  buildUi(List<Interest> masterIntrest)
   {
     print("inside the widget");
     print(widget.userProfile);
@@ -265,7 +265,7 @@ class _AddSkillsScreenState extends State<AddSkillsScreen> {
         print(skillList);
         if (skillList == masterIntrest[i].id) {
           print("inside the master");
-          SKILLS.add(masterIntrest[i].intrest_name);
+          SKILLS.add(masterIntrest[i].interest_name);
         }
       }
     }
@@ -273,9 +273,9 @@ class _AddSkillsScreenState extends State<AddSkillsScreen> {
     }
 
 
-  Future<List<MasterIntrests>> _getSkills() async {
+  Future<List<Interest>> _getSkills() async {
     try {
-      masterIntrest = await Amplify.DataStore.query(MasterIntrests.classType);
+      masterIntrest = await Amplify.DataStore.query(Interest.classType);
      return masterIntrest;
     }
     catch (e) {
@@ -290,7 +290,7 @@ class _AddSkillsScreenState extends State<AddSkillsScreen> {
     {
       if(masterIntrest[i].category_name =="Skills")
       {
-        SKILLS_CATEGORIES.add(masterIntrest[i].intrest_name);
+        SKILLS_CATEGORIES.add(masterIntrest[i].interest_name);
       }
     }
     print("Get Skills Method");
@@ -307,7 +307,7 @@ class _AddSkillsScreenState extends State<AddSkillsScreen> {
       for(int i=0;i<masterIntrest.length;i++)
       {
         if(masterIntrest[i].category_name =="Skills") {
-          if (nameOfSkills == masterIntrest[i].intrest_name) {
+          if (nameOfSkills == masterIntrest[i].interest_name) {
             SKILLSLIST.add(masterIntrest[i].id);
             print(SKILLSLIST);
             print(masterIntrest[i].id);

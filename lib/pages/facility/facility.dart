@@ -27,7 +27,7 @@ class FacilityScreen extends StatefulWidget {
 }
 class _FacilityScreenState extends State<FacilityScreen> {
   String languages;
-  List<Facilitiesmaster> facility;
+  List<Facilities> facility;
   List<UserProfile> userProfile=[];
   List<String> _selectedItems = [];
   List<String> selectedId=[];
@@ -166,7 +166,7 @@ class _FacilityScreenState extends State<FacilityScreen> {
   updateMosque(List<Mosque> mosque, List<String> selectedItems)
   async {
     final updatedItem = mosque[0].copyWith(
-        mosque_facility_list:  jsonEncode(selectedId));
+        mosque_facilities_list:  jsonEncode(selectedId));
     await Amplify.DataStore.save(updatedItem);
   }
 
@@ -197,7 +197,7 @@ class _FacilityScreenState extends State<FacilityScreen> {
 
   Future<void> masterFacilities() async{
     //mosque = await Amplify.DataStore.query(UserProfile.classType , where: .USERSID.eq(widget.sessionUser.id));
-    facility = await Amplify.DataStore.query(Facilitiesmaster.classType);
+    facility = await Amplify.DataStore.query(Facilities.classType);
     print("List of facility master" );
 
   }

@@ -18,14 +18,14 @@
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the UserPhotos type in your schema. */
+/** This is an auto generated class representing the UserPhoto type in your schema. */
 @immutable
-class UserPhotos extends Model {
-  static const classType = const _UserPhotosModelType();
+class UserPhoto extends Model {
+  static const classType = const _UserPhotoModelType();
   final String id;
   final String photo_type;
   final String photo_path;
-  final String usersID;
+  final String user_id;
 
   @override
   getInstanceType() => classType;
@@ -35,22 +35,16 @@ class UserPhotos extends Model {
     return id;
   }
 
-  const UserPhotos._internal(
-      {@required this.id,
-      @required this.photo_type,
-      @required this.photo_path,
-      @required this.usersID});
+  const UserPhoto._internal(
+      {@required this.id, this.photo_type, this.photo_path, this.user_id});
 
-  factory UserPhotos(
-      {String id,
-      @required String photo_type,
-      @required String photo_path,
-      @required String usersID}) {
-    return UserPhotos._internal(
+  factory UserPhoto(
+      {String id, String photo_type, String photo_path, String user_id}) {
+    return UserPhoto._internal(
         id: id == null ? UUID.getUUID() : id,
         photo_type: photo_type,
         photo_path: photo_path,
-        usersID: usersID);
+        user_id: user_id);
   }
 
   bool equals(Object other) {
@@ -60,11 +54,11 @@ class UserPhotos extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is UserPhotos &&
+    return other is UserPhoto &&
         id == other.id &&
         photo_type == other.photo_type &&
         photo_path == other.photo_path &&
-        usersID == other.usersID;
+        user_id == other.user_id;
   }
 
   @override
@@ -74,45 +68,45 @@ class UserPhotos extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write("UserPhotos {");
+    buffer.write("UserPhoto {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("photo_type=" + "$photo_type" + ", ");
     buffer.write("photo_path=" + "$photo_path" + ", ");
-    buffer.write("usersID=" + "$usersID");
+    buffer.write("user_id=" + "$user_id");
     buffer.write("}");
 
     return buffer.toString();
   }
 
-  UserPhotos copyWith(
-      {String id, String photo_type, String photo_path, String usersID}) {
-    return UserPhotos(
+  UserPhoto copyWith(
+      {String id, String photo_type, String photo_path, String user_id}) {
+    return UserPhoto(
         id: id ?? this.id,
         photo_type: photo_type ?? this.photo_type,
         photo_path: photo_path ?? this.photo_path,
-        usersID: usersID ?? this.usersID);
+        user_id: user_id ?? this.user_id);
   }
 
-  UserPhotos.fromJson(Map<String, dynamic> json)
+  UserPhoto.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         photo_type = json['photo_type'],
         photo_path = json['photo_path'],
-        usersID = json['usersID'];
+        user_id = json['user_id'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'photo_type': photo_type,
         'photo_path': photo_path,
-        'usersID': usersID
+        'user_id': user_id
       };
 
-  static final QueryField ID = QueryField(fieldName: "userPhotos.id");
+  static final QueryField ID = QueryField(fieldName: "userPhoto.id");
   static final QueryField PHOTO_TYPE = QueryField(fieldName: "photo_type");
   static final QueryField PHOTO_PATH = QueryField(fieldName: "photo_path");
-  static final QueryField USERSID = QueryField(fieldName: "usersID");
+  static final QueryField USER_ID = QueryField(fieldName: "user_id");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "UserPhotos";
+    modelSchemaDefinition.name = "UserPhoto";
     modelSchemaDefinition.pluralName = "UserPhotos";
 
     modelSchemaDefinition.authRules = [
@@ -127,27 +121,27 @@ class UserPhotos extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: UserPhotos.PHOTO_TYPE,
-        isRequired: true,
+        key: UserPhoto.PHOTO_TYPE,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: UserPhotos.PHOTO_PATH,
-        isRequired: true,
+        key: UserPhoto.PHOTO_PATH,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: UserPhotos.USERSID,
-        isRequired: true,
+        key: UserPhoto.USER_ID,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });
 }
 
-class _UserPhotosModelType extends ModelType<UserPhotos> {
-  const _UserPhotosModelType();
+class _UserPhotoModelType extends ModelType<UserPhoto> {
+  const _UserPhotoModelType();
 
   @override
-  UserPhotos fromJson(Map<String, dynamic> jsonData) {
-    return UserPhotos.fromJson(jsonData);
+  UserPhoto fromJson(Map<String, dynamic> jsonData) {
+    return UserPhoto.fromJson(jsonData);
   }
 }

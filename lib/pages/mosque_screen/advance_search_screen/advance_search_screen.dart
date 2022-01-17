@@ -11,7 +11,7 @@ import 'package:mus_greet/pages/add_skills_screen/add_skills_screen.dart';
 import 'package:mus_greet/pages/mosque_screen/mosque_search_list_view/mosque_search_list_view.dart';
 
 class AdvanceSearchScreen extends StatefulWidget {
-  final Users sessionUser;
+  final User sessionUser;
   AdvanceSearchScreen({this.sessionUser}) ;
   @override
   _AdvanceSearchScreenState createState() => _AdvanceSearchScreenState();

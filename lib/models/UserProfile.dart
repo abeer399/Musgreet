@@ -33,7 +33,7 @@ class UserProfile extends Model {
   final String community_interests;
   final String skills;
   final String religious_interests;
-  final String usersID;
+  final String user_id;
 
   @override
   getInstanceType() => classType;
@@ -55,7 +55,7 @@ class UserProfile extends Model {
       this.community_interests,
       this.skills,
       this.religious_interests,
-      this.usersID});
+      this.user_id});
 
   factory UserProfile(
       {String id,
@@ -69,7 +69,7 @@ class UserProfile extends Model {
       String community_interests,
       String skills,
       String religious_interests,
-      String usersID}) {
+      String user_id}) {
     return UserProfile._internal(
         id: id == null ? UUID.getUUID() : id,
         bio: bio,
@@ -82,7 +82,7 @@ class UserProfile extends Model {
         community_interests: community_interests,
         skills: skills,
         religious_interests: religious_interests,
-        usersID: usersID);
+        user_id: user_id);
   }
 
   bool equals(Object other) {
@@ -104,7 +104,7 @@ class UserProfile extends Model {
         community_interests == other.community_interests &&
         skills == other.skills &&
         religious_interests == other.religious_interests &&
-        usersID == other.usersID;
+        user_id == other.user_id;
   }
 
   @override
@@ -130,7 +130,7 @@ class UserProfile extends Model {
     buffer.write("community_interests=" + "$community_interests" + ", ");
     buffer.write("skills=" + "$skills" + ", ");
     buffer.write("religious_interests=" + "$religious_interests" + ", ");
-    buffer.write("usersID=" + "$usersID");
+    buffer.write("user_id=" + "$user_id");
     buffer.write("}");
 
     return buffer.toString();
@@ -148,7 +148,7 @@ class UserProfile extends Model {
       String community_interests,
       String skills,
       String religious_interests,
-      String usersID}) {
+      String user_id}) {
     return UserProfile(
         id: id ?? this.id,
         bio: bio ?? this.bio,
@@ -161,7 +161,7 @@ class UserProfile extends Model {
         community_interests: community_interests ?? this.community_interests,
         skills: skills ?? this.skills,
         religious_interests: religious_interests ?? this.religious_interests,
-        usersID: usersID ?? this.usersID);
+        user_id: user_id ?? this.user_id);
   }
 
   UserProfile.fromJson(Map<String, dynamic> json)
@@ -176,7 +176,7 @@ class UserProfile extends Model {
         community_interests = json['community_interests'],
         skills = json['skills'],
         religious_interests = json['religious_interests'],
-        usersID = json['usersID'];
+        user_id = json['user_id'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -190,7 +190,7 @@ class UserProfile extends Model {
         'community_interests': community_interests,
         'skills': skills,
         'religious_interests': religious_interests,
-        'usersID': usersID
+        'user_id': user_id
       };
 
   static final QueryField ID = QueryField(fieldName: "userProfile.id");
@@ -211,7 +211,7 @@ class UserProfile extends Model {
   static final QueryField SKILLS = QueryField(fieldName: "skills");
   static final QueryField RELIGIOUS_INTERESTS =
       QueryField(fieldName: "religious_interests");
-  static final QueryField USERSID = QueryField(fieldName: "usersID");
+  static final QueryField USER_ID = QueryField(fieldName: "user_id");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "UserProfile";
@@ -279,7 +279,7 @@ class UserProfile extends Model {
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: UserProfile.USERSID,
+        key: UserProfile.USER_ID,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });

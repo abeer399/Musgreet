@@ -15,24 +15,25 @@ import 'package:mus_greet/pages/age/age_registration_page.dart';
 import 'package:mus_greet/pages/home_screen/home_screen.dart';
 
 class FriendSearch extends StatefulWidget {
-  final Users sessionUser;
+  final User sessionUser;
   FriendSearch({this.sessionUser});
   @override
   _FriendSearchState createState() => _FriendSearchState();
 }
 
 class _FriendSearchState extends State<FriendSearch> {
-  List<Users> Userss = [];
-  List<Friends> friends=[];
+  List<User> Userss = [];
+  List<Friend> friends=[];
   List<String> friendsListIDofLoggedInUser=[];
   List<FriendRequest> friendsRequest=[];
-  List<Users> userList =[];
+  List<User> userList =[];
   String loginUserId;
   @override
   Widget build(BuildContext context) {
     loginUserId=widget.sessionUser.id;
     print("Hello");
-    return FutureBuilder<List<Users>>(
+    print(loginUserId);
+    return FutureBuilder<List<User>>(
       future: listUsers(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -185,9 +186,9 @@ class _FriendSearchState extends State<FriendSearch> {
    //return SponsoredWidget();
   }
 
-  Future<List<Users>> listUsers() async{
+  Future<List<User>> listUsers() async{
     try {
-      Userss = await Amplify.DataStore.query(Users.classType);
+      Userss = await Amplify.DataStore.query(User.classType);
       print("Users length inside friends search");
       print(Userss.length);
       print(Userss);
@@ -208,9 +209,9 @@ class _FriendSearchState extends State<FriendSearch> {
     }
   }
 
-  Widget _buildUI(List<Users> Userss) {
+  Widget _buildUI(List<User> Userss) {
 
-    return FutureBuilder<List<Friends>>(
+    return FutureBuilder<List<Friend>>(
       future: getFriendsList(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -224,7 +225,7 @@ class _FriendSearchState extends State<FriendSearch> {
     );
   }
 
-   _buildListOfUsers(List<Users> userss, List<Friends> friends) {
+   _buildListOfUsers(List<User> userss, List<Friend> friends) {
     if(friends.isEmpty){
       userList = userss;
     }
@@ -257,9 +258,9 @@ class _FriendSearchState extends State<FriendSearch> {
   }
 
 
-  Future<List<Friends>> getFriendsList() async{
+  Future<List<Friend>> getFriendsList() async{
     try {
-      friends = await Amplify.DataStore.query(Friends.classType, where: Friends.USERSID.eq(loginUserId));
+      friends = await Amplify.DataStore.query(Friend.classType, where: Friend.USER_ID.eq(loginUserId));
       print(friends);
       print("inside the friends list");
       return friends;

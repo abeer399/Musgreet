@@ -14,11 +14,11 @@ import 'package:mus_greet/core/widgets/post_card_widget.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
 
 class MosqueCommentScreen extends StatefulWidget {
-  final Posts PostObject;
+  final Post PostObject;
   //final Users UserObject;
   final Mosque MosqueObject;
   final String CommentsCount;
-  final Users sessionUser;
+  final User sessionUser;
 
   MosqueCommentScreen({this.PostObject,
     //this.UserObject,
@@ -29,12 +29,12 @@ class MosqueCommentScreen extends StatefulWidget {
 
 class _MosqueCommentScreenState extends State<MosqueCommentScreen> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  List<PostComments> PostCommentss;
-  List<PostComments> Comments;
+  List<PostComment> PostCommentss;
+  List<PostComment> Comments;
   //List<PostComments> RepliesList = [];
   List RepliesList = [];
   //PostComments Reply;
-  List<Users> UsersList;
+  List<User> UsersList;
   int RepliesCount = 0;
   int CommentsCount = 0;
 
@@ -111,7 +111,7 @@ class _MosqueCommentScreenState extends State<MosqueCommentScreen> {
   }
 
   _getCommentSection() {
-    return FutureBuilder<List<PostComments>>(
+    return FutureBuilder<List<PostComment>>(
       future: queryComments(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -124,7 +124,7 @@ class _MosqueCommentScreenState extends State<MosqueCommentScreen> {
       },
     );
   }
-  _buildComments(List<PostComments> postCommentss) {
+  _buildComments(List<PostComment> postCommentss) {
     return Container(
       padding: EdgeInsets.only(top: 10, left: 20, right: 20),
       color: AppColors.comment_wall_color,
@@ -171,7 +171,7 @@ class _MosqueCommentScreenState extends State<MosqueCommentScreen> {
     );
   }
 
-  _getMosqueComment(List<PostComments> postCommentss) {
+  _getMosqueComment(List<PostComment> postCommentss) {
     print(postCommentss.length);
     return ListView.separated(
       //physics: NeverScrollableScrollPhysics(),
@@ -209,14 +209,14 @@ class _MosqueCommentScreenState extends State<MosqueCommentScreen> {
     );
   }
 
-  _getCommentedUSerDetailsWidget(PostComments postComments){
-    return FutureBuilder<Users>(
+  _getCommentedUSerDetailsWidget(PostComment postComments){
+    return FutureBuilder<User>(
       //future: _getUser(postData.usersID),
-      future: _getCommentedUser(postComments.usersID),
+      future: _getCommentedUser(postComments.user_id),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            Users commentedUserData = snapshot.data;
+            User commentedUserData = snapshot.data;
             return _getCommentsUI(postComments,commentedUserData);
           default:
             return _buildLoadingScreen();
@@ -225,7 +225,7 @@ class _MosqueCommentScreenState extends State<MosqueCommentScreen> {
     );
   }
 
-  _getCommentsUI(PostComments postComments, Users commentedUserData){
+  _getCommentsUI(PostComment postComments, User commentedUserData){
     return Center(
         child: postComments.parent_id == "" ? Container(
           padding: EdgeInsets.only(left: 20),
@@ -247,12 +247,12 @@ class _MosqueCommentScreenState extends State<MosqueCommentScreen> {
     );
   }
 
-  Future<Users> _getCommentedUser(String usersID) async {
+  Future<User> _getCommentedUser(String usersID) async {
     print("inside mosque comment screen");
     print("User");
     print(usersID);
     try {
-      List<Users> UserObjectList = await Amplify.DataStore.query(Users.classType ,where :Users.ID.eq(usersID));
+      List<User> UserObjectList = await Amplify.DataStore.query(User.classType ,where :User.ID.eq(usersID));
       //print(User[0].first_name);
       print(UserObjectList.length);
       print(UserObjectList[0].first_name);
@@ -322,17 +322,17 @@ class _MosqueCommentScreenState extends State<MosqueCommentScreen> {
 
   }
 
-  _addCommentTextField(List<PostComments> postCommentss) {
+  _addCommentTextField(List<PostComment> postCommentss) {
     _CommentsCounter();
     return MosqueCommentTextFieldWidget(hintText: "Write your Comment", ScreenType: "Comment",PostObject: widget.PostObject, MosqueObject: widget.MosqueObject, ParentID: "", commentsCount: widget.CommentsCount,sessionUser: widget.sessionUser, );
   }
 
-  Future<List<PostComments>> queryComments() async {
+  Future<List<PostComment>> queryComments() async {
     try {
       //print(widget.PostID + "    Helloooooo");
       //print("Welcome to comments query");
-      Comments = await Amplify.DataStore.query(PostComments.classType,
-          where: PostComments.POSTSID.eq(widget.PostObject.id));
+      Comments = await Amplify.DataStore.query(PostComment.classType,
+          where: PostComment.POST_ID.eq(widget.PostObject.id));
       //PostCommentss = await Amplify.DataStore.query(PostComments.classType);
       //print(PostCommentss[6]);
       //await Future.delayed(Duration(seconds: 2));
@@ -352,9 +352,9 @@ class _MosqueCommentScreenState extends State<MosqueCommentScreen> {
     final updatedItem = PostCommentss[6].copyWith(
         comment: "Really great job sindhuja, Keep it up",
         parent_id: "",
-        postsID: "bc440d02-350e-4d67-abc5-f4ffc7e6e301",
-        usersID: "40d605ff-0ce4-4b4f-ae43-9e97d37c6cfc",
-        Comments_PostLikes: []);
+        post_id: "bc440d02-350e-4d67-abc5-f4ffc7e6e301",
+        user_id: "40d605ff-0ce4-4b4f-ae43-9e97d37c6cfc");
+        //Comments_PostLikes: []);
     await Amplify.DataStore.save(updatedItem);
   }
 
@@ -363,13 +363,13 @@ class _MosqueCommentScreenState extends State<MosqueCommentScreen> {
   Future<void> _getUserDetails(String UserID) async {
     try {
       UsersList = await Amplify.DataStore.query(
-          Users.classType, where: Users.ID.eq(UserID));
+          User.classType, where: User.ID.eq(UserID));
     } catch (e) {
       print("Could not query DataStore: " + e);
     }
   }
 
-  _addReplies(PostComments Reply) {
+  _addReplies(PostComment Reply) {
     print("Welcome");
     print(RepliesList.length);
     var i;

@@ -7,7 +7,7 @@ import 'package:mus_greet/core/config/navigation.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/utils/size_config.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/final/nearly_finished_page.dart';
 
 import 'address_verification_view.dart';
@@ -19,7 +19,7 @@ class ConfirmAddress2View extends StatefulWidget {
 }
 
 class _ConfirmAddress2ViewState extends State<ConfirmAddress2View> {
-  List<Users> users;
+  List<User> users;
 
   final TextEditingController controller_house= TextEditingController();
   final TextEditingController controller_street= TextEditingController();
@@ -28,7 +28,7 @@ class _ConfirmAddress2ViewState extends State<ConfirmAddress2View> {
   final TextEditingController controller_country= TextEditingController();
 
   ConfirmAddress1ArgumentClass args;
-  Users sessionUser;
+  User sessionUser;
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +210,7 @@ class _ConfirmAddress2ViewState extends State<ConfirmAddress2View> {
             country: "United Kingodm",
             address_verification_mode: "Manual",
             manual_address_taken_date: new TemporalDate(DateTime.now()),
-            manul_address_code:123355,
+            manual_address_code:"123355",
             manual_address_code_sent_date:new TemporalDate(DateTime.now()),
             address_verification: false);
 
@@ -243,6 +243,6 @@ class _ConfirmAddress2ViewState extends State<ConfirmAddress2View> {
 }
 
 class ConfirmAddress2ArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   ConfirmAddress2ArgumentClass(this.sessionUser);
 }

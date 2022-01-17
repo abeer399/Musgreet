@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
-import 'package:mus_greet/models/PostComments.dart';
+import 'package:mus_greet/models/PostComment.dart';
 import 'package:mus_greet/pages/home_screen/comment_screen/comment_screen.dart';
 
 
@@ -14,11 +14,11 @@ class AppCommentTextFieldWidget extends StatefulWidget {
   //final String PostID;
   final String ParentID;
   //final String UserID;
-  final Posts PostObject;
-  final Users UserObject;
-  final PostComments postComments ;
+  final Post PostObject;
+  final User UserObject;
+  final PostComment postComments ;
   final String commentsCount;
-  final Users sessionUser;
+  final User sessionUser;
   AppCommentTextFieldWidget({this.hintText, this.ScreenType, this.ParentID,this.PostObject, this.UserObject,this.postComments,this.commentsCount,this.sessionUser});
   @override
   _AppCommentTextFieldWidgetState createState() => _AppCommentTextFieldWidgetState();
@@ -110,12 +110,12 @@ class _AppCommentTextFieldWidgetState extends State<AppCommentTextFieldWidget> {
     //print(widget.PostObject.id);
     //print(widget.UserObject.id);
     try {
-    final item = PostComments(
+    final item = PostComment(
         comment: textFeildText,
         parent_id: widget.ParentID,
-        postsID: widget.PostObject.id,
-        usersID: widget.sessionUser.id,
-        Comments_PostLikes: []);
+        post_id: widget.PostObject.id,
+        user_id: widget.sessionUser.id);
+        //Comments_PostLikes: []);
     await Amplify.DataStore.save(item);
     await Future.delayed(Duration(seconds: 2));
     ctrlText.clear();

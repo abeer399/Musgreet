@@ -5,7 +5,6 @@ import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mus_greet/core/services/firebase_auth.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/widgets/asset_image_widget.dart';
@@ -16,8 +15,9 @@ import 'package:mus_greet/core/widgets/social_media_button_widget.dart';
 import 'package:mus_greet/core/config/navigation.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
+import 'package:mus_greet/models/Interest.dart';
 import 'package:mus_greet/models/UserProfile.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/address-verification/address_verification_view.dart';
 import 'package:mus_greet/pages/age/age_registration_page.dart';
 import 'package:mus_greet/pages/final/community_promise_page.dart';
@@ -41,8 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _loginKey = GlobalKey<FormState>();
   final _passwordKey = GlobalKey<FormState>();
   bool _isObscure = true;
-  List<Users> users;
-  Users loggedUser;
+  List<User> users;
+  User loggedUser;
   String emailValidator;
   String passwordValidator;
 
@@ -56,7 +56,39 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  List<Interest> masterIntrest = [];
+
+  Future<void> _getMasterIntrestListCategory() async {
+    print("inisde the master Intrest List Cateogory");
+    try {
+      //await Future.wait([_getLogoAndBack();]);
+      masterIntrest = await Amplify.DataStore.query(Interest.classType);
+      await Future.delayed(Duration(seconds: 2));
+      // intrests.clear();
+      // skills.clear();
+      // religiousIntrest.clear();
+      //print("Cleared all Intrest");
+      // for (int i = 0; i < masterIntrest.length; i++) {
+      //   if (masterIntrest[i].category_name == "Hobbie" ||
+      //       masterIntrest[i].category_name == AppTexts.INTEREST_SPORTS_EXERCISE ||
+      //       masterIntrest[i].category_name == AppTexts.INTEREST_FAMILY_OUTDOOR ||
+      //       masterIntrest[i].category_name == AppTexts.INTEREST_VOLUNTEER ||
+      //       masterIntrest[i].category_name ==
+      //           AppTexts.INTEREST_COMMUNITY_INVOLVEMENT) {
+      //     intrests.add(masterIntrest[i]);
+      //   } else if (masterIntrest[i].category_name == "Skills") {
+      //     skills.add(masterIntrest[i]);
+      //   } else if (masterIntrest[i].category_name == "Religious Interests") {
+      //     religiousIntrest.add(masterIntrest[i]);
+      //   }
+      // }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   _getBody() {
+    _getMasterIntrestListCategory();
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -445,15 +477,13 @@ class _LoginScreenState extends State<LoginScreen> {
     //     //   username: _emailController.text,
     //     //   password: _passwordController.text,
     //     // );
-    dynamic result = await AuthService().loginWithEmailAndPassword(
-        _emailController.text, _passwordController.text);
 
     try {
       print(_emailController.text);
       print(_passwordController.text);
 
       users = null;
-
+                   
       //if (passwordErrorMessage.length > 0) {
       passwordErrorMessage = '';
       emailErrorMessage = '';
@@ -471,8 +501,8 @@ class _LoginScreenState extends State<LoginScreen> {
         print('email empty case');
         emailErrorMessage = "Email field is required";
       } else {
-        users = await Amplify.DataStore.query(Users.classType,
-            where: Users.EMAIL.eq(_emailController.text.trim()));
+        users = await Amplify.DataStore.query(User.classType,
+            where: User.EMAIL.eq(_emailController.text.trim()));
         await Future.delayed(Duration(seconds: 1));
 
         print('after querying db');
@@ -492,10 +522,10 @@ class _LoginScreenState extends State<LoginScreen> {
             if (_passwordController.text.trim().length == 0) {
               passwordErrorMessage = "Password field is required";
             } else {
-              users = await Amplify.DataStore.query(Users.classType,
-                  where: Users.EMAIL
+              users = await Amplify.DataStore.query(User.classType,
+                  where: User.EMAIL
                       .eq(_emailController.text.trim())
-                      .and(Users.PASSWORD.eq(_passwordController.text.trim())));
+                      .and(User.PASSWORD.eq(_passwordController.text.trim())));
               await Future.delayed(Duration(seconds: 1));
 
               if (users != null) {
@@ -561,12 +591,12 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  _navigateUser(Users loggedUser) async {
+  _navigateUser(User loggedUser) async {
     //Checking user profile
 
     List<UserProfile> userProfile = await Amplify.DataStore.query(
         UserProfile.classType,
-        where: UserProfile.USERSID.eq(loggedUser.id));
+        where: UserProfile.USER_ID.eq(loggedUser.id));
     await Future.delayed(Duration(seconds: 1));
 
     //email_verification check
@@ -581,15 +611,16 @@ class _LoginScreenState extends State<LoginScreen> {
           context, AppRoutes.PHONEINPUT, VerifyEmailArgumentClass(loggedUser));
 
       //age check
-    } else if (loggedUser.age == null) {
-      Navigation.intentWithData(
-          context, AppRoutes.AGEREGISTER, PhoneOTPArgumentClass(loggedUser));
+      // } else if (loggedUser.age == null) {
+      //   Navigation.intentWithData(context, AppRoutes.AGEREGISTER,
+      //       PhoneOTPArgumentClass(loggedUser));
 
       //parent verification check
-    } else if (int.parse(loggedUser.age) < 16 &&
-        loggedUser.parent_verification == false) {
-      Navigation.intentWithData(context, AppRoutes.PARENTEMAIL,
-          AgeRegistrationArgumentClass(loggedUser));
+      // } else if (int.parse(loggedUser.age) < 16 &&
+      //     loggedUser.parent_verification == false) {
+      //
+      //   Navigation.intentWithData(context, AppRoutes.PARENTEMAIL,
+      //       AgeRegistrationArgumentClass(loggedUser));
 
       //address verification check
     } else if (loggedUser.address_verification == false) {
@@ -689,8 +720,8 @@ class loginValidator extends TextFieldValidator {
   final String email;
   final String pwd;
   final bool fldEmail;
-  List<Users> users;
-  Users loggedUser;
+  List<User> users;
+  User loggedUser;
 
   loginValidator(
       {String errorText, // = "Email doesn't exist, please check",
@@ -807,13 +838,13 @@ class loginValidator extends TextFieldValidator {
     //return false;
   }
 
-  Future<List<Users>> getUser(email, pwd) async {
+  Future<List<User>> getUser(email, pwd) async {
     try {
       print('inside getUser');
       if (pwd == null) {
         print(email);
-        users = await Amplify.DataStore.query(Users.classType,
-            where: Users.EMAIL.eq(email));
+        users = await Amplify.DataStore.query(User.classType,
+            where: User.EMAIL.eq(email));
         await Future.delayed(Duration(seconds: 1));
         print('after querying db');
         DateTime now2 = DateTime.now();
@@ -844,8 +875,8 @@ class loginValidator extends TextFieldValidator {
 
         _checkUserExists();
       } else {
-        users = await Amplify.DataStore.query(Users.classType,
-            where: Users.EMAIL.eq(this.email).and(Users.PASSWORD.eq(this.pwd)));
+        users = await Amplify.DataStore.query(User.classType,
+            where: User.EMAIL.eq(this.email).and(User.PASSWORD.eq(this.pwd)));
         //await Future.delayed(Duration(seconds: 2));
 
         return users;
@@ -881,7 +912,7 @@ class loginValidator extends TextFieldValidator {
   Future<void> listUsers() async {
     try {
       print('In list users');
-      List<Users> Userss = await Amplify.DataStore.query(Users.classType);
+      List<User> Userss = await Amplify.DataStore.query(User.classType);
       await Future.delayed(Duration(seconds: 2));
       print(Userss.length);
       print(Userss);

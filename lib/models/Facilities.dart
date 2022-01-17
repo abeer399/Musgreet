@@ -18,14 +18,14 @@
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the PostLikes type in your schema. */
+/** This is an auto generated class representing the Facilities type in your schema. */
 @immutable
-class PostLikes extends Model {
-  static const classType = const _PostLikesModelType();
+class Facilities extends Model {
+  static const classType = const _FacilitiesModelType();
   final String id;
-  final String postsID;
-  final String usersID;
-  final String postcommentsID;
+  final String icon_path;
+  final String facility_header;
+  final String description;
 
   @override
   getInstanceType() => classType;
@@ -35,22 +35,22 @@ class PostLikes extends Model {
     return id;
   }
 
-  const PostLikes._internal(
+  const Facilities._internal(
       {@required this.id,
-      this.postsID,
-      @required this.usersID,
-      this.postcommentsID});
+      this.icon_path,
+      this.facility_header,
+      this.description});
 
-  factory PostLikes(
+  factory Facilities(
       {String id,
-      String postsID,
-      @required String usersID,
-      String postcommentsID}) {
-    return PostLikes._internal(
+      String icon_path,
+      String facility_header,
+      String description}) {
+    return Facilities._internal(
         id: id == null ? UUID.getUUID() : id,
-        postsID: postsID,
-        usersID: usersID,
-        postcommentsID: postcommentsID);
+        icon_path: icon_path,
+        facility_header: facility_header,
+        description: description);
   }
 
   bool equals(Object other) {
@@ -60,11 +60,11 @@ class PostLikes extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is PostLikes &&
+    return other is Facilities &&
         id == other.id &&
-        postsID == other.postsID &&
-        usersID == other.usersID &&
-        postcommentsID == other.postcommentsID;
+        icon_path == other.icon_path &&
+        facility_header == other.facility_header &&
+        description == other.description;
   }
 
   @override
@@ -74,47 +74,50 @@ class PostLikes extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write("PostLikes {");
+    buffer.write("Facilities {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("postsID=" + "$postsID" + ", ");
-    buffer.write("usersID=" + "$usersID" + ", ");
-    buffer.write("postcommentsID=" + "$postcommentsID");
+    buffer.write("icon_path=" + "$icon_path" + ", ");
+    buffer.write("facility_header=" + "$facility_header" + ", ");
+    buffer.write("description=" + "$description");
     buffer.write("}");
 
     return buffer.toString();
   }
 
-  PostLikes copyWith(
-      {String id, String postsID, String usersID, String postcommentsID}) {
-    return PostLikes(
+  Facilities copyWith(
+      {String id,
+      String icon_path,
+      String facility_header,
+      String description}) {
+    return Facilities(
         id: id ?? this.id,
-        postsID: postsID ?? this.postsID,
-        usersID: usersID ?? this.usersID,
-        postcommentsID: postcommentsID ?? this.postcommentsID);
+        icon_path: icon_path ?? this.icon_path,
+        facility_header: facility_header ?? this.facility_header,
+        description: description ?? this.description);
   }
 
-  PostLikes.fromJson(Map<String, dynamic> json)
+  Facilities.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        postsID = json['postsID'],
-        usersID = json['usersID'],
-        postcommentsID = json['postcommentsID'];
+        icon_path = json['icon_path'],
+        facility_header = json['facility_header'],
+        description = json['description'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'postsID': postsID,
-        'usersID': usersID,
-        'postcommentsID': postcommentsID
+        'icon_path': icon_path,
+        'facility_header': facility_header,
+        'description': description
       };
 
-  static final QueryField ID = QueryField(fieldName: "postLikes.id");
-  static final QueryField POSTSID = QueryField(fieldName: "postsID");
-  static final QueryField USERSID = QueryField(fieldName: "usersID");
-  static final QueryField POSTCOMMENTSID =
-      QueryField(fieldName: "postcommentsID");
+  static final QueryField ID = QueryField(fieldName: "facilities.id");
+  static final QueryField ICON_PATH = QueryField(fieldName: "icon_path");
+  static final QueryField FACILITY_HEADER =
+      QueryField(fieldName: "facility_header");
+  static final QueryField DESCRIPTION = QueryField(fieldName: "description");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "PostLikes";
-    modelSchemaDefinition.pluralName = "PostLikes";
+    modelSchemaDefinition.name = "Facilities";
+    modelSchemaDefinition.pluralName = "Facilities";
 
     modelSchemaDefinition.authRules = [
       AuthRule(authStrategy: AuthStrategy.PUBLIC, operations: [
@@ -128,27 +131,27 @@ class PostLikes extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: PostLikes.POSTSID,
+        key: Facilities.ICON_PATH,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: PostLikes.USERSID,
-        isRequired: true,
+        key: Facilities.FACILITY_HEADER,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: PostLikes.POSTCOMMENTSID,
+        key: Facilities.DESCRIPTION,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });
 }
 
-class _PostLikesModelType extends ModelType<PostLikes> {
-  const _PostLikesModelType();
+class _FacilitiesModelType extends ModelType<Facilities> {
+  const _FacilitiesModelType();
 
   @override
-  PostLikes fromJson(Map<String, dynamic> jsonData) {
-    return PostLikes.fromJson(jsonData);
+  Facilities fromJson(Map<String, dynamic> jsonData) {
+    return Facilities.fromJson(jsonData);
   }
 }

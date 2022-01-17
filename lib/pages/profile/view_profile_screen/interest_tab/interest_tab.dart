@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-//import 'package:mus_greet/models/MasterIntrests.dart';
+//import 'package:mus_greet/models/Interest.dart';
 import 'package:mus_greet/core/config/navigation.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
-import 'package:mus_greet/models/MasterIntrests.dart';
+import 'package:mus_greet/models/Interest.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
 import 'package:mus_greet/models/UserProfile.dart';
 import 'package:mus_greet/pages/add_skills_screen/add_skills_screen.dart';
@@ -18,7 +18,7 @@ import 'package:mus_greet/pages/interest_screen/religious_interest_screen.dart';
 
 
 class InterestTab extends StatefulWidget {
-  final Users sessionUser;
+  final User sessionUser;
   InterestTab({this.sessionUser});
   @override
   _InterestTabState createState() => _InterestTabState();
@@ -26,7 +26,7 @@ class InterestTab extends StatefulWidget {
 
 class _InterestTabState extends State<InterestTab> {
 
-  List<MasterIntrests> masterIntrest;
+  List<Interest> masterIntrest;
  List<UserProfile> userProfile;
   List<String> idIntrest=[];
   List<String> IdSkill=[];
@@ -43,7 +43,7 @@ class _InterestTabState extends State<InterestTab> {
     print("Build Context");
     //print(widget.userProfile);
 
-    return FutureBuilder<List<MasterIntrests>>(
+    return FutureBuilder<List<Interest>>(
       future: _getMasterIntrestList(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -58,7 +58,7 @@ class _InterestTabState extends State<InterestTab> {
 
   }
 
-  buildUi(List<MasterIntrests> masterIntrest)
+  buildUi(List<Interest> masterIntrest)
   {
     return FutureBuilder<List<UserProfile>>(
       future: getUserProfile(),
@@ -532,7 +532,7 @@ print('inside getusrprofile method');
 print(widget.sessionUser.id);
       try {
         userProfile = await Amplify.DataStore.query(UserProfile.classType,
-            where: UserProfile.USERSID.eq(widget.sessionUser.id));
+            where: UserProfile.USER_ID.eq(widget.sessionUser.id));
         print(userProfile);
         print("Inside the User Profile");
         return userProfile;
@@ -570,10 +570,10 @@ print(widget.sessionUser.id);
            for(int i=0;i<masterIntrest.length;i++) {
              print(hobbieList);
              if (hobbieList == masterIntrest[i].id) {
-               intrestData.add(masterIntrest[i].intrest_name);
+               intrestData.add(masterIntrest[i].interest_name);
                print("inside the master");
                INTRESTS.addAll({
-                 masterIntrest[i].intrest_name :masterIntrest[i].photo_path,
+                 masterIntrest[i].interest_name :masterIntrest[i].photo_path,
                });
              }
            }
@@ -603,10 +603,10 @@ print(widget.sessionUser.id);
            for(int i=0;i<masterIntrest.length;i++) {
              print(skillList);
              if (skillList == masterIntrest[i].id) {
-               skillsData.add(masterIntrest[i].intrest_name);
+               skillsData.add(masterIntrest[i].interest_name);
                print("inside the master skills");
                SKILLS.addAll({
-                 masterIntrest[i].intrest_name :masterIntrest[i].photo_path,
+                 masterIntrest[i].interest_name :masterIntrest[i].photo_path,
                });
              }
            }
@@ -637,10 +637,10 @@ print(widget.sessionUser.id);
             for(int i=0;i<masterIntrest.length;i++) {
               print(religiousList);
               if (religiousList == masterIntrest[i].id) {
-                religiousData.add(masterIntrest[i].intrest_name);
+                religiousData.add(masterIntrest[i].interest_name);
                 print("inside the master religious");
                 RELIGIOUS_LIST.addAll({
-                  masterIntrest[i].intrest_name :masterIntrest[i].photo_path,
+                  masterIntrest[i].interest_name :masterIntrest[i].photo_path,
                 });
               }
             }
@@ -657,10 +657,10 @@ print(widget.sessionUser.id);
   }
 
 
-   Future<List<MasterIntrests>> _getMasterIntrestList() async
+   Future<List<Interest>> _getMasterIntrestList() async
    {
      try {
-       masterIntrest = await Amplify.DataStore.query(MasterIntrests.classType );
+       masterIntrest = await Amplify.DataStore.query(Interest.classType );
        print("inside the Master List");
        print(masterIntrest);
        return masterIntrest;

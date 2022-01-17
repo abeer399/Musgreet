@@ -16,9 +16,9 @@ class FollowingMosqueGrid extends StatefulWidget {
   //final Function callBack;
 
   //const FollowingMosqueGrid({Key key, this.callBack}) : super(key: key);
-  final MosqueFollowers MosqueFollowerObject;
+  final MosqueFollower MosqueFollowerObject;
   final String UserID;
-  final Users sessionUser;
+  final User sessionUser;
   const FollowingMosqueGrid({this.MosqueFollowerObject, this.UserID, this.sessionUser});
   @override
   _FollowingMosqueGridState createState() => _FollowingMosqueGridState();
@@ -207,7 +207,7 @@ class _FollowingMosqueGridState extends State<FollowingMosqueGrid> {
   ///
   Future<Mosque> listMosque() async {
     try {
-      List<Mosque> Mosques = await Amplify.DataStore.query(Mosque.classType, where:Mosque.ID.eq(widget.MosqueFollowerObject.mosqueID) );
+      List<Mosque> Mosques = await Amplify.DataStore.query(Mosque.classType, where:Mosque.ID.eq(widget.MosqueFollowerObject.mosque_id) );
       print(Mosques[0]);
       return(Mosques[0]);
     } catch (e) {

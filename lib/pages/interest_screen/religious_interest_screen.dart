@@ -8,7 +8,7 @@ import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/widgets/action_button_widget.dart';
 import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
-import 'package:mus_greet/models/MasterIntrests.dart';
+import 'package:mus_greet/models/Interest.dart';
 import 'package:mus_greet/models/UserProfile.dart';
 import 'package:mus_greet/pages/profile/view_profile_screen/view_profile_screen.dart';
 import 'package:mus_greet/pages/interest_screen/multi_line_chip.dart';
@@ -25,7 +25,7 @@ class ReligiousInterestScreen extends StatefulWidget {
 }
 class _ReligiousInterestScreenState extends State<ReligiousInterestScreen> {
   final List<String> _selectedItems = List.empty(growable: true);
-  List<MasterIntrests> intrests;
+  List<Interest> intrests;
   List<UserProfile> userProfile;
   List<String> RELIGIOUS_INTRESTS=[];
   List<String> idIntrset;
@@ -35,7 +35,7 @@ class _ReligiousInterestScreenState extends State<ReligiousInterestScreen> {
   @override
   Widget build(BuildContext context) {
    // if(RELIGIOUS_INTRESTS.isEmpty) {
-      return FutureBuilder<List<MasterIntrests>>(
+      return FutureBuilder<List<Interest>>(
         future: _getReligious(),
         builder: (ctx, snapshot) {
           switch (snapshot.connectionState) {
@@ -51,7 +51,7 @@ class _ReligiousInterestScreenState extends State<ReligiousInterestScreen> {
 
   }
 
-  buildUi(List<MasterIntrests> intrests) {
+  buildUi(List<Interest> intrests) {
     //_generatingReligious();
     getReligiousList();
     return SafeArea(
@@ -196,10 +196,10 @@ class _ReligiousInterestScreenState extends State<ReligiousInterestScreen> {
     _UpdatingrReligious();
   }
 
-  Future<List<MasterIntrests>> _getReligious() async
+  Future<List<Interest>> _getReligious() async
   {
     try {
-      intrests = await Amplify.DataStore.query(MasterIntrests.classType);
+      intrests = await Amplify.DataStore.query(Interest.classType);
       return intrests;
     }
     catch (e) {
@@ -214,7 +214,7 @@ class _ReligiousInterestScreenState extends State<ReligiousInterestScreen> {
     {
       if(intrests[i].category_name =="Religious Interests")
       {
-        RELIGIOUS_INTRESTS.add(intrests[i].intrest_name);
+        RELIGIOUS_INTRESTS.add(intrests[i].interest_name);
       }
     }
     print("Get Religious Method");
@@ -239,7 +239,7 @@ class _ReligiousInterestScreenState extends State<ReligiousInterestScreen> {
       for(int i=0;i<intrests.length;i++)
       {
         if(intrests[i].category_name =="Religious Interests") {
-          if (nameOfReligious == intrests[i].intrest_name) {
+          if (nameOfReligious == intrests[i].interest_name) {
             RELIGIOUSLIST.add(intrests[i].id);
             print(RELIGIOUSLIST);
             print(intrests[i].id);

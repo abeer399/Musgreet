@@ -18,14 +18,14 @@
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the MosquePrayers type in your schema. */
+/** This is an auto generated class representing the MosquePrayer type in your schema. */
 @immutable
-class MosquePrayers extends Model {
-  static const classType = const _MosquePrayersModelType();
+class MosquePrayer extends Model {
+  static const classType = const _MosquePrayerModelType();
   final String id;
   final String prayer;
-  final String mosqueID;
-  final TemporalDate Date;
+  final String mosque_id;
+  final TemporalDate date;
   final TemporalTime end_time;
   final TemporalTime begin_time;
 
@@ -37,26 +37,26 @@ class MosquePrayers extends Model {
     return id;
   }
 
-  const MosquePrayers._internal(
+  const MosquePrayer._internal(
       {@required this.id,
-      @required this.prayer,
-      this.mosqueID,
-      this.Date,
+      this.prayer,
+      this.mosque_id,
+      this.date,
       this.end_time,
       this.begin_time});
 
-  factory MosquePrayers(
+  factory MosquePrayer(
       {String id,
-      @required String prayer,
-      String mosqueID,
-      TemporalDate Date,
+      String prayer,
+      String mosque_id,
+      TemporalDate date,
       TemporalTime end_time,
       TemporalTime begin_time}) {
-    return MosquePrayers._internal(
+    return MosquePrayer._internal(
         id: id == null ? UUID.getUUID() : id,
         prayer: prayer,
-        mosqueID: mosqueID,
-        Date: Date,
+        mosque_id: mosque_id,
+        date: date,
         end_time: end_time,
         begin_time: begin_time);
   }
@@ -68,11 +68,11 @@ class MosquePrayers extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is MosquePrayers &&
+    return other is MosquePrayer &&
         id == other.id &&
         prayer == other.prayer &&
-        mosqueID == other.mosqueID &&
-        Date == other.Date &&
+        mosque_id == other.mosque_id &&
+        date == other.date &&
         end_time == other.end_time &&
         begin_time == other.begin_time;
   }
@@ -84,11 +84,11 @@ class MosquePrayers extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write("MosquePrayers {");
+    buffer.write("MosquePrayer {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("prayer=" + "$prayer" + ", ");
-    buffer.write("mosqueID=" + "$mosqueID" + ", ");
-    buffer.write("Date=" + (Date != null ? Date.format() : "null") + ", ");
+    buffer.write("mosque_id=" + "$mosque_id" + ", ");
+    buffer.write("date=" + (date != null ? date.format() : "null") + ", ");
     buffer.write(
         "end_time=" + (end_time != null ? end_time.format() : "null") + ", ");
     buffer.write(
@@ -98,28 +98,28 @@ class MosquePrayers extends Model {
     return buffer.toString();
   }
 
-  MosquePrayers copyWith(
+  MosquePrayer copyWith(
       {String id,
       String prayer,
-      String mosqueID,
-      TemporalDate Date,
+      String mosque_id,
+      TemporalDate date,
       TemporalTime end_time,
       TemporalTime begin_time}) {
-    return MosquePrayers(
+    return MosquePrayer(
         id: id ?? this.id,
         prayer: prayer ?? this.prayer,
-        mosqueID: mosqueID ?? this.mosqueID,
-        Date: Date ?? this.Date,
+        mosque_id: mosque_id ?? this.mosque_id,
+        date: date ?? this.date,
         end_time: end_time ?? this.end_time,
         begin_time: begin_time ?? this.begin_time);
   }
 
-  MosquePrayers.fromJson(Map<String, dynamic> json)
+  MosquePrayer.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         prayer = json['prayer'],
-        mosqueID = json['mosqueID'],
-        Date =
-            json['Date'] != null ? TemporalDate.fromString(json['Date']) : null,
+        mosque_id = json['mosque_id'],
+        date =
+            json['date'] != null ? TemporalDate.fromString(json['date']) : null,
         end_time = json['end_time'] != null
             ? TemporalTime.fromString(json['end_time'])
             : null,
@@ -130,21 +130,21 @@ class MosquePrayers extends Model {
   Map<String, dynamic> toJson() => {
         'id': id,
         'prayer': prayer,
-        'mosqueID': mosqueID,
-        'Date': Date?.format(),
+        'mosque_id': mosque_id,
+        'date': date?.format(),
         'end_time': end_time?.format(),
         'begin_time': begin_time?.format()
       };
 
-  static final QueryField ID = QueryField(fieldName: "mosquePrayers.id");
+  static final QueryField ID = QueryField(fieldName: "mosquePrayer.id");
   static final QueryField PRAYER = QueryField(fieldName: "prayer");
-  static final QueryField MOSQUEID = QueryField(fieldName: "mosqueID");
-  static final QueryField DATE = QueryField(fieldName: "Date");
+  static final QueryField MOSQUE_ID = QueryField(fieldName: "mosque_id");
+  static final QueryField DATE = QueryField(fieldName: "date");
   static final QueryField END_TIME = QueryField(fieldName: "end_time");
   static final QueryField BEGIN_TIME = QueryField(fieldName: "begin_time");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "MosquePrayers";
+    modelSchemaDefinition.name = "MosquePrayer";
     modelSchemaDefinition.pluralName = "MosquePrayers";
 
     modelSchemaDefinition.authRules = [
@@ -159,37 +159,37 @@ class MosquePrayers extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: MosquePrayers.PRAYER,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: MosquePrayers.MOSQUEID,
+        key: MosquePrayer.PRAYER,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: MosquePrayers.DATE,
+        key: MosquePrayer.MOSQUE_ID,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: MosquePrayer.DATE,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.date)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: MosquePrayers.END_TIME,
+        key: MosquePrayer.END_TIME,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.time)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: MosquePrayers.BEGIN_TIME,
+        key: MosquePrayer.BEGIN_TIME,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.time)));
   });
 }
 
-class _MosquePrayersModelType extends ModelType<MosquePrayers> {
-  const _MosquePrayersModelType();
+class _MosquePrayerModelType extends ModelType<MosquePrayer> {
+  const _MosquePrayerModelType();
 
   @override
-  MosquePrayers fromJson(Map<String, dynamic> jsonData) {
-    return MosquePrayers.fromJson(jsonData);
+  MosquePrayer fromJson(Map<String, dynamic> jsonData) {
+    return MosquePrayer.fromJson(jsonData);
   }
 }

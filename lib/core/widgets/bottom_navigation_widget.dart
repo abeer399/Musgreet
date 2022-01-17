@@ -17,8 +17,8 @@ class BottomNavigationWidget extends StatefulWidget {
   final String CallingScreen;
   final Function CallingFunction;
   final int index;
-  final List<MosqueFollowers> MosqueFollowersList;
-  final Users sessionUser;
+  final List<MosqueFollower> MosqueFollowersList;
+  final User sessionUser;
 
   BottomNavigationWidget({this.controller, this.CallingFunction, this.index, this.MosqueFollowersList, this.CallingScreen, this.sessionUser});
 
@@ -28,7 +28,7 @@ class BottomNavigationWidget extends StatefulWidget {
 }
 
 class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
-  List<MosqueFollowers> MosqueFollowersList =[];
+  List<MosqueFollower> MosqueFollowersList =[];
   int _currentIndex = 0;
   bool mosqueAdmin;
   //bool mosqueAdmin = false;
@@ -37,7 +37,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   Widget build(BuildContext context) {
     mosqueAdmin = widget.sessionUser.mosque_admin;
     _currentIndex = widget.index;
-      return FutureBuilder<List<MosqueFollowers>>(
+      return FutureBuilder<List<MosqueFollower>>(
         future: listMosqueFollowers(),
         builder: (ctx, snapshot) {
           switch (snapshot.connectionState) {
@@ -155,9 +155,9 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     );
   }
 
-  Future<List<MosqueFollowers>> listMosqueFollowers() async{
+  Future<List<MosqueFollower>> listMosqueFollowers() async{
     try {
-      MosqueFollowersList = await Amplify.DataStore.query(MosqueFollowers.classType,where:MosqueFollowers.USERSID.eq(widget.sessionUser.id));
+      MosqueFollowersList = await Amplify.DataStore.query(MosqueFollower.classType,where:MosqueFollower.USER_ID.eq(widget.sessionUser.id));
       print(MosqueFollowersList);
       return MosqueFollowersList;
     } catch (e) {
@@ -217,6 +217,6 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 }
 
 class BottomNavigationWidgetArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   BottomNavigationWidgetArgumentClass(this.sessionUser);
 }

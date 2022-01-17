@@ -13,7 +13,7 @@ import 'package:mus_greet/models/UserEducation.dart';
 import 'package:mus_greet/models/UserFamily.dart';
 import 'package:mus_greet/models/UserProfile.dart';
 import 'package:amplify_flutter/amplify.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/add_education_screen/add_education_screen.dart';
 import 'package:mus_greet/pages/bio/bio.dart';
 import 'package:mus_greet/pages/final/nearly_finished_page.dart';
@@ -27,7 +27,7 @@ import 'package:mus_greet/pages/relation/relationshio.dart';
 import '../../../../main.dart';
 
 class AboutTab extends StatefulWidget {
-  final Users sessionUser;
+  final User sessionUser;
   AboutTab({this.sessionUser});
 
   @override
@@ -68,7 +68,7 @@ class _AboutTabState extends State<AboutTab> {
   String postCode="";
   bool educationValue=true;
   ViewProfileScreen args;
-  Users sessionUser;
+  User sessionUser;
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +127,7 @@ print(widget.sessionUser);
   }
 
 
-  buildEducation(List<UserFamily> userFamily, Users user)
+  buildEducation(List<UserFamily> userFamily, User user)
   {
     //education();
     print(userFamily.length);
@@ -149,7 +149,7 @@ print(widget.sessionUser);
   }
 
 
-  buildAbout(List<UserFamily> userFamily, Users user, List<UserEducation> userEducation) {
+  buildAbout(List<UserFamily> userFamily, User user, List<UserEducation> userEducation) {
     bool status = false;
     print("inside the build about");
     print(userEducation);
@@ -621,7 +621,7 @@ print(widget.sessionUser);
         String userId=widget.sessionUser.id;
         for(int i=0;i<userEducation.length;i++)
           {print("for loop for length");
-            if(userId== userEducation[i].usersID)
+            if(userId== userEducation[i].user_id)
               {print("if condition is true");
                 userEducationUsers.add(userEducation[i]);
               }
@@ -1074,7 +1074,7 @@ print(widget.sessionUser);
         }
      joinedDate=widget.sessionUser.joined_date.toString();
      gender=widget.sessionUser.gender;
-     age=widget.sessionUser.age;
+     //age=widget.sessionUser.age;
      relationshipStatus=userProfile[0].relationship_status;
      houseNumber=widget.sessionUser.house_number;
      street=widget.sessionUser.street;
@@ -1523,7 +1523,7 @@ print(widget.sessionUser);
 
   Future<List<UserProfile>> userList() async{
     try{
-      userProfile = await Amplify.DataStore.query(UserProfile.classType,where: UserProfile.USERSID.eq(widget.sessionUser.id));
+      userProfile = await Amplify.DataStore.query(UserProfile.classType,where: UserProfile.USER_ID.eq(widget.sessionUser.id));
       print(userProfile);
       return userProfile;
     }catch(e)

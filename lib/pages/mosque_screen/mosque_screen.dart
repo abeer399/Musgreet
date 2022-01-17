@@ -8,10 +8,7 @@ import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/core/widgets/following_mosque_list_grid.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
-import 'package:mus_greet/models/MosqueFollowers.dart';
-import 'package:mus_greet/models/MosqueFollowers.dart';
-import 'package:mus_greet/models/MosqueFollowers.dart';
-import 'package:mus_greet/models/MosqueFollowers.dart';
+import 'package:mus_greet/models/MosqueFollower.dart';
 import 'package:mus_greet/pages/mosque_screen/mosque_details/mosques_detail_screen.dart';
 import 'package:mus_greet/pages/mosque_screen/mosque_search_list_view/mosque_search_list_view.dart';
 import 'package:mus_greet/core/widgets/bottom_navigation_widget.dart';
@@ -21,7 +18,7 @@ class MosqueScreen extends StatefulWidget {
   //final Function MosqueFollowers;
   final Function callBack;
   final Function navigateToMosqueSearch;
-  final Users loginUser;
+  final User loginUser;
   final String CallingScreen;
   const MosqueScreen({Key key, this.callBack,this.navigateToMosqueSearch, this.loginUser, this.CallingScreen}) : super(key: key);
   @override
@@ -32,12 +29,12 @@ class _MosqueScreenState extends State<MosqueScreen> {
   bool _navigateToSearch = false;
  // String UserID = "61b35418-9426-4652-9e59-a65ad173117c";
   String UserID;
-  List<MosqueFollowers> MosqueFollowerss =[];
+  List<MosqueFollower> MosqueFollowerss =[];
   @override
   Widget build(BuildContext context) {
     UserID = widget.loginUser.id;
     print(UserID);
-    return FutureBuilder<List<MosqueFollowers>>(
+    return FutureBuilder<List<MosqueFollower>>(
       future: listMosqueFollowers(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -51,7 +48,7 @@ class _MosqueScreenState extends State<MosqueScreen> {
     );
   }
 
-  Widget _getUI(List<MosqueFollowers> MosqueFollowerss) {
+  Widget _getUI(List<MosqueFollower> MosqueFollowerss) {
     return Scaffold(
       backgroundColor: AppColors.white_shade,
       appBar: _getAppBar(),
@@ -190,11 +187,11 @@ class _MosqueScreenState extends State<MosqueScreen> {
     );
   }
 
-  Future<List<MosqueFollowers>> listMosqueFollowers() async{
+  Future<List<MosqueFollower>> listMosqueFollowers() async{
     print(UserID);
     try {
       //MosqueFollowerss = await Amplify.DataStore.query(MosqueFollowers.classType, where:MosqueFollowers.USERSID.eq(UserID));
-      MosqueFollowerss = await Amplify.DataStore.query(MosqueFollowers.classType, where:MosqueFollowers.USERSID.eq(UserID)
+      MosqueFollowerss = await Amplify.DataStore.query(MosqueFollower.classType, where:MosqueFollower.USER_ID.eq(UserID)
            );
       print(MosqueFollowerss);
       return MosqueFollowerss;

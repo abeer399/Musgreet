@@ -15,25 +15,21 @@
 
 // ignore_for_file: public_member_api_docs
 
-import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Posts type in your schema. */
+/** This is an auto generated class representing the Post type in your schema. */
 @immutable
-class Posts extends Model {
-  static const classType = const _PostsModelType();
+class Post extends Model {
+  static const classType = const _PostModelType();
   final String id;
   final String post;
   final String post_image_path;
   final String description;
   final String visibility;
-  final String mosquesID;
-  final List<PostComments> Post_Comments;
-  final List<PostLikes> Post_Likes;
-  final String usersID;
-  final TemporalDateTime created_date;
+  final String mosque_id;
+  final String user_id;
+  final TemporalDate created_date;
 
   @override
   getInstanceType() => classType;
@@ -43,43 +39,33 @@ class Posts extends Model {
     return id;
   }
 
-  const Posts._internal(
+  const Post._internal(
       {@required this.id,
-      @required this.post,
+      this.post,
       this.post_image_path,
       this.description,
       this.visibility,
-      this.mosquesID,
-      this.Post_Comments,
-      this.Post_Likes,
-      this.usersID,
+      this.mosque_id,
+      this.user_id,
       this.created_date});
 
-  factory Posts(
+  factory Post(
       {String id,
-      @required String post,
+      String post,
       String post_image_path,
       String description,
       String visibility,
-      String mosquesID,
-      List<PostComments> Post_Comments,
-      List<PostLikes> Post_Likes,
-      String usersID,
-      TemporalDateTime created_date}) {
-    return Posts._internal(
+      String mosque_id,
+      String user_id,
+      TemporalDate created_date}) {
+    return Post._internal(
         id: id == null ? UUID.getUUID() : id,
         post: post,
         post_image_path: post_image_path,
         description: description,
         visibility: visibility,
-        mosquesID: mosquesID,
-        Post_Comments: Post_Comments != null
-            ? List<PostComments>.unmodifiable(Post_Comments)
-            : Post_Comments,
-        Post_Likes: Post_Likes != null
-            ? List<PostLikes>.unmodifiable(Post_Likes)
-            : Post_Likes,
-        usersID: usersID,
+        mosque_id: mosque_id,
+        user_id: user_id,
         created_date: created_date);
   }
 
@@ -90,16 +76,14 @@ class Posts extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Posts &&
+    return other is Post &&
         id == other.id &&
         post == other.post &&
         post_image_path == other.post_image_path &&
         description == other.description &&
         visibility == other.visibility &&
-        mosquesID == other.mosquesID &&
-        DeepCollectionEquality().equals(Post_Comments, other.Post_Comments) &&
-        DeepCollectionEquality().equals(Post_Likes, other.Post_Likes) &&
-        usersID == other.usersID &&
+        mosque_id == other.mosque_id &&
+        user_id == other.user_id &&
         created_date == other.created_date;
   }
 
@@ -110,14 +94,14 @@ class Posts extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write("Posts {");
+    buffer.write("Post {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("post=" + "$post" + ", ");
     buffer.write("post_image_path=" + "$post_image_path" + ", ");
     buffer.write("description=" + "$description" + ", ");
     buffer.write("visibility=" + "$visibility" + ", ");
-    buffer.write("mosquesID=" + "$mosquesID" + ", ");
-    buffer.write("usersID=" + "$usersID" + ", ");
+    buffer.write("mosque_id=" + "$mosque_id" + ", ");
+    buffer.write("user_id=" + "$user_id" + ", ");
     buffer.write("created_date=" +
         (created_date != null ? created_date.format() : "null"));
     buffer.write("}");
@@ -125,52 +109,36 @@ class Posts extends Model {
     return buffer.toString();
   }
 
-  Posts copyWith(
+  Post copyWith(
       {String id,
       String post,
       String post_image_path,
       String description,
       String visibility,
-      String mosquesID,
-      List<PostComments> Post_Comments,
-      List<PostLikes> Post_Likes,
-      String usersID,
-      TemporalDateTime created_date}) {
-    return Posts(
+      String mosque_id,
+      String user_id,
+      TemporalDate created_date}) {
+    return Post(
         id: id ?? this.id,
         post: post ?? this.post,
         post_image_path: post_image_path ?? this.post_image_path,
         description: description ?? this.description,
         visibility: visibility ?? this.visibility,
-        mosquesID: mosquesID ?? this.mosquesID,
-        Post_Comments: Post_Comments ?? this.Post_Comments,
-        Post_Likes: Post_Likes ?? this.Post_Likes,
-        usersID: usersID ?? this.usersID,
+        mosque_id: mosque_id ?? this.mosque_id,
+        user_id: user_id ?? this.user_id,
         created_date: created_date ?? this.created_date);
   }
 
-  Posts.fromJson(Map<String, dynamic> json)
+  Post.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         post = json['post'],
         post_image_path = json['post_image_path'],
         description = json['description'],
         visibility = json['visibility'],
-        mosquesID = json['mosquesID'],
-        Post_Comments = json['Post_Comments'] is List
-            ? (json['Post_Comments'] as List)
-                .map((e) =>
-                    PostComments.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        Post_Likes = json['Post_Likes'] is List
-            ? (json['Post_Likes'] as List)
-                .map(
-                    (e) => PostLikes.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        usersID = json['usersID'],
+        mosque_id = json['mosque_id'],
+        user_id = json['user_id'],
         created_date = json['created_date'] != null
-            ? TemporalDateTime.fromString(json['created_date'])
+            ? TemporalDate.fromString(json['created_date'])
             : null;
 
   Map<String, dynamic> toJson() => {
@@ -179,33 +147,23 @@ class Posts extends Model {
         'post_image_path': post_image_path,
         'description': description,
         'visibility': visibility,
-        'mosquesID': mosquesID,
-        'Post_Comments': Post_Comments?.map((e) => e?.toJson())?.toList(),
-        'Post_Likes': Post_Likes?.map((e) => e?.toJson())?.toList(),
-        'usersID': usersID,
+        'mosque_id': mosque_id,
+        'user_id': user_id,
         'created_date': created_date?.format()
       };
 
-  static final QueryField ID = QueryField(fieldName: "posts.id");
+  static final QueryField ID = QueryField(fieldName: "post.id");
   static final QueryField POST = QueryField(fieldName: "post");
   static final QueryField POST_IMAGE_PATH =
       QueryField(fieldName: "post_image_path");
   static final QueryField DESCRIPTION = QueryField(fieldName: "description");
   static final QueryField VISIBILITY = QueryField(fieldName: "visibility");
-  static final QueryField MOSQUESID = QueryField(fieldName: "mosquesID");
-  static final QueryField POST_COMMENTS = QueryField(
-      fieldName: "Post_Comments",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (PostComments).toString()));
-  static final QueryField POST_LIKES = QueryField(
-      fieldName: "Post_Likes",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (PostLikes).toString()));
-  static final QueryField USERSID = QueryField(fieldName: "usersID");
+  static final QueryField MOSQUE_ID = QueryField(fieldName: "mosque_id");
+  static final QueryField USER_ID = QueryField(fieldName: "user_id");
   static final QueryField CREATED_DATE = QueryField(fieldName: "created_date");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "Posts";
+    modelSchemaDefinition.name = "Post";
     modelSchemaDefinition.pluralName = "Posts";
 
     modelSchemaDefinition.authRules = [
@@ -220,59 +178,47 @@ class Posts extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Posts.POST,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Posts.POST_IMAGE_PATH,
+        key: Post.POST,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Posts.DESCRIPTION,
+        key: Post.POST_IMAGE_PATH,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Posts.VISIBILITY,
+        key: Post.DESCRIPTION,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Posts.MOSQUESID,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Posts.POST_COMMENTS,
-        isRequired: false,
-        ofModelName: (PostComments).toString(),
-        associatedKey: PostComments.POSTSID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Posts.POST_LIKES,
-        isRequired: false,
-        ofModelName: (PostLikes).toString(),
-        associatedKey: PostLikes.POSTSID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Posts.USERSID,
+        key: Post.VISIBILITY,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Posts.CREATED_DATE,
+        key: Post.MOSQUE_ID,
         isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Post.USER_ID,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Post.CREATED_DATE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.date)));
   });
 }
 
-class _PostsModelType extends ModelType<Posts> {
-  const _PostsModelType();
+class _PostModelType extends ModelType<Post> {
+  const _PostModelType();
 
   @override
-  Posts fromJson(Map<String, dynamic> jsonData) {
-    return Posts.fromJson(jsonData);
+  Post fromJson(Map<String, dynamic> jsonData) {
+    return Post.fromJson(jsonData);
   }
 }

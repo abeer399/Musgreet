@@ -10,13 +10,13 @@ import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/core/widgets/drop_down_text_field.dart';
 import 'package:mus_greet/core/widgets/social_media_button_widget.dart';
 import 'package:mus_greet/models/Mosque.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/create_post_screen/create_post_screen.dart';
 import 'package:mus_greet/pages/login/login_screen.dart';
 import 'package:mus_greet/pages/mosque_screen/mosque_details/mosques_detail_screen.dart';
 
 class CreateMosqueScreen extends StatefulWidget {
-  final Users sessionUser;
+  final User sessionUser;
   final bool isEdit;
   final Mosque mosqueObject;
   const CreateMosqueScreen({this.sessionUser, this.isEdit, this.mosqueObject});
@@ -885,7 +885,7 @@ class _CreateMosqueScreenState extends State<CreateMosqueScreen> {
           is_verified: true,
           sect: mosqueSect,
           mosque_photos_list: "https://musgreetphase1images184452-staging.s3.eu-west-2.amazonaws.com/public/img_mosque.png",
-          mosque_facility_list: null,
+          mosque_facilities_list: null,
           contact_description: _contactDescriptionController.text,
           phone:_phoneController.text,
           email: _emailController.text,

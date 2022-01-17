@@ -13,7 +13,7 @@ import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/core/widgets/otp_field_widget.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/login/login_screen.dart';
 import 'package:mus_greet/pages/otp/otp_success_screen.dart';
 import 'package:mus_greet/pages/otp/phone_verification_screen.dart';
@@ -35,8 +35,8 @@ class _VerifyAddressOTPScreenState extends State<VerifyAddressOTPScreen> {
   final TextEditingController _codeController = TextEditingController();
   AddressVerificationArgumentClass args;
   String email;
-  List<Users> users;
-  Users sessionUser;
+  List<User> users;
+  User sessionUser;
 
   @override build(BuildContext context) {
     // Extract the arguments from the current ModalRoute
@@ -440,6 +440,6 @@ class _VerifyAddressOTPScreenState extends State<VerifyAddressOTPScreen> {
 }
 
 class VerifyEmailArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   VerifyEmailArgumentClass(this.sessionUser);
 }

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mus_greet/core/config/navigation.dart';
 import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/utils/size_config.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/final/account_verification_success.dart';
 import 'package:mus_greet/pages/smile/time_to_smile_page.dart';
 
@@ -19,8 +19,8 @@ class FinalStepPage extends StatefulWidget {
 class _FinalStepPageState extends State<FinalStepPage> {
 
   TimetoSmileArgumentClass args;
-  Users sessionUser;
-  List<Users> users;
+  User sessionUser;
+  List<User> users;
 
   @override
   Widget build(BuildContext context) {
@@ -266,6 +266,6 @@ class _FinalStepPageState extends State<FinalStepPage> {
 }
 
 class FinalStepArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   FinalStepArgumentClass(this.sessionUser);
 }

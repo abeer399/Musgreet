@@ -9,7 +9,7 @@ import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/models/UserProfile.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/address-verification/address_verification_view.dart';
 import 'package:mus_greet/pages/languages_screen/select_languages.dart';
 import 'package:mus_greet/pages/parent/parent_verification.dart';
@@ -25,7 +25,7 @@ class NearlyFinishedPage extends StatefulWidget {
 class _NearlyFinishedPageState extends State<NearlyFinishedPage> {
 
   AddressVerificationArgumentClass args;
-  Users sessionUser;
+  User sessionUser;
 
   bool checked = true;
   List<UserProfile> userProfile;
@@ -847,7 +847,7 @@ class _NearlyFinishedPageState extends State<NearlyFinishedPage> {
 
   Future<List<UserProfile>> getUserProfile() async{
     try{
-      userProfile = await Amplify.DataStore.query(UserProfile.classType,where: UserProfile.USERSID.eq(sessionUser.id));
+      userProfile = await Amplify.DataStore.query(UserProfile.classType,where: UserProfile.USER_ID.eq(sessionUser.id));
       String listLangues=userProfile[0].languages_spoken;
       List<dynamic> languge=jsonDecode(listLangues);
       print(languge);
@@ -875,7 +875,7 @@ class _NearlyFinishedPageState extends State<NearlyFinishedPage> {
 
         //if (userProfile != null) {
           final Item = UserProfile(
-              usersID: sessionUser.id,
+              user_id: sessionUser.id,
               languages_spoken: "" ,
               bio: "Add your bio here",
               relationship_status: "Add your relationship status here",
@@ -910,7 +910,7 @@ class _NearlyFinishedPageState extends State<NearlyFinishedPage> {
       if (userProfile == null) {
         print('null case');
         final Item = UserProfile(
-            usersID: sessionUser.id,
+            user_id: sessionUser.id,
             bio: "Add your bio here",
             relationship_status: "Add your relationship status here",
             //languages_spoken: "" ,
@@ -924,7 +924,7 @@ class _NearlyFinishedPageState extends State<NearlyFinishedPage> {
       } else {
         print('edit case');
         final updatedItem = userProfile[0].copyWith(
-            usersID: sessionUser.id,
+            user_id: sessionUser.id,
             //languages_spoken: _list.join(",") ,
             bio: "Add your bio here",
             relationship_status: "Add your relationship status here",
@@ -956,7 +956,7 @@ class _NearlyFinishedPageState extends State<NearlyFinishedPage> {
 }
 
 class NearlyFinishedArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   NearlyFinishedArgumentClass(this.sessionUser);
 }
 

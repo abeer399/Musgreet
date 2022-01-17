@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:mus_greet/core/config/navigation.dart';
 import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/utils/size_config.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/address-verification/confirm_address_2_screen.dart';
 import 'package:mus_greet/pages/home/home.dart';
 
@@ -23,8 +23,8 @@ class _CommunityPromisePageState extends State<CommunityPromisePage> {
 
   bool checked = false;
   AccountSuccessArgumentClass args;
-  Users sessionUser;
-  List<Users> users;
+  User sessionUser;
+  List<User> users;
 
   TemporalDate date=new TemporalDate(DateTime.now());
 
@@ -297,6 +297,6 @@ class _CommunityPromisePageState extends State<CommunityPromisePage> {
 }
 
 class CommunityPromiseArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   CommunityPromiseArgumentClass(this.sessionUser);
 }

@@ -11,7 +11,7 @@ import 'community_manager.dart';
 
 class MosqueAboutTab extends StatefulWidget {
   final List<Mosque> mosque;
-  Users sessionUser;
+  User sessionUser;
   //FacilitiesTab(List<Mosque> mosque);
   MosqueAboutTab({this.mosque,this.sessionUser});
 
@@ -22,13 +22,13 @@ class MosqueAboutTab extends StatefulWidget {
 class _MosqueAboutTabState extends State<MosqueAboutTab> {
   // var string=widget.mosque.id;
   String  verfied;
-  List<MosqueUsers> mosqueUsers;
+  List<MosqueUser> mosqueUsers;
   List<Mosque> mosque;
   bool mosqueAdmin=true;
   @override
   Widget build(BuildContext context) {
 
-    return FutureBuilder<List<MosqueUsers>>(
+    return FutureBuilder<List<MosqueUser>>(
       future: gettingUsers(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -42,7 +42,7 @@ class _MosqueAboutTabState extends State<MosqueAboutTab> {
     );
   }
 
-  buildUI(List<MosqueUsers> mosqueUsers)
+  buildUI(List<MosqueUser> mosqueUsers)
   {
     getAdminBool();
     aboutMosque();
@@ -327,9 +327,9 @@ class _MosqueAboutTabState extends State<MosqueAboutTab> {
     }
   }
 
-  Future<List<MosqueUsers>> gettingUsers() async{
+  Future<List<MosqueUser>> gettingUsers() async{
     try {
-      mosqueUsers = await Amplify.DataStore.query(MosqueUsers.classType , where: MosqueUsers.MOSQUEID.eq(widget.mosque[0].getId()));
+      mosqueUsers = await Amplify.DataStore.query(MosqueUser.classType , where: MosqueUser.MOSQUE_ID.eq(widget.mosque[0].getId()));
       print("number of mosque Users");
       print(mosqueUsers);
       return mosqueUsers;

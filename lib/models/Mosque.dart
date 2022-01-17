@@ -15,9 +15,7 @@
 
 // ignore_for_file: public_member_api_docs
 
-import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 /** This is an auto generated class representing the Mosque type in your schema. */
@@ -30,7 +28,7 @@ class Mosque extends Model {
   final bool is_verified;
   final String sect;
   final String mosque_photos_list;
-  final String mosque_facility_list;
+  final String mosque_facilities_list;
   final String contact_description;
   final String phone;
   final String email;
@@ -40,12 +38,9 @@ class Mosque extends Model {
   final String city;
   final String postcode;
   final String country;
-  final List<Posts> Mosque_Posts;
-  final List<MosquePhotos> Mosque_Photos;
-  final List<MosqueUsers> Mosque_Users;
-  final List<MosquePrayers> Mosque_Prayers;
-  final List<MosqueFollowers> Mosque_Followers;
   final String mosque_admin_id;
+  final String latitude;
+  final String longitude;
 
   @override
   getInstanceType() => classType;
@@ -57,12 +52,12 @@ class Mosque extends Model {
 
   const Mosque._internal(
       {@required this.id,
-      @required this.mosque_name,
+      this.mosque_name,
       this.about,
       this.is_verified,
       this.sect,
       this.mosque_photos_list,
-      this.mosque_facility_list,
+      this.mosque_facilities_list,
       this.contact_description,
       this.phone,
       this.email,
@@ -72,21 +67,18 @@ class Mosque extends Model {
       this.city,
       this.postcode,
       this.country,
-      this.Mosque_Posts,
-      this.Mosque_Photos,
-      this.Mosque_Users,
-      this.Mosque_Prayers,
-      this.Mosque_Followers,
-      this.mosque_admin_id});
+      this.mosque_admin_id,
+      this.latitude,
+      this.longitude});
 
   factory Mosque(
       {String id,
-      @required String mosque_name,
+      String mosque_name,
       String about,
       bool is_verified,
       String sect,
       String mosque_photos_list,
-      String mosque_facility_list,
+      String mosque_facilities_list,
       String contact_description,
       String phone,
       String email,
@@ -96,12 +88,9 @@ class Mosque extends Model {
       String city,
       String postcode,
       String country,
-      List<Posts> Mosque_Posts,
-      List<MosquePhotos> Mosque_Photos,
-      List<MosqueUsers> Mosque_Users,
-      List<MosquePrayers> Mosque_Prayers,
-      List<MosqueFollowers> Mosque_Followers,
-      String mosque_admin_id}) {
+      String mosque_admin_id,
+      String latitude,
+      String longitude}) {
     return Mosque._internal(
         id: id == null ? UUID.getUUID() : id,
         mosque_name: mosque_name,
@@ -109,7 +98,7 @@ class Mosque extends Model {
         is_verified: is_verified,
         sect: sect,
         mosque_photos_list: mosque_photos_list,
-        mosque_facility_list: mosque_facility_list,
+        mosque_facilities_list: mosque_facilities_list,
         contact_description: contact_description,
         phone: phone,
         email: email,
@@ -119,22 +108,9 @@ class Mosque extends Model {
         city: city,
         postcode: postcode,
         country: country,
-        Mosque_Posts: Mosque_Posts != null
-            ? List<Posts>.unmodifiable(Mosque_Posts)
-            : Mosque_Posts,
-        Mosque_Photos: Mosque_Photos != null
-            ? List<MosquePhotos>.unmodifiable(Mosque_Photos)
-            : Mosque_Photos,
-        Mosque_Users: Mosque_Users != null
-            ? List<MosqueUsers>.unmodifiable(Mosque_Users)
-            : Mosque_Users,
-        Mosque_Prayers: Mosque_Prayers != null
-            ? List<MosquePrayers>.unmodifiable(Mosque_Prayers)
-            : Mosque_Prayers,
-        Mosque_Followers: Mosque_Followers != null
-            ? List<MosqueFollowers>.unmodifiable(Mosque_Followers)
-            : Mosque_Followers,
-        mosque_admin_id: mosque_admin_id);
+        mosque_admin_id: mosque_admin_id,
+        latitude: latitude,
+        longitude: longitude);
   }
 
   bool equals(Object other) {
@@ -151,7 +127,7 @@ class Mosque extends Model {
         is_verified == other.is_verified &&
         sect == other.sect &&
         mosque_photos_list == other.mosque_photos_list &&
-        mosque_facility_list == other.mosque_facility_list &&
+        mosque_facilities_list == other.mosque_facilities_list &&
         contact_description == other.contact_description &&
         phone == other.phone &&
         email == other.email &&
@@ -161,13 +137,9 @@ class Mosque extends Model {
         city == other.city &&
         postcode == other.postcode &&
         country == other.country &&
-        DeepCollectionEquality().equals(Mosque_Posts, other.Mosque_Posts) &&
-        DeepCollectionEquality().equals(Mosque_Photos, other.Mosque_Photos) &&
-        DeepCollectionEquality().equals(Mosque_Users, other.Mosque_Users) &&
-        DeepCollectionEquality().equals(Mosque_Prayers, other.Mosque_Prayers) &&
-        DeepCollectionEquality()
-            .equals(Mosque_Followers, other.Mosque_Followers) &&
-        mosque_admin_id == other.mosque_admin_id;
+        mosque_admin_id == other.mosque_admin_id &&
+        latitude == other.latitude &&
+        longitude == other.longitude;
   }
 
   @override
@@ -186,7 +158,7 @@ class Mosque extends Model {
         ", ");
     buffer.write("sect=" + "$sect" + ", ");
     buffer.write("mosque_photos_list=" + "$mosque_photos_list" + ", ");
-    buffer.write("mosque_facility_list=" + "$mosque_facility_list" + ", ");
+    buffer.write("mosque_facilities_list=" + "$mosque_facilities_list" + ", ");
     buffer.write("contact_description=" + "$contact_description" + ", ");
     buffer.write("phone=" + "$phone" + ", ");
     buffer.write("email=" + "$email" + ", ");
@@ -196,7 +168,9 @@ class Mosque extends Model {
     buffer.write("city=" + "$city" + ", ");
     buffer.write("postcode=" + "$postcode" + ", ");
     buffer.write("country=" + "$country" + ", ");
-    buffer.write("mosque_admin_id=" + "$mosque_admin_id");
+    buffer.write("mosque_admin_id=" + "$mosque_admin_id" + ", ");
+    buffer.write("latitude=" + "$latitude" + ", ");
+    buffer.write("longitude=" + "$longitude");
     buffer.write("}");
 
     return buffer.toString();
@@ -209,7 +183,7 @@ class Mosque extends Model {
       bool is_verified,
       String sect,
       String mosque_photos_list,
-      String mosque_facility_list,
+      String mosque_facilities_list,
       String contact_description,
       String phone,
       String email,
@@ -219,12 +193,9 @@ class Mosque extends Model {
       String city,
       String postcode,
       String country,
-      List<Posts> Mosque_Posts,
-      List<MosquePhotos> Mosque_Photos,
-      List<MosqueUsers> Mosque_Users,
-      List<MosquePrayers> Mosque_Prayers,
-      List<MosqueFollowers> Mosque_Followers,
-      String mosque_admin_id}) {
+      String mosque_admin_id,
+      String latitude,
+      String longitude}) {
     return Mosque(
         id: id ?? this.id,
         mosque_name: mosque_name ?? this.mosque_name,
@@ -232,7 +203,8 @@ class Mosque extends Model {
         is_verified: is_verified ?? this.is_verified,
         sect: sect ?? this.sect,
         mosque_photos_list: mosque_photos_list ?? this.mosque_photos_list,
-        mosque_facility_list: mosque_facility_list ?? this.mosque_facility_list,
+        mosque_facilities_list:
+            mosque_facilities_list ?? this.mosque_facilities_list,
         contact_description: contact_description ?? this.contact_description,
         phone: phone ?? this.phone,
         email: email ?? this.email,
@@ -242,12 +214,9 @@ class Mosque extends Model {
         city: city ?? this.city,
         postcode: postcode ?? this.postcode,
         country: country ?? this.country,
-        Mosque_Posts: Mosque_Posts ?? this.Mosque_Posts,
-        Mosque_Photos: Mosque_Photos ?? this.Mosque_Photos,
-        Mosque_Users: Mosque_Users ?? this.Mosque_Users,
-        Mosque_Prayers: Mosque_Prayers ?? this.Mosque_Prayers,
-        Mosque_Followers: Mosque_Followers ?? this.Mosque_Followers,
-        mosque_admin_id: mosque_admin_id ?? this.mosque_admin_id);
+        mosque_admin_id: mosque_admin_id ?? this.mosque_admin_id,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude);
   }
 
   Mosque.fromJson(Map<String, dynamic> json)
@@ -257,7 +226,7 @@ class Mosque extends Model {
         is_verified = json['is_verified'],
         sect = json['sect'],
         mosque_photos_list = json['mosque_photos_list'],
-        mosque_facility_list = json['mosque_facility_list'],
+        mosque_facilities_list = json['mosque_facilities_list'],
         contact_description = json['contact_description'],
         phone = json['phone'],
         email = json['email'],
@@ -267,36 +236,9 @@ class Mosque extends Model {
         city = json['city'],
         postcode = json['postcode'],
         country = json['country'],
-        Mosque_Posts = json['Mosque_Posts'] is List
-            ? (json['Mosque_Posts'] as List)
-                .map((e) => Posts.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        Mosque_Photos = json['Mosque_Photos'] is List
-            ? (json['Mosque_Photos'] as List)
-                .map((e) =>
-                    MosquePhotos.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        Mosque_Users = json['Mosque_Users'] is List
-            ? (json['Mosque_Users'] as List)
-                .map((e) =>
-                    MosqueUsers.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        Mosque_Prayers = json['Mosque_Prayers'] is List
-            ? (json['Mosque_Prayers'] as List)
-                .map((e) =>
-                    MosquePrayers.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        Mosque_Followers = json['Mosque_Followers'] is List
-            ? (json['Mosque_Followers'] as List)
-                .map((e) =>
-                    MosqueFollowers.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null,
-        mosque_admin_id = json['mosque_admin_id'];
+        mosque_admin_id = json['mosque_admin_id'],
+        latitude = json['latitude'],
+        longitude = json['longitude'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -305,7 +247,7 @@ class Mosque extends Model {
         'is_verified': is_verified,
         'sect': sect,
         'mosque_photos_list': mosque_photos_list,
-        'mosque_facility_list': mosque_facility_list,
+        'mosque_facilities_list': mosque_facilities_list,
         'contact_description': contact_description,
         'phone': phone,
         'email': email,
@@ -315,12 +257,9 @@ class Mosque extends Model {
         'city': city,
         'postcode': postcode,
         'country': country,
-        'Mosque_Posts': Mosque_Posts?.map((e) => e?.toJson())?.toList(),
-        'Mosque_Photos': Mosque_Photos?.map((e) => e?.toJson())?.toList(),
-        'Mosque_Users': Mosque_Users?.map((e) => e?.toJson())?.toList(),
-        'Mosque_Prayers': Mosque_Prayers?.map((e) => e?.toJson())?.toList(),
-        'Mosque_Followers': Mosque_Followers?.map((e) => e?.toJson())?.toList(),
-        'mosque_admin_id': mosque_admin_id
+        'mosque_admin_id': mosque_admin_id,
+        'latitude': latitude,
+        'longitude': longitude
       };
 
   static final QueryField ID = QueryField(fieldName: "mosque.id");
@@ -330,8 +269,8 @@ class Mosque extends Model {
   static final QueryField SECT = QueryField(fieldName: "sect");
   static final QueryField MOSQUE_PHOTOS_LIST =
       QueryField(fieldName: "mosque_photos_list");
-  static final QueryField MOSQUE_FACILITY_LIST =
-      QueryField(fieldName: "mosque_facility_list");
+  static final QueryField MOSQUE_FACILITIES_LIST =
+      QueryField(fieldName: "mosque_facilities_list");
   static final QueryField CONTACT_DESCRIPTION =
       QueryField(fieldName: "contact_description");
   static final QueryField PHONE = QueryField(fieldName: "phone");
@@ -342,28 +281,10 @@ class Mosque extends Model {
   static final QueryField CITY = QueryField(fieldName: "city");
   static final QueryField POSTCODE = QueryField(fieldName: "postcode");
   static final QueryField COUNTRY = QueryField(fieldName: "country");
-  static final QueryField MOSQUE_POSTS = QueryField(
-      fieldName: "Mosque_Posts",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (Posts).toString()));
-  static final QueryField MOSQUE_PHOTOS = QueryField(
-      fieldName: "Mosque_Photos",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (MosquePhotos).toString()));
-  static final QueryField MOSQUE_USERS = QueryField(
-      fieldName: "Mosque_Users",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (MosqueUsers).toString()));
-  static final QueryField MOSQUE_PRAYERS = QueryField(
-      fieldName: "Mosque_Prayers",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (MosquePrayers).toString()));
-  static final QueryField MOSQUE_FOLLOWERS = QueryField(
-      fieldName: "Mosque_Followers",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (MosqueFollowers).toString()));
   static final QueryField MOSQUE_ADMIN_ID =
       QueryField(fieldName: "mosque_admin_id");
+  static final QueryField LATITUDE = QueryField(fieldName: "latitude");
+  static final QueryField LONGITUDE = QueryField(fieldName: "longitude");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Mosque";
@@ -382,7 +303,7 @@ class Mosque extends Model {
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: Mosque.MOSQUE_NAME,
-        isRequired: true,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -406,7 +327,7 @@ class Mosque extends Model {
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Mosque.MOSQUE_FACILITY_LIST,
+        key: Mosque.MOSQUE_FACILITIES_LIST,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
@@ -455,38 +376,18 @@ class Mosque extends Model {
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Mosque.MOSQUE_POSTS,
-        isRequired: false,
-        ofModelName: (Posts).toString(),
-        associatedKey: Posts.MOSQUESID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Mosque.MOSQUE_PHOTOS,
-        isRequired: false,
-        ofModelName: (MosquePhotos).toString(),
-        associatedKey: MosquePhotos.MOSQUEID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Mosque.MOSQUE_USERS,
-        isRequired: false,
-        ofModelName: (MosqueUsers).toString(),
-        associatedKey: MosqueUsers.MOSQUEID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Mosque.MOSQUE_PRAYERS,
-        isRequired: false,
-        ofModelName: (MosquePrayers).toString(),
-        associatedKey: MosquePrayers.MOSQUEID));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: Mosque.MOSQUE_FOLLOWERS,
-        isRequired: false,
-        ofModelName: (MosqueFollowers).toString(),
-        associatedKey: MosqueFollowers.MOSQUEID));
-
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: Mosque.MOSQUE_ADMIN_ID,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Mosque.LATITUDE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Mosque.LONGITUDE,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });

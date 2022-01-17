@@ -27,7 +27,7 @@ class UserEducation extends Model {
   final String course;
   final String from;
   final String to;
-  final String usersID;
+  final String user_id;
 
   @override
   getInstanceType() => classType;
@@ -39,26 +39,26 @@ class UserEducation extends Model {
 
   const UserEducation._internal(
       {@required this.id,
-      @required this.institution,
-      @required this.course,
+      this.institution,
+      this.course,
       this.from,
       this.to,
-      @required this.usersID});
+      this.user_id});
 
   factory UserEducation(
       {String id,
-      @required String institution,
-      @required String course,
+      String institution,
+      String course,
       String from,
       String to,
-      @required String usersID}) {
+      String user_id}) {
     return UserEducation._internal(
         id: id == null ? UUID.getUUID() : id,
         institution: institution,
         course: course,
         from: from,
         to: to,
-        usersID: usersID);
+        user_id: user_id);
   }
 
   bool equals(Object other) {
@@ -74,7 +74,7 @@ class UserEducation extends Model {
         course == other.course &&
         from == other.from &&
         to == other.to &&
-        usersID == other.usersID;
+        user_id == other.user_id;
   }
 
   @override
@@ -90,7 +90,7 @@ class UserEducation extends Model {
     buffer.write("course=" + "$course" + ", ");
     buffer.write("from=" + "$from" + ", ");
     buffer.write("to=" + "$to" + ", ");
-    buffer.write("usersID=" + "$usersID");
+    buffer.write("user_id=" + "$user_id");
     buffer.write("}");
 
     return buffer.toString();
@@ -102,14 +102,14 @@ class UserEducation extends Model {
       String course,
       String from,
       String to,
-      String usersID}) {
+      String user_id}) {
     return UserEducation(
         id: id ?? this.id,
         institution: institution ?? this.institution,
         course: course ?? this.course,
         from: from ?? this.from,
         to: to ?? this.to,
-        usersID: usersID ?? this.usersID);
+        user_id: user_id ?? this.user_id);
   }
 
   UserEducation.fromJson(Map<String, dynamic> json)
@@ -118,7 +118,7 @@ class UserEducation extends Model {
         course = json['course'],
         from = json['from'],
         to = json['to'],
-        usersID = json['usersID'];
+        user_id = json['user_id'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -126,7 +126,7 @@ class UserEducation extends Model {
         'course': course,
         'from': from,
         'to': to,
-        'usersID': usersID
+        'user_id': user_id
       };
 
   static final QueryField ID = QueryField(fieldName: "userEducation.id");
@@ -134,7 +134,7 @@ class UserEducation extends Model {
   static final QueryField COURSE = QueryField(fieldName: "course");
   static final QueryField FROM = QueryField(fieldName: "from");
   static final QueryField TO = QueryField(fieldName: "to");
-  static final QueryField USERSID = QueryField(fieldName: "usersID");
+  static final QueryField USER_ID = QueryField(fieldName: "user_id");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "UserEducation";
@@ -153,12 +153,12 @@ class UserEducation extends Model {
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: UserEducation.INSTITUTION,
-        isRequired: true,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: UserEducation.COURSE,
-        isRequired: true,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -172,8 +172,8 @@ class UserEducation extends Model {
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: UserEducation.USERSID,
-        isRequired: true,
+        key: UserEducation.USER_ID,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });
 }

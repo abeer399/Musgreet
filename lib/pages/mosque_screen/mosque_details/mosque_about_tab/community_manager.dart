@@ -12,7 +12,7 @@ import 'package:mus_greet/main.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
 import 'package:mus_greet/models/UserFamily.dart';
 import 'package:mus_greet/models/UserProfile.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:amplify_flutter/amplify.dart';
 
 class CommunityManagerScreen extends StatefulWidget {
@@ -28,7 +28,7 @@ class _CommunityManagerScreenState extends State<CommunityManagerScreen> {
   final TextEditingController _controller = TextEditingController();
   var _relationShip;
   // List<UserProfile> userProfile;
-  List<MosqueUsers> users;
+  List<MosqueUser> users;
   //List<UserFamily> userFamily;
   List<String> name;
   List<String> relationship;
@@ -277,12 +277,12 @@ class _CommunityManagerScreenState extends State<CommunityManagerScreen> {
 
   updateTheMosqueUsers(TextEditingController controller, relationShip) async
   {
-    final item = MosqueUsers(
+    final item = MosqueUser(
         name: _controller.text,
         designation: "",
         role: _relationShip,
         photo_path: "",
-        mosqueID: widget.mosque[0].id);
+        mosque_id: widget.mosque[0].id);
     await Amplify.DataStore.save(item);
   }
 
@@ -307,7 +307,7 @@ class _CommunityManagerScreenState extends State<CommunityManagerScreen> {
 
   Future<void> mosqueUsers() async{
     try {
-      users= await Amplify.DataStore.query(MosqueUsers.classType , where: MosqueUsers.MOSQUEID.eq(widget.mosque[0].id));
+      users= await Amplify.DataStore.query(MosqueUser.classType , where: MosqueUser.MOSQUE_ID.eq(widget.mosque[0].id));
     }catch(e)
     {
       print("Could not query DataStore: " + e);

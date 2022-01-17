@@ -7,7 +7,6 @@ import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mus_greet/components/AppDrawer.dart';
 import 'package:mus_greet/core/config/navigation.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
@@ -23,12 +22,13 @@ import 'package:mus_greet/pages/final/community_promise_page.dart';
 import 'package:mus_greet/pages/friend_search/friend_search.dart';
 import 'package:mus_greet/pages/home_screen/comment_screen/comment_screen.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+import 'package:mus_greet/pages/notification/home_notification.dart';
 
 import '../../models/ModelProvider.dart';
 
 ///This call is the home screen, where all post will displayed
 class HomeScreen extends StatefulWidget {
-  final Users sessionUser;
+  final User sessionUser;
   HomeScreen({this.sessionUser});
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -39,15 +39,15 @@ class _HomeScreenState extends State<HomeScreen> {
   String LoginUserID;
   bool _navigateToComment = false;
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  List<Users> Userss = [];
-  List<Posts> Postss = [];
-  List<Users> UserObjectList = [];
-  Users UserObject;
+  List<User> Userss = [];
+  List<Post> Postss = [];
+  List<User> UserObjectList = [];
+  User UserObject;
   //int   CommentsCount = 0;
   int LikesCount = 0;
 
   CommunityPromiseArgumentClass args;
-  Users sessionUser;
+  User sessionUser;
 
   @override
 
@@ -72,10 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print(sessionUser);
     print("after Timer");
     //print(Postss.length);
-    return
-        // AppDrawer(
-        //   child: ,)
-        FutureBuilder<List<Posts>>(
+    return FutureBuilder<List<Post>>(
       future: queryPosts(),
       builder: (ctx, snapshot) {
         //List<Posts> PostsData = snapshot.data;
@@ -91,21 +88,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// to build UI after getting list of posts
-  _buildUI(List<Posts> postss, Users sessionUser) {
+  _buildUI(List<Post> postss, User sessionUser) {
     print("inside build UI");
-
     return WillPopScope(
       onWillPop: () => _onWillPop(),
-      child: AppDrawer(
-        child: Scaffold(
-          key: _drawerKey,
-          backgroundColor: AppColors.GREY_KIND,
-          endDrawerEnableOpenDragGesture: false,
-          appBar: _getAppBar(),
-          // drawer: DrawerWidget(),
-          body: _getBody(postss, sessionUser),
-          bottomNavigationBar: _getBottomNavigation(),
-        ),
+      child: Scaffold(
+        key: _drawerKey,
+        backgroundColor: AppColors.GREY_KIND,
+        endDrawerEnableOpenDragGesture: false,
+        appBar: _getAppBar(),
+        drawer: DrawerWidget(),
+        body: _getBody(postss, sessionUser),
+        bottomNavigationBar: _getBottomNavigation(),
       ),
     );
   }
@@ -125,23 +119,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return AppBar(
       elevation: 0,
       backgroundColor: AppColors.white,
-      leading: Builder(
-        builder: (BuildContext appBarContext) {
-          return GestureDetector(
-            onTap: () {
-              // _drawerKey.currentState.openDrawer();
-              AppDrawer.of(appBarContext).toggle();
-            },
-            child: Padding(
-              padding: EdgeInsets.only(top: 18, bottom: 18, left: 20),
-              child: AssetImageWidget(
-                image: ImageConstants.IC_DRAWER,
-                height: 18,
-                width: 18,
-              ),
-            ),
-          );
+      leading: GestureDetector(
+        onTap: () {
+          _drawerKey.currentState.openDrawer();
         },
+        child: Padding(
+          padding: EdgeInsets.only(top: 18, bottom: 18, left: 20),
+          child: AssetImageWidget(
+            image: ImageConstants.IC_DRAWER,
+            height: 18,
+            width: 18,
+          ),
+        ),
       ),
       title: AssetImageWidget(
         image: ImageConstants.IC_LOGO_TITLE,
@@ -166,7 +155,12 @@ class _HomeScreenState extends State<HomeScreen> {
         Padding(
           padding: EdgeInsets.only(right: 20),
           child: GestureDetector(
-            onTap: () => _handleSearch(),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NotificationScreen(),
+              ),
+            ),
             child: AssetImageWidget(
               image: ImageConstants.IC_NOTIFICATION,
               height: 25,
@@ -179,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// Body of the home screen
-  _getBody(List<Posts> posts, Users sessionUser) {
+  _getBody(List<Post> posts, User sessionUser) {
     return Stack(
       children: [
         //_navigateToComment
@@ -251,15 +245,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// Getting User details and calling comments count to build post card widget
-  Widget getpostcardWidget(Posts postData, int index, Users sessionUser) {
+  Widget getpostcardWidget(Post postData, int index, User sessionUser) {
     print(postData);
-    return FutureBuilder<Users>(
+    return FutureBuilder<User>(
       //future: _getUser(postData.usersID),
-      future: _getUser(postData.usersID),
+      future: _getUser(postData.user_id),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            Users UserData = snapshot.data;
+            User UserData = snapshot.data;
             return commentsCountPostCardWidget(
                 postData, UserData, index, sessionUser);
           default:
@@ -306,7 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Getting comments count and with all the details building post card widget
   commentsCountPostCardWidget(
-      Posts postData, Users UserData, int index, Users sessionUser) {
+      Post postData, User UserData, int index, User sessionUser) {
     print(postData);
     print(UserData);
     return FutureBuilder<int>(
@@ -350,8 +344,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// This method will navigate to Comment Screen
-  _loadCommentScreen(Posts PostObject, Users UserObject, String CommentsCount,
-      Users sessionUser) {
+  _loadCommentScreen(Post PostObject, User UserObject, String CommentsCount,
+      User sessionUser) {
     //Navigation.intent(context, CommentScreen(PostID: PostID,UserName: UserName, Post: Post, Post_image_path: Post_Image_path));
     print(CommentsCount);
     Navigator.push(
@@ -414,11 +408,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// this will get the all the posts from data base
-  Future<List<Posts>> queryPosts() async {
+  Future<List<Post>> queryPosts() async {
     try {
       //List<Posts>
-      Postss = await Amplify.DataStore.query(Posts.classType,
-          where: Posts.MOSQUESID.eq(""));
+      Postss = await Amplify.DataStore.query(Post.classType,
+          where: Post.MOSQUE_ID.eq(""));
       print("inside posts");
       print(Postss);
       return Postss;
@@ -428,12 +422,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// This will get the user object of the individual post
-  Future<Users> _getUser(String usersID) async {
+  Future<User> _getUser(String usersID) async {
     print("User");
     print(usersID);
     try {
-      UserObjectList = await Amplify.DataStore.query(Users.classType,
-          where: Users.ID.eq(usersID));
+      UserObjectList = await Amplify.DataStore.query(User.classType,
+          where: User.ID.eq(usersID));
       //print(User[0].first_name);
       print(UserObjectList.length);
       print(UserObjectList[0].first_name);
@@ -449,9 +443,9 @@ class _HomeScreenState extends State<HomeScreen> {
     int CommentsCount = 0;
     print(CommentsCount);
     try {
-      List<PostComments> Comments = await Amplify.DataStore.query(
-          PostComments.classType,
-          where: PostComments.POSTSID.eq(PostID));
+      List<PostComment> Comments = await Amplify.DataStore.query(
+          PostComment.classType,
+          where: PostComment.POST_ID.eq(PostID));
       print("Comments Length" + Comments.length.toString());
       if (Comments.isNotEmpty) {
         for (var i in Comments) {
@@ -471,7 +465,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> listUsers() async {
     try {
       //List<Users>
-      Userss = await Amplify.DataStore.query(Users.classType);
+      Userss = await Amplify.DataStore.query(User.classType);
       //print(Userss);
       //print(Userss[0]);
       //print(Userss[0].first_name);
@@ -493,10 +487,10 @@ class _HomeScreenState extends State<HomeScreen> {
               "https://musgreetphase1images184452-staging.s3.eu-west-2.amazonaws.com/public/post_img.png",
           description: "Keep Smiling",
           visibility: "Community",
-          usersID: "044882f7-f98a-4313-bcbe-ca082c41c2d7",
-          mosquesID: "",
-          Post_Comments: [],
-          Post_Likes: []);
+          user_id: "044882f7-f98a-4313-bcbe-ca082c41c2d7",
+          mosque_id: "");
+      // Post_Comments: [],
+      // Post_Likes: []);
       await Amplify.DataStore.save(updatedItem);
     } catch (e) {
       print("Could not query DataStore: " + e);
@@ -515,8 +509,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> getUserName(String usersID) async {
     print("User");
     print(usersID);
-    UserObjectList = await Amplify.DataStore.query(Users.classType,
-        where: Users.ID.eq(usersID));
+    UserObjectList = await Amplify.DataStore.query(User.classType,
+        where: User.ID.eq(usersID));
     //print(User[0].first_name);
     print(UserObjectList.length);
     print(UserObjectList[0].first_name);
@@ -527,17 +521,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _getLikesCount(String PostID) async {
     LikesCount = 0;
     try {
-      List<PostLikes> PostLikess = await Amplify.DataStore.query(
-          PostLikes.classType,
-          where: PostComments.POSTSID.eq(PostID));
+      List<PostLike> PostLikess = await Amplify.DataStore.query(
+          PostLike.classType,
+          where: PostComment.POST_ID.eq(PostID));
     } catch (e) {
       print("Could not query DataStore: " + e);
     }
   }
 
   _getPostCardWidgetUI(
-    Posts postData,
-    Users UserData,
+    Post postData,
+    User UserData,
     int index,
     int CommentsCount,
   ) {

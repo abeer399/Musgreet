@@ -22,7 +22,7 @@ import '../../../core/utils/constants.dart';
 
 ///This will render the current user profile on screen
 class ViewProfileScreen extends StatefulWidget {
-  final Users sessionUser;
+  final User sessionUser;
   ViewProfileScreen({this.sessionUser});
   @override
   _ViewProfileScreenState createState() => _ViewProfileScreenState();
@@ -334,7 +334,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen>
       // userProfile = await Amplify.DataStore.query(UserProfile.classType,
       //     where: UserProfile.ID.eq(widget.sessionUser.id));
       userProfile = await Amplify.DataStore.query(UserProfile.classType,
-          where: UserProfile.USERSID.eq(UserID));
+          where: UserProfile.USER_ID.eq(UserID));
 
       //userProfile = await Amplify.DataStore.query(UserProfile.classType);
       // for(var uP in userProfile){

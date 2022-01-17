@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
-import 'package:mus_greet/models/PostComments.dart';
+import 'package:mus_greet/models/PostComment.dart';
 import 'package:mus_greet/pages/home_screen/comment_screen/comment_screen.dart';
 import 'package:mus_greet/pages/mosque_screen/mosque_details/mosque_comment_screen/mosque_comment_screen.dart';
 
@@ -15,12 +15,12 @@ class MosqueCommentTextFieldWidget extends StatefulWidget {
   //final String PostID;
   final String ParentID;
   //final String UserID;
-  final Posts PostObject;
+  final Post PostObject;
   //final Users UserObject;
   final Mosque MosqueObject;
-  final PostComments postComments ;
+  final PostComment postComments ;
   final String commentsCount;
-  final Users sessionUser;
+  final User sessionUser;
   MosqueCommentTextFieldWidget({this.hintText, this.ScreenType, this.ParentID,this.PostObject,
     //this.UserObject,
     this.MosqueObject,this.postComments,this.commentsCount, this.sessionUser});
@@ -116,12 +116,12 @@ class _MosqueCommentTextFieldWidgetState extends State<MosqueCommentTextFieldWid
     //print(widget.PostObject.id);
     //print(widget.UserObject.id);
     try {
-      final item = PostComments(
+      final item = PostComment(
           comment: textFeildText,
           parent_id: widget.ParentID,
-          postsID: widget.PostObject.id,
-          usersID: UserID,
-          Comments_PostLikes: []);
+          post_id: widget.PostObject.id,
+          user_id: UserID);
+          //Comments_PostLikes: []);
       await Amplify.DataStore.save(item);
       await Future.delayed(Duration(seconds: 2));
       ctrlText.clear();

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mus_greet/core/config/navigation.dart';
 //import 'package:mus_greet/core/utils/arguments.dart';
 import 'package:mus_greet/core/utils/routes.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/age/age_registration_page.dart';
 import 'package:mus_greet/pages/otp/parent_verification_code_screen.dart';
 import 'package:amplify_flutter/amplify.dart';
@@ -17,7 +17,7 @@ class ParentVerificationPage extends StatefulWidget {
 class _ParentVerificationPageState extends State<ParentVerificationPage> {
 
   AgeRegistrationArgumentClass args;
-  Users sessionUser;
+  User sessionUser;
   TextEditingController controller_email = new TextEditingController();
 
   @override
@@ -187,6 +187,6 @@ class _ParentVerificationPageState extends State<ParentVerificationPage> {
 }
 
 class ParentEmailArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   ParentEmailArgumentClass(this.sessionUser);
 }

@@ -8,15 +8,15 @@ import 'package:mus_greet/core/widgets/post_card_widget.dart';
 import 'package:mus_greet/core/widgets/rounded_button_widget.dart';
 import 'package:mus_greet/core/widgets/text_field_widget.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
-import 'package:mus_greet/models/Posts.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/Post.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:mus_greet/pages/create_post_screen/create_post_screen.dart';
 import 'package:mus_greet/pages/home_screen/comment_screen/comment_screen.dart';
 
 
 class PostTab extends StatefulWidget {
-  final Users sessionUser;
+  final User sessionUser;
   PostTab({this.sessionUser});
   @override
   _PostTabState createState() => _PostTabState();
@@ -25,10 +25,10 @@ class PostTab extends StatefulWidget {
 class _PostTabState extends State<PostTab> {
 
   final TextEditingController _controller = TextEditingController();
-  List<Users> Userss =[];
-  List<Posts> Postss =[];
-  List<Users> UserObjectList = [];
-  Users UserObject;
+  List<User> Userss =[];
+  List<Post> Postss =[];
+  List<User> UserObjectList = [];
+  User UserObject;
   //int   CommentsCount = 0;
   int  LikesCount = 0;
   String UserID;
@@ -36,7 +36,7 @@ class _PostTabState extends State<PostTab> {
   @override
   Widget build(BuildContext context) {
     UserID = widget.sessionUser.id;
-    return FutureBuilder<Users>(
+    return FutureBuilder<User>(
       future: _getUser(UserID),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -112,8 +112,8 @@ class _PostTabState extends State<PostTab> {
       },
     );
   }
-  _buildUI(Users UserObject) {
-    return FutureBuilder<List<Posts>>(
+  _buildUI(User UserObject) {
+    return FutureBuilder<List<Post>>(
       future: _getPosts(UserObject),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -127,7 +127,7 @@ class _PostTabState extends State<PostTab> {
     );
   }
 
-  _buildPosts(Users UserObject, List<Posts> posts){
+  _buildPosts(User UserObject, List<Post> posts){
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -248,9 +248,9 @@ class _PostTabState extends State<PostTab> {
     );
   }
 
-  Future<Users>_getUser(String UserID) async {
+  Future<User>_getUser(String UserID) async {
     try {
-      List<Users> Userss = await Amplify.DataStore.query(Users.classType, where: Users.ID.eq(UserID));
+      List<User> Userss = await Amplify.DataStore.query(User.classType, where: User.ID.eq(UserID));
       print(Userss);
       return Userss[0];
     } catch (e) {
@@ -259,10 +259,10 @@ class _PostTabState extends State<PostTab> {
 
   }
 
-  Future<List<Posts>> _getPosts(Users userObject) async {
+  Future<List<Post>> _getPosts(User userObject) async {
     try {
       //List<Posts>
-      Postss = await Amplify.DataStore.query(Posts.classType, where: Posts.USERSID.eq(userObject.id));
+      Postss = await Amplify.DataStore.query(Post.classType, where: Post.USER_ID.eq(userObject.id));
       print(Postss);
       print("inside posts");
       return Postss;
@@ -271,7 +271,7 @@ class _PostTabState extends State<PostTab> {
     }
   }
 
-  _loadCommentScreen(Posts PostObject, Users UserObject, String CommentsCount) {
+  _loadCommentScreen(Post PostObject, User UserObject, String CommentsCount) {
     //Navigation.intent(context, CommentScreen(PostID: PostID,UserName: UserName, Post: Post, Post_image_path: Post_Image_path));
     print(CommentsCount);
     Navigator.push(context,
@@ -291,7 +291,7 @@ class _PostTabState extends State<PostTab> {
     int CommentsCount = 0;
     print(CommentsCount);
     try {
-      List<PostComments> Comments = await Amplify.DataStore.query(PostComments.classType, where: PostComments.POSTSID.eq(PostID));
+      List<PostComment> Comments = await Amplify.DataStore.query(PostComment.classType, where: PostComment.POST_ID.eq(PostID));
       print("Comments Length" + Comments.length.toString());
       if(Comments.isNotEmpty){
         for(var i in Comments){
@@ -308,7 +308,7 @@ class _PostTabState extends State<PostTab> {
     }
   }
 
-  Widget getpostcardWidget(Posts postData, Users UserData) {
+  Widget getpostcardWidget(Post postData, User UserData) {
     return FutureBuilder<int>(
       future: _countComments(postData.id),
       builder: (ctx, snapshot) {

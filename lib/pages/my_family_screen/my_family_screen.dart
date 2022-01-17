@@ -10,11 +10,11 @@ import 'package:mus_greet/core/widgets/my_family_text_field_heading_widget.dart'
 import 'package:mus_greet/main.dart';
 import 'package:mus_greet/models/UserFamily.dart';
 import 'package:mus_greet/models/UserProfile.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:amplify_flutter/amplify.dart';
 
 class MyFamilyScreen extends StatefulWidget {
-  Users sessionUser;
+  User sessionUser;
   MyFamilyScreen({this.sessionUser});
   @override
   _MyFamilyScreenState createState() => _MyFamilyScreenState();
@@ -24,7 +24,7 @@ class _MyFamilyScreenState extends State<MyFamilyScreen> {
   final TextEditingController _controller = TextEditingController();
   var _relationShip;
   List<UserProfile> userProfile;
-  List<Users> user;
+  List<User> user;
   List<UserFamily> userFamily;
   List<String> name;
   List<String> relationship;
@@ -288,7 +288,7 @@ class _MyFamilyScreenState extends State<MyFamilyScreen> {
 
   Future<void> userList() async{
     try {
-      user= await Amplify.DataStore.query(Users.classType,where: Users.ID.eq(userid));
+      user= await Amplify.DataStore.query(User.classType,where: User.ID.eq(userid));
     }catch(e)
     {
       print("Could not query DataStore: " + e);

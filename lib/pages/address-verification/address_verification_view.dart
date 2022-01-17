@@ -6,7 +6,7 @@ import 'package:mus_greet/core/config/navigation.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/utils/size_config.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/address-verification/confirm_address_screen.dart';
 import 'package:mus_greet/pages/age/age_registration_page.dart';
 import 'package:mus_greet/pages/final/nearly_finished_page.dart';
@@ -20,9 +20,9 @@ class AddressVerificationView extends StatefulWidget {
 }
 
 class _AddressVerificationViewState extends State<AddressVerificationView> {
-  List<Users> users;
+  List<User> users;
   AgeRegistrationArgumentClass args;
-  Users sessionUser;
+  User sessionUser;
 
   @override
   Widget build(BuildContext context) {
@@ -309,6 +309,6 @@ class _AddressVerificationViewState extends State<AddressVerificationView> {
 }
 
 class AddressVerificationArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   AddressVerificationArgumentClass(this.sessionUser);
 }

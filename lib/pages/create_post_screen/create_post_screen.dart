@@ -31,7 +31,7 @@ class CreatePostScreen extends StatefulWidget {
   //final String UserProfileImage;
   //final String UserName;
   //CreatePostScreen({this.UserProfileImage, this.UserName});
-  final Users sessionUser;
+  final User sessionUser;
   final String CallingScreen;
   final Mosque mosqueObject;
   CreatePostScreen({this.sessionUser,this.CallingScreen, this.mosqueObject});
@@ -126,7 +126,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     );
   }
 
-  _getBottomNavigation(Users sessionUser) {
+  _getBottomNavigation(User sessionUser) {
     return BottomNavigationWidget(
       //MosqueFollowersList: UserMosqueFollowingList,
       //CallingFunction: _navigateback(),
@@ -546,21 +546,21 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     print(postVisibility);
     print("inside Save Posts");
     try {
-      TemporalDateTime temporalDate = new TemporalDateTime(DateTime.now());
+      TemporalDate temporalDate = new TemporalDate(DateTime.now());
 
-      final item = Posts(
+      final item = Post(
           post: _thoughtsController.text,
           //post_image_path: S3ImageURL.split('?')[0],
           post_image_path: "https://musgreetphase1images184452-staging.s3.eu-west-2.amazonaws.com/public/post_img_2.png",
           description: "Keep Smiling",
           visibility: postVisibility,
-          usersID: widget.sessionUser.id,
+          user_id: widget.sessionUser.id,
           //usersID: UserObject.ID,
           //usersID: "49e213cb-2849-4164-b5c6-4e6ab971c4c7",
-          mosquesID: "",
-          created_date: temporalDate,
-          Post_Comments: [],
-          Post_Likes: []);
+          mosque_id: "",
+          created_date: temporalDate);
+          // Post_Comments: [],
+          // Post_Likes: []);
       await Amplify.DataStore.save(item);
       print("saved post Successfully by sindhuja");
       _thoughtsController.clear();
@@ -577,21 +577,21 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     print(postVisibility);
     print("inside Save Posts");
     try {
-      TemporalDateTime temporalDate = new TemporalDateTime(DateTime.now());
+      TemporalDate temporalDate = new TemporalDate(DateTime.now());
 
-      final item = Posts(
+      final item = Post(
           post: _thoughtsController.text,
           //post_image_path: S3ImageURL.split('?')[0],
           post_image_path: "https://musgreetphase1images184452-staging.s3.eu-west-2.amazonaws.com/public/post_img_2.png",
           description: "Keep Smiling",
           visibility: postVisibility,
-          usersID: widget.sessionUser.id,
+          user_id: widget.sessionUser.id,
           //usersID: UserObject.ID,
           //usersID: "49e213cb-2849-4164-b5c6-4e6ab971c4c7",
-          mosquesID: widget.mosqueObject.id,
-          created_date: temporalDate,
-          Post_Comments: [],
-          Post_Likes: []);
+          mosque_id: widget.mosqueObject.id,
+          created_date: temporalDate);
+          // Post_Comments: [],
+          // Post_Likes: []);
       await Amplify.DataStore.save(item);
       print("saved post Successfully by sindhuja");
       _thoughtsController.clear();

@@ -7,8 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mus_greet/core/config/navigation.dart';
-import 'package:mus_greet/core/services/firebase_auth.dart';
-import 'package:mus_greet/core/services/firebase_user_verify_screen.dart';
 //import 'package:mus_greet/core/utils/arguments.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
@@ -18,11 +16,13 @@ import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/core/widgets/login_screen_text_field_widget.dart';
 import 'package:mus_greet/core/widgets/password_field_widget.dart';
 import 'package:mus_greet/core/widgets/social_media_button_widget.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/login/login_screen.dart';
 import 'package:mus_greet/pages/verify_email_screen/verify_email_screen.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mus_greet/core/services/firebase_auth.dart';
+import 'package:mus_greet/core/services/firebase_user_verify_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -34,9 +34,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _reTypePasswordController =
-      TextEditingController();
-  List<Users> users = [];
+  final TextEditingController _reTypePasswordController = TextEditingController();
+  List<User> users = [];
   bool _isObscure = true;
   final _firstnameKey = GlobalKey<FormState>();
   final _lastnameKey = GlobalKey<FormState>();
@@ -137,9 +136,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 20,
             ),
             _getCheckBoxText(),
-            CustomSpacerWidget(
-              height: 20,
-            ),
+            CustomSpacerWidget(height: 20,),
             _getContinueButton(),
             CustomSpacerWidget(
               height: 30,
@@ -247,11 +244,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         const Radius.circular(12.0),
                       ),
                       borderSide:
-                          BorderSide(color: AppColors.green_light, width: 2.0)),
+                      BorderSide(color: AppColors.green_light, width: 2.0)),
 
                   //contentPadding: EdgeInsetsDirectional.only(bottom: 7),
-                  contentPadding:
-                      new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                  contentPadding: new EdgeInsets.symmetric(
+                      vertical: 5.0, horizontal: 10.0),
+
                   prefixIcon: Padding(
                     padding: EdgeInsetsDirectional.only(
                         start: 10, end: 20, top: 0, bottom: 3),
@@ -261,16 +259,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       width: 25,
                     ),
                   ),
+
                   hintText: 'First Name',
                   hintStyle: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: AppColors.light_grey,
-                  )),
+                  )
+              ),
             ),
           ),
         ],
       ),
+
     );
   }
 
@@ -313,11 +314,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         const Radius.circular(12.0),
                       ),
                       borderSide:
-                          BorderSide(color: AppColors.green_light, width: 2.0)),
+                      BorderSide(color: AppColors.green_light, width: 2.0)),
 
                   //contentPadding: EdgeInsetsDirectional.only(bottom: 7),
-                  contentPadding:
-                      new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                  contentPadding: new EdgeInsets.symmetric(
+                      vertical: 5.0, horizontal: 10.0),
+
                   prefixIcon: Padding(
                     padding: EdgeInsetsDirectional.only(
                         start: 10, end: 20, top: 0, bottom: 3),
@@ -327,16 +329,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       width: 25,
                     ),
                   ),
+
                   hintText: 'Last Name',
                   hintStyle: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: AppColors.light_grey,
-                  )),
+                  )
+              ),
             ),
           ),
         ],
       ),
+
     );
   }
 
@@ -380,11 +385,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         const Radius.circular(12.0),
                       ),
                       borderSide:
-                          BorderSide(color: AppColors.green_light, width: 2.0)),
+                      BorderSide(color: AppColors.green_light, width: 2.0)),
 
                   //contentPadding: EdgeInsetsDirectional.only(bottom: 7),
-                  contentPadding:
-                      new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                  contentPadding: new EdgeInsets.symmetric(
+                      vertical: 5.0, horizontal: 10.0),
+
                   prefixIcon: Padding(
                     padding: EdgeInsetsDirectional.only(
                         start: 10, end: 20, top: 0, bottom: 3),
@@ -394,16 +400,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       width: 25,
                     ),
                   ),
+
                   hintText: 'Email',
                   hintStyle: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: AppColors.light_grey,
-                  )),
+                  )
+              ),
             ),
           ),
         ],
       ),
+
     );
   }
 
@@ -452,11 +461,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         const Radius.circular(12.0),
                       ),
                       borderSide:
-                          BorderSide(color: AppColors.green_light, width: 2.0)),
+                      BorderSide(color: AppColors.green_light, width: 2.0)),
 
                   //contentPadding: EdgeInsetsDirectional.only(bottom: 7),
-                  contentPadding:
-                      new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                  contentPadding: new EdgeInsets.symmetric(
+                      vertical: 5.0, horizontal: 10.0),
+
                   prefixIcon: Padding(
                     padding: EdgeInsetsDirectional.only(
                         start: 10, end: 20, top: 0, bottom: 3),
@@ -466,35 +476,38 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       width: 20,
                     ),
                   ),
+
                   suffixIcon: true
                       ? GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isObscure = !_isObscure;
-                            });
-                          },
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.only(
-                                start: 6, end: 20, top: 5),
-                            child: AssetImageWidget(
-                              image: _isObscure
-                                  ? ImageConstants.IC_INVISIBLE
-                                  : ImageConstants.IC_VISIBLE,
-                              height: 10,
-                              width: 10,
-                            ),
-                          ),
-                        )
+                    onTap: () {
+                      setState(() {
+                        _isObscure = !_isObscure;
+                      });
+                    },
+                    child: Padding(
+                      padding:
+                      EdgeInsetsDirectional.only(start: 6, end: 20, top: 5),
+                      child: AssetImageWidget(
+                        image: _isObscure
+                            ? ImageConstants.IC_INVISIBLE
+                            : ImageConstants.IC_VISIBLE,
+                        height: 10,
+                        width: 10,
+                      ),
+                    ),
+                  )
                       : Container(
-                          height: 10,
-                          width: 10,
-                        ),
+                    height: 10,
+                    width: 10,
+                  ),
+
                   hintText: 'Password',
                   hintStyle: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: AppColors.light_grey,
-                  )),
+                  )
+              ),
             ),
           ),
           new SizedBox(
@@ -516,6 +529,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           // ),
         ],
       ),
+
     );
   }
 
@@ -564,11 +578,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         const Radius.circular(12.0),
                       ),
                       borderSide:
-                          BorderSide(color: AppColors.green_light, width: 2.0)),
+                      BorderSide(color: AppColors.green_light, width: 2.0)),
 
                   //contentPadding: EdgeInsetsDirectional.only(bottom: 7),
-                  contentPadding:
-                      new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                  contentPadding: new EdgeInsets.symmetric(
+                      vertical: 5.0, horizontal: 10.0),
+
                   prefixIcon: Padding(
                     padding: EdgeInsetsDirectional.only(
                         start: 10, end: 20, top: 0, bottom: 3),
@@ -578,16 +593,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       width: 20,
                     ),
                   ),
+
                   hintText: 'Re-Type Password',
                   hintStyle: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: AppColors.light_grey,
-                  )),
+                  )
+              ),
             ),
           ),
         ],
       ),
+
     );
   }
 
@@ -609,7 +627,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   _getCheckBoxText() {
     return Container(
-      padding: EdgeInsets.only(left: 2, right: 2),
+      padding: EdgeInsets.only(left: 2,right: 2),
       child: CheckBoxWidget(
         callBack: (isChecked) {
           ///update check box status
@@ -619,7 +637,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  _getTextWidgetForCheckBox() {
+  _getTextWidgetForCheckBox(){
     return Text.rich(
       TextSpan(
         text: "By signing up, you acknowledge you have read the",
@@ -641,7 +659,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               fontWeight: FontWeight.w600,
               color: AppColors.green,
             ),
-            recognizer: TapGestureRecognizer()..onTap = () => _privacyPolicy(),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => _privacyPolicy(),
           ),
           TextSpan(
             text: ", ",
@@ -660,7 +679,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               fontWeight: FontWeight.w600,
               color: AppColors.green,
             ),
-            recognizer: TapGestureRecognizer()..onTap = () => _privacyPolicy(),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => _privacyPolicy(),
           ),
           TextSpan(
             text: " and agree to the ",
@@ -679,7 +699,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               fontWeight: FontWeight.w600,
               color: AppColors.green,
             ),
-            recognizer: TapGestureRecognizer()..onTap = () => _privacyPolicy(),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => _privacyPolicy(),
           ),
         ],
       ),
@@ -787,6 +808,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     String passwordErrorMessage = '';
     String retypepasswordErrorMessage = '';
 
+
     try {
       print(_emailController.text);
       print(_passwordController.text);
@@ -800,136 +822,150 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       // _passwordKey.currentState.reset();
       //_retypepasswordKey.currentState.reset();
 
-      if (_firstNameController.text.trim().length == 0) {
+      if (_firstNameController.text
+          .trim()
+          .length == 0) {
         print('firstname empty case');
         firstnameErrorMessage = "First name field is required";
-      } else if (_lastNameController.text.trim().length == 0) {
+      } else if (_lastNameController.text
+          .trim()
+          .length == 0) {
         print('lastname empty case');
         lastnameErrorMessage = "Last name field is required";
-      } else if (_emailController.text.trim().length == 0) {
+      } else if (_emailController.text
+          .trim()
+          .length == 0) {
         print('email empty case');
         emailErrorMessage = "Email field is required";
-      } else if (_emailController.text.trim().length > 0) {
-        print('email validity case');
-        //valid email check
-        //bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(_emailController.text.trim());
-        bool emailValid =
-            RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                .hasMatch(_emailController.text.trim());
-        print('email check case');
-        print(emailValid);
+      } else if (_emailController.text
+          .trim()
+          .length > 0) {
+
+      print('email validity case');
+      //valid email check
+      //bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(_emailController.text.trim());
+      bool emailValid = RegExp(
+          r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(
+          _emailController.text.trim());
+      print('email check case');
+      print(emailValid);
+      print(_reTypePasswordController.text.trim());
+      if (!emailValid) {
+        //invalid email case
+        emailErrorMessage = "Please provide valid email";
+      } else if (_passwordController.text
+          .trim()
+          .length == 0) {
+        print('password empty case');
+        passwordErrorMessage = "Password field is required";
+      } else if (_passwordController.text
+          .trim()
+          .length > 0) {
+        //valid password check
+        bool passwordValid = RegExp(
+            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+            .hasMatch(
+            _passwordController.text.trim());
+        print('password check case');
+        print(passwordValid);
         print(_reTypePasswordController.text.trim());
-        if (!emailValid) {
+        if (!passwordValid) {
           //invalid email case
-          emailErrorMessage = "Please provide valid email";
-        } else if (_passwordController.text.trim().length == 0) {
-          print('password empty case');
-          passwordErrorMessage = "Password field is required";
-        } else if (_passwordController.text.trim().length > 0) {
-          //valid password check
-          bool passwordValid = RegExp(
-                  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
-              .hasMatch(_passwordController.text.trim());
-          print('password check case');
-          print(passwordValid);
+          //passwordErrorMessage = "Password should be 8 characters in length, contain at least one uppercase, one lowercase and one special character";
+          passwordErrorMessage = "Please provide valid password";
+        } else {
+
+          print('pwd and retype pwd match case');
           print(_reTypePasswordController.text.trim());
-          if (!passwordValid) {
-            //invalid email case
-            //passwordErrorMessage = "Password should be 8 characters in length, contain at least one uppercase, one lowercase and one special character";
-            passwordErrorMessage = "Please provide valid password";
-          } else {
+
+          if (_passwordController.text.trim() !=
+              _reTypePasswordController.text.trim()) {
+            //password and retype password do not match case
+
             print('pwd and retype pwd match case');
+            print(_passwordController.text.trim());
             print(_reTypePasswordController.text.trim());
 
-            if (_passwordController.text.trim() !=
-                _reTypePasswordController.text.trim()) {
-              //password and retype password do not match case
+            retypepasswordErrorMessage =
+            "Password and re-type password do not match";
+          } else {
+            //email already exist
+            print('else case');
+            users = await Amplify.DataStore.query(
+                User.classType,
+                where: User.EMAIL.eq(_emailController.text.trim()));
+            await Future.delayed(Duration(seconds: 1));
 
-              print('pwd and retype pwd match case');
-              print(_passwordController.text.trim());
-              print(_reTypePasswordController.text.trim());
+            print('after querying db');
 
-              retypepasswordErrorMessage =
-                  "Password and re-type password do not match";
-            } else {
-              //email already exist
-              print('else case');
-              users = await Amplify.DataStore.query(Users.classType,
-                  where: Users.EMAIL.eq(_emailController.text.trim()));
-              await Future.delayed(Duration(seconds: 1));
+            print(users);
 
-              print('after querying db');
-
-              print(users);
-
-              if (users != null) {
-                if (users.length > 0) {
-                  //user already exists case
-                  emailErrorMessage = "Email already exists";
-                } else {
-                  //all validations succeeded
-                  print('length zero case');
-
-                  //signing up user in Cognito
-                  // Map<String, String> userAttributes = {
-                  //   'email': _emailController.text.trim(),
-                  //   'phone_number': '+447448479715',
-                  //   // additional attributes as needed
-                  // };
-
-                  // SignUpResult res = await Amplify.Auth.signUp(
-                  //     username: _emailController.text.trim(),
-                  //     password: _passwordController.text.trim(),
-                  //     options:
-                  //         CognitoSignUpOptions(userAttributes: userAttributes));
-
-                  dynamic result = await AuthService()
-                      .registerWithEmailAndPassword(
-                          _emailController.text, _passwordController.text);
-                  if (result == "ok") {
-                    print('User registration successful');
-                    //Add user to DB
-                    insertUser();
-
-                    Navigation.intentWithData(context, AppRoutes.VERIFYEMAIL,
-                        RegistrationArgumentClass(users[0]));
-                    return;
-
-                    // if (users != null) {
-                    //   // Navigator.of(context).push(MaterialPageRoute(
-                    //   //     builder: (context) => VerifyScreen()));
-                    //   Navigation.intentWithData(context, AppRoutes.VERIFYEMAIL,
-                    //       RegistrationArgumentClass(users[0]));
-                    //   return;
-                    // }
-                  }
-                }
+            if (users != null) {
+              if (users.length > 0) {
+                //user already exists case
+                emailErrorMessage = "Email already exists";
               } else {
                 //all validations succeeded
-                print('null case');
-                //Add user to DB
-                insertUser();
+                print('length zero case');
 
-                if (users != null) {
-                  Navigation.intentWithData(context, AppRoutes.VERIFYEMAIL,
-                      RegistrationArgumentClass(users[0]));
-                  return;
+                //signing up user in Cognito
+                // Map<String, String> userAttributes = {
+                //   'email': _emailController.text.trim(),
+                //   'phone_number': '+447448479715',
+                //   // additional attributes as needed
+                // };
+                //
+                // SignUpResult res = await Amplify.Auth.signUp(
+                //     username: _emailController.text.trim(),
+                //     password: _passwordController.text.trim(),
+                //     options: CognitoSignUpOptions(
+                //         userAttributes: userAttributes
+                //     )
+                // );
+
+                dynamic result = await AuthService()
+                    .registerWithEmailAndPassword(
+                    _emailController.text, _passwordController.text);
+
+                // if (res.isSignUpComplete) {
+                if (true) {
+                  print('User registration successful');
+                  //Add user to DB
+                  insertUser();
+
+                  if (users != null) {
+                    Navigation.intentWithData(context, AppRoutes.VERIFYEMAIL, RegistrationArgumentClass(users[0]));
+                    return;
+                  }
                 }
+              }
+            } else {
+              //all validations succeeded
+              print('null case');
+              //Add user to DB
+              insertUser();
+
+              if (users != null) {
+                Navigation.intentWithData(context, AppRoutes.VERIFYEMAIL,
+                    RegistrationArgumentClass(users[0]));
+                return;
               }
             }
           }
-
-          //}
         }
-      }
 
-      print('before checking email error msg length');
+        //}
+      }
+    }
+
+        print('before checking email error msg length');
 
       if (firstnameErrorMessage.length > 0) {
         setState(() {
           firstnameValidator = firstnameErrorMessage;
         });
-      } else {
+      }
+      else {
         setState(() {
           firstnameValidator = null;
         });
@@ -981,10 +1017,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         });
       }
       if (_retypepasswordKey.currentState.validate()) {}
+
     } catch (e) {
       print("Error in _registerUser function");
       print(e.message);
     }
+
+
 
     // try {
     //
@@ -1010,11 +1049,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     // } catch (e) {
     //   print(e.message);
     // }
+
   }
 
   Future<void> insertUser() async {
-    try {
-      final item = Users(
+    try{
+
+      final item = User(
         first_name: _firstNameController.text,
         last_name: _lastNameController.text,
         email: _emailController.text,
@@ -1024,7 +1065,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         parent_verification: false,
         address_verification: false,
         photo_verification: false,
-        mosque_admin: false,
+        mosque_admin: true,
         // phone: "",
         // age: "25",
         // gender: "male",
@@ -1056,26 +1097,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         //User_Profiles: []
       );
       await Amplify.DataStore.save(item);
-      Timer(Duration(seconds: 2), () => _getUserDetails());
+      Timer(Duration(seconds: 2),() => _getUserDetails());
+
     } on UsernameExistsException catch (e) {
       print('User already exists');
       print(e);
-    } catch (e) {
+    }
+    catch (e) {
       print('Exception occurred while adding user to DB, error: ' + e);
       //print(e);
     }
+
   }
 
-  Future<void> _getUserDetails() async {
+  Future<void>_getUserDetails() async{
     try {
       print('Before querying user');
-      users = await Amplify.DataStore.query(Users.classType,
-          where: Users.EMAIL.eq(_emailController.text));
+      users = await Amplify.DataStore.query(User.classType, where:User.EMAIL.eq(_emailController.text));
       await Future.delayed(Duration(seconds: 2));
 
       if (users != null) {
         print(users);
-        Timer(Duration(seconds: 2), () => _navigateToNextScreen());
+        Timer(Duration(seconds: 2),() => _navigateToNextScreen());
         //Navigation.intentWithData(context, AppRoutes.VERIFYEMAIL,RegistrationArgumentClass(users[0]));
       }
     } catch (e) {
@@ -1087,12 +1130,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     // Navigator.of(context)
     //     .push(MaterialPageRoute(builder: (context) => NearlyFinishedPage()));
 
-    Navigation.intentWithData(
-        context, AppRoutes.VERIFYEMAIL, RegistrationArgumentClass(users[0]));
+    Navigation.intentWithData(context, AppRoutes.VERIFYEMAIL,RegistrationArgumentClass(users[0]));
   }
 }
 
 class RegistrationArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   RegistrationArgumentClass(this.sessionUser);
 }

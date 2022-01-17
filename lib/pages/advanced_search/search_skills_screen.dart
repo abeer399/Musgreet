@@ -8,7 +8,7 @@ import 'package:mus_greet/core/widgets/advance_friend_search_context_widget.dart
 import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/core/widgets/drop_down_text_field.dart';
-import 'package:mus_greet/models/MasterIntrests.dart';
+import 'package:mus_greet/models/Interest.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
 import 'package:mus_greet/pages/add_skills_screen/add_skills_screen.dart';
 import 'package:mus_greet/pages/languages_screen/select_languages.dart';
@@ -27,13 +27,13 @@ class _SearchSkillsScreenState extends State<SearchSkillsScreen> {
   String age = '';
   //ArgumentSkillsClass S_args;
   //ArgumentLanguageClass L_args;
-  List<Users>  Userss =[];
+  List<User>  Userss =[];
   List<UserProfile> UserProfiles = [];
-  List<MasterIntrests> MasterIntrestss = [];
+  List<Interest> MasterIntrestss = [];
   List<String> SelectedSkillsList =[];
   List<String> SelectedLanguagesList =[];
-  List<Users>  genderFilteredUsers = [];
-  List<Users>  ageFilteredUsers = [];
+  List<User>  genderFilteredUsers = [];
+  List<User>  ageFilteredUsers = [];
   //List<String> StoredSkillsList;
   //List<String> StoredLanguageList;
   @override
@@ -391,7 +391,7 @@ class _SearchSkillsScreenState extends State<SearchSkillsScreen> {
 
 Future<void> ListUsers() async{
   try {
-    Userss = await Amplify.DataStore.query(Users.classType);
+    Userss = await Amplify.DataStore.query(User.classType);
     print(Userss.length);
     await Future.delayed(Duration(milliseconds: 500));
     //ListUserProfiles();
@@ -415,7 +415,7 @@ Future<void> ListUserProfiles() async {
 
 Future<void> listMasterInterests() async {
     try {
-      MasterIntrestss = await Amplify.DataStore.query(MasterIntrests.classType);
+      MasterIntrestss = await Amplify.DataStore.query(Interest.classType);
       print(MasterIntrestss.length);
       await Future.delayed(Duration(seconds: 1));
     } catch (e) {
@@ -425,7 +425,7 @@ Future<void> listMasterInterests() async {
 
 
 _getUserByGender(String gender) {
-    List<Users> genderFilteredList=[];
+    List<User> genderFilteredList=[];
     if(Userss.isNotEmpty){
       for(var user in Userss){
         if(user.gender == gender){
@@ -442,12 +442,12 @@ _getUserByGender(String gender) {
 }
 
 _getUserByAge(String age){
-    List<Users> ageFilteredList=[];
+    List<User> ageFilteredList=[];
     if(Userss.isNotEmpty){
       for(var user in Userss){
-        if(user.age == age){
-          ageFilteredList.add(user);
-        }
+        // if(user.age == age){
+        //   ageFilteredList.add(user);
+        // }
       }
     }
     else{
@@ -458,9 +458,9 @@ _getUserByAge(String age){
     return ageFilteredList;
 }
 
-_getSkillsSearchFilteredUsers(List<Users> Userss) {
+_getSkillsSearchFilteredUsers(List<User> Userss) {
     print("inside get Skills SearchFiltered Users");
-    List<Users> A_G_FilteredList = [];
+    List<User> A_G_FilteredList = [];
     print("Print selected Skills");
     print(SelectedSkillsList);
     print("print selected languages");
@@ -519,11 +519,11 @@ _getSharedPreferance() async{
 
 }
 
-_getUserByLanguageAndSkills(List<Users> a_g_filteredList) {
+_getUserByLanguageAndSkills(List<User> a_g_filteredList) {
     print("inside get User by Language and Skills");
     print(a_g_filteredList.length);
     //print(SelectedLanguagesList);
-    List<Users> ResultList = [];
+    List<User> ResultList = [];
     List<String> userLanguagesList = [];
     int count = 0;
     String UserProfileId = "";
@@ -540,7 +540,7 @@ _getUserByLanguageAndSkills(List<Users> a_g_filteredList) {
             count = 0;
             Status = false;
             for(var uProf in UserProfiles){
-              if(uProf.usersID == agUser.id){
+              if(uProf.user_id == agUser.id){
                 userLanguagesList = uProf.languages_spoken.split(",");
                 for(var l in userLanguagesList){
                   for(var sl in SelectedLanguagesList){
@@ -563,7 +563,7 @@ _getUserByLanguageAndSkills(List<Users> a_g_filteredList) {
           if(SelectedLanguagesList.isEmpty && a_g_filteredList.isNotEmpty){
             for(var agUser in a_g_filteredList){
               for(var uProf in UserProfiles){
-                if(uProf.usersID == agUser.id){
+                if(uProf.user_id == agUser.id){
                   Status = _getSkillsFilteredUser(uProf, SelectedSkillsList);
                 }
               }
@@ -594,7 +594,7 @@ _getSkillsFilteredUser(UserProfile uProf, List<String> selectedSkillsList) {
         for(var us_id in UserSkillsList){
           for(var ms in MasterIntrestss){
             if(us_id == ms.id){
-              if(ss.toLowerCase() == ms.intrest_name.toLowerCase()){
+              if(ss.toLowerCase() == ms.interest_name.toLowerCase()){
                 count++;
               }
             }
@@ -620,7 +620,7 @@ _getFilteredUser(){
     bool status = false;
     bool lStatus = false;
     bool sStatus = false;
-    List<Users> FinalList = [];
+    List<User> FinalList = [];
     /// When gender is selected go inside
     if(gender != ''){
       for(var user in Userss){
@@ -630,25 +630,25 @@ _getFilteredUser(){
           }
           else{
             if(age != ''){
-              if(user.age == age){
-                if(SelectedLanguagesList.isNotEmpty){
-                  lStatus = _getUSerByLanguage(user, SelectedLanguagesList, UserProfiles);
-                  if(lStatus == true && SelectedSkillsList.isNotEmpty){
-                    sStatus = _getUserBySkill(user,SelectedSkillsList,UserProfiles);
-                    if(sStatus == true){
-                      FinalList.add(user);
-                    }
-                  }
-                }
-                else{
-                  if(SelectedSkillsList.isNotEmpty){
-                    sStatus = _getUserBySkill(user,SelectedSkillsList,UserProfiles);
-                    if(sStatus == true){
-                      FinalList.add(user);
-                    }
-                  }
-                }
-              }
+              // if(user.age == age){
+              //   if(SelectedLanguagesList.isNotEmpty){
+              //     lStatus = _getUSerByLanguage(user, SelectedLanguagesList, UserProfiles);
+              //     if(lStatus == true && SelectedSkillsList.isNotEmpty){
+              //       sStatus = _getUserBySkill(user,SelectedSkillsList,UserProfiles);
+              //       if(sStatus == true){
+              //         FinalList.add(user);
+              //       }
+              //     }
+              //   }
+              //   else{
+              //     if(SelectedSkillsList.isNotEmpty){
+              //       sStatus = _getUserBySkill(user,SelectedSkillsList,UserProfiles);
+              //       if(sStatus == true){
+              //         FinalList.add(user);
+              //       }
+              //     }
+              //   }
+              // }
             }
             else{
               if(SelectedLanguagesList.isNotEmpty){
@@ -681,25 +681,25 @@ _getFilteredUser(){
       ///check for age filter if age given go inside
       if(age != ''){
         for(var user in Userss){
-          if(user.age == age){
-            if(SelectedLanguagesList.isNotEmpty){
-              lStatus = _getUSerByLanguage(user, SelectedLanguagesList, UserProfiles);
-              if(lStatus == true && SelectedSkillsList.isNotEmpty){
-                sStatus = _getUserBySkill(user,SelectedSkillsList,UserProfiles);
-                if(sStatus == true){
-                  FinalList.add(user);
-                }
-              }
-            }
-            else{
-              if(SelectedSkillsList.isNotEmpty){
-                sStatus = _getUserBySkill(user,SelectedSkillsList,UserProfiles);
-                if(sStatus == true){
-                  FinalList.add(user);
-                }
-              }
-            }
-          }
+          // if(user.age == age){
+          //   if(SelectedLanguagesList.isNotEmpty){
+          //     lStatus = _getUSerByLanguage(user, SelectedLanguagesList, UserProfiles);
+          //     if(lStatus == true && SelectedSkillsList.isNotEmpty){
+          //       sStatus = _getUserBySkill(user,SelectedSkillsList,UserProfiles);
+          //       if(sStatus == true){
+          //         FinalList.add(user);
+          //       }
+          //     }
+          //   }
+          //   else{
+          //     if(SelectedSkillsList.isNotEmpty){
+          //       sStatus = _getUserBySkill(user,SelectedSkillsList,UserProfiles);
+          //       if(sStatus == true){
+          //         FinalList.add(user);
+          //       }
+          //     }
+          //   }
+          // }
         }
       }
       /// if age not given
@@ -754,13 +754,13 @@ _getFilteredUser(){
     print(FinalList.length);
 }
 
-_getUSerByLanguage(Users user, List<String> selectedLanguagesList, List<UserProfile> userProfiles,) {
+_getUSerByLanguage(User user, List<String> selectedLanguagesList, List<UserProfile> userProfiles,) {
     bool status = false;
     List<String> languageList = [];
     if(user != null && selectedLanguagesList.isNotEmpty && userProfiles != null){
       print("inside get user by language");
       for(var uProfile in userProfiles){
-        if(uProfile.usersID == user.id){
+        if(uProfile.user_id == user.id){
           languageList = uProfile.languages_spoken.split(',');
           for(var language in selectedLanguagesList){
             for(var l in languageList){
@@ -775,19 +775,19 @@ _getUSerByLanguage(Users user, List<String> selectedLanguagesList, List<UserProf
     return status;
 }
 
-_getUserBySkill(Users user, List<String> selectedSkillsList, List<UserProfile> userProfiles) {
+_getUserBySkill(User user, List<String> selectedSkillsList, List<UserProfile> userProfiles) {
   bool status = false;
   int count = 0;
   List<String> UserSkillsList = [];
   if(user != null && selectedSkillsList.isNotEmpty && userProfiles != null) {
     for(var userProfile in userProfiles){
-      if(user.id == userProfile.usersID){
+      if(user.id == userProfile.user_id){
         UserSkillsList=userProfile.skills.split(',');
         for(var ss in SelectedSkillsList){
           for(var us_id in UserSkillsList){
             for(var ms in MasterIntrestss){
               if(us_id == ms.id){
-                if(ss.toLowerCase() == ms.intrest_name.toLowerCase()){
+                if(ss.toLowerCase() == ms.interest_name.toLowerCase()){
                   count++;
                 }
               }

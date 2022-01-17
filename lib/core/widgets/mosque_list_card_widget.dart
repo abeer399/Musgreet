@@ -18,7 +18,7 @@ class MosqueListCardWidget extends StatefulWidget {
   final int index;
   final Mosque mosqueObject;
   final String UserID;
-  final Users sessionUser;
+  final User sessionUser;
   //final List<MosqueFollowers> MosqueFollowersList;
 
   const MosqueListCardWidget({Key key, this.index, this.mosqueObject, this.UserID,this.sessionUser
@@ -30,12 +30,12 @@ class MosqueListCardWidget extends StatefulWidget {
 }
 
 class _MosqueListCardWidgetState extends State<MosqueListCardWidget> {
-  List<MosqueFollowers> MosqueFollowerss = [];
+  List<MosqueFollower> MosqueFollowerss = [];
   bool status = false;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<MosqueFollowers>>(
+    return FutureBuilder<List<MosqueFollower>>(
       future:UserMosqueFollowList(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -83,7 +83,7 @@ class _MosqueListCardWidgetState extends State<MosqueListCardWidget> {
   _setStatus() {
     if(MosqueFollowerss.isNotEmpty){
       for(var mf in MosqueFollowerss){
-        if(mf.mosqueID == widget.mosqueObject.id && mf.usersID == widget.UserID){
+        if(mf.mosque_id == widget.mosqueObject.id && mf.user_id == widget.UserID){
           status = true;
         }
       }
@@ -256,9 +256,9 @@ class _MosqueListCardWidgetState extends State<MosqueListCardWidget> {
     print(widget.mosqueObject.id);
     print(widget.UserID);
     try {
-    final item = MosqueFollowers(
-        mosqueID: widget.mosqueObject.id,
-        usersID: widget.UserID);
+    final item = MosqueFollower(
+        mosque_id: widget.mosqueObject.id,
+        user_id: widget.UserID);
         await Amplify.DataStore.save(item);
         print("going to set state");
         setState(() {
@@ -305,7 +305,7 @@ class _MosqueListCardWidgetState extends State<MosqueListCardWidget> {
     try {
     for(var m in MosqueFollowerss){
       //for(var m in widget.MosqueFollowersList){
-      if(m.mosqueID == widget.mosqueObject.id && m.usersID == widget.UserID){
+      if(m.mosque_id == widget.mosqueObject.id && m.user_id == widget.UserID){
         await Amplify.DataStore.delete(m);
         Timer(
             Duration(seconds: 1),
@@ -332,9 +332,9 @@ class _MosqueListCardWidgetState extends State<MosqueListCardWidget> {
   }
 
   /// this will render the list of mosqueFollowers for the login user from Database
-  Future<List<MosqueFollowers>> UserMosqueFollowList() async{
+  Future<List<MosqueFollower>> UserMosqueFollowList() async{
     try {
-      MosqueFollowerss = await Amplify.DataStore.query(MosqueFollowers.classType, where:MosqueFollowers.USERSID.eq(widget.UserID));
+      MosqueFollowerss = await Amplify.DataStore.query(MosqueFollower.classType, where:MosqueFollower.USER_ID.eq(widget.UserID));
       print(MosqueFollowerss);
       return MosqueFollowerss;
     } catch (e) {

@@ -18,14 +18,14 @@
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the MosquePhotos type in your schema. */
+/** This is an auto generated class representing the MosquePhoto type in your schema. */
 @immutable
-class MosquePhotos extends Model {
-  static const classType = const _MosquePhotosModelType();
+class MosquePhoto extends Model {
+  static const classType = const _MosquePhotoModelType();
   final String id;
   final String photo_type;
   final String photo_path;
-  final String mosqueID;
+  final String mosque_id;
 
   @override
   getInstanceType() => classType;
@@ -35,22 +35,16 @@ class MosquePhotos extends Model {
     return id;
   }
 
-  const MosquePhotos._internal(
-      {@required this.id,
-      @required this.photo_type,
-      @required this.photo_path,
-      @required this.mosqueID});
+  const MosquePhoto._internal(
+      {@required this.id, this.photo_type, this.photo_path, this.mosque_id});
 
-  factory MosquePhotos(
-      {String id,
-      @required String photo_type,
-      @required String photo_path,
-      @required String mosqueID}) {
-    return MosquePhotos._internal(
+  factory MosquePhoto(
+      {String id, String photo_type, String photo_path, String mosque_id}) {
+    return MosquePhoto._internal(
         id: id == null ? UUID.getUUID() : id,
         photo_type: photo_type,
         photo_path: photo_path,
-        mosqueID: mosqueID);
+        mosque_id: mosque_id);
   }
 
   bool equals(Object other) {
@@ -60,11 +54,11 @@ class MosquePhotos extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is MosquePhotos &&
+    return other is MosquePhoto &&
         id == other.id &&
         photo_type == other.photo_type &&
         photo_path == other.photo_path &&
-        mosqueID == other.mosqueID;
+        mosque_id == other.mosque_id;
   }
 
   @override
@@ -74,45 +68,45 @@ class MosquePhotos extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write("MosquePhotos {");
+    buffer.write("MosquePhoto {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("photo_type=" + "$photo_type" + ", ");
     buffer.write("photo_path=" + "$photo_path" + ", ");
-    buffer.write("mosqueID=" + "$mosqueID");
+    buffer.write("mosque_id=" + "$mosque_id");
     buffer.write("}");
 
     return buffer.toString();
   }
 
-  MosquePhotos copyWith(
-      {String id, String photo_type, String photo_path, String mosqueID}) {
-    return MosquePhotos(
+  MosquePhoto copyWith(
+      {String id, String photo_type, String photo_path, String mosque_id}) {
+    return MosquePhoto(
         id: id ?? this.id,
         photo_type: photo_type ?? this.photo_type,
         photo_path: photo_path ?? this.photo_path,
-        mosqueID: mosqueID ?? this.mosqueID);
+        mosque_id: mosque_id ?? this.mosque_id);
   }
 
-  MosquePhotos.fromJson(Map<String, dynamic> json)
+  MosquePhoto.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         photo_type = json['photo_type'],
         photo_path = json['photo_path'],
-        mosqueID = json['mosqueID'];
+        mosque_id = json['mosque_id'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'photo_type': photo_type,
         'photo_path': photo_path,
-        'mosqueID': mosqueID
+        'mosque_id': mosque_id
       };
 
-  static final QueryField ID = QueryField(fieldName: "mosquePhotos.id");
+  static final QueryField ID = QueryField(fieldName: "mosquePhoto.id");
   static final QueryField PHOTO_TYPE = QueryField(fieldName: "photo_type");
   static final QueryField PHOTO_PATH = QueryField(fieldName: "photo_path");
-  static final QueryField MOSQUEID = QueryField(fieldName: "mosqueID");
+  static final QueryField MOSQUE_ID = QueryField(fieldName: "mosque_id");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "MosquePhotos";
+    modelSchemaDefinition.name = "MosquePhoto";
     modelSchemaDefinition.pluralName = "MosquePhotos";
 
     modelSchemaDefinition.authRules = [
@@ -127,27 +121,27 @@ class MosquePhotos extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: MosquePhotos.PHOTO_TYPE,
-        isRequired: true,
+        key: MosquePhoto.PHOTO_TYPE,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: MosquePhotos.PHOTO_PATH,
-        isRequired: true,
+        key: MosquePhoto.PHOTO_PATH,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: MosquePhotos.MOSQUEID,
-        isRequired: true,
+        key: MosquePhoto.MOSQUE_ID,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });
 }
 
-class _MosquePhotosModelType extends ModelType<MosquePhotos> {
-  const _MosquePhotosModelType();
+class _MosquePhotoModelType extends ModelType<MosquePhoto> {
+  const _MosquePhotoModelType();
 
   @override
-  MosquePhotos fromJson(Map<String, dynamic> jsonData) {
-    return MosquePhotos.fromJson(jsonData);
+  MosquePhoto fromJson(Map<String, dynamic> jsonData) {
+    return MosquePhoto.fromJson(jsonData);
   }
 }

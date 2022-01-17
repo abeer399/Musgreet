@@ -15,21 +15,18 @@
 
 // ignore_for_file: public_member_api_docs
 
-import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the PostComments type in your schema. */
+/** This is an auto generated class representing the PostComment type in your schema. */
 @immutable
-class PostComments extends Model {
-  static const classType = const _PostCommentsModelType();
+class PostComment extends Model {
+  static const classType = const _PostCommentModelType();
   final String id;
   final String comment;
   final String parent_id;
-  final String postsID;
-  final String usersID;
-  final List<PostLikes> Comments_PostLikes;
+  final String post_id;
+  final String user_id;
 
   @override
   getInstanceType() => classType;
@@ -39,30 +36,25 @@ class PostComments extends Model {
     return id;
   }
 
-  const PostComments._internal(
+  const PostComment._internal(
       {@required this.id,
-      @required this.comment,
+      this.comment,
       this.parent_id,
-      @required this.postsID,
-      @required this.usersID,
-      this.Comments_PostLikes});
+      this.post_id,
+      this.user_id});
 
-  factory PostComments(
+  factory PostComment(
       {String id,
-      @required String comment,
+      String comment,
       String parent_id,
-      @required String postsID,
-      @required String usersID,
-      List<PostLikes> Comments_PostLikes}) {
-    return PostComments._internal(
+      String post_id,
+      String user_id}) {
+    return PostComment._internal(
         id: id == null ? UUID.getUUID() : id,
         comment: comment,
         parent_id: parent_id,
-        postsID: postsID,
-        usersID: usersID,
-        Comments_PostLikes: Comments_PostLikes != null
-            ? List<PostLikes>.unmodifiable(Comments_PostLikes)
-            : Comments_PostLikes);
+        post_id: post_id,
+        user_id: user_id);
   }
 
   bool equals(Object other) {
@@ -72,14 +64,12 @@ class PostComments extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is PostComments &&
+    return other is PostComment &&
         id == other.id &&
         comment == other.comment &&
         parent_id == other.parent_id &&
-        postsID == other.postsID &&
-        usersID == other.usersID &&
-        DeepCollectionEquality()
-            .equals(Comments_PostLikes, other.Comments_PostLikes);
+        post_id == other.post_id &&
+        user_id == other.user_id;
   }
 
   @override
@@ -89,68 +79,54 @@ class PostComments extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write("PostComments {");
+    buffer.write("PostComment {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("comment=" + "$comment" + ", ");
     buffer.write("parent_id=" + "$parent_id" + ", ");
-    buffer.write("postsID=" + "$postsID" + ", ");
-    buffer.write("usersID=" + "$usersID");
+    buffer.write("post_id=" + "$post_id" + ", ");
+    buffer.write("user_id=" + "$user_id");
     buffer.write("}");
 
     return buffer.toString();
   }
 
-  PostComments copyWith(
+  PostComment copyWith(
       {String id,
       String comment,
       String parent_id,
-      String postsID,
-      String usersID,
-      List<PostLikes> Comments_PostLikes}) {
-    return PostComments(
+      String post_id,
+      String user_id}) {
+    return PostComment(
         id: id ?? this.id,
         comment: comment ?? this.comment,
         parent_id: parent_id ?? this.parent_id,
-        postsID: postsID ?? this.postsID,
-        usersID: usersID ?? this.usersID,
-        Comments_PostLikes: Comments_PostLikes ?? this.Comments_PostLikes);
+        post_id: post_id ?? this.post_id,
+        user_id: user_id ?? this.user_id);
   }
 
-  PostComments.fromJson(Map<String, dynamic> json)
+  PostComment.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         comment = json['comment'],
         parent_id = json['parent_id'],
-        postsID = json['postsID'],
-        usersID = json['usersID'],
-        Comments_PostLikes = json['Comments_PostLikes'] is List
-            ? (json['Comments_PostLikes'] as List)
-                .map(
-                    (e) => PostLikes.fromJson(new Map<String, dynamic>.from(e)))
-                .toList()
-            : null;
+        post_id = json['post_id'],
+        user_id = json['user_id'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'comment': comment,
         'parent_id': parent_id,
-        'postsID': postsID,
-        'usersID': usersID,
-        'Comments_PostLikes':
-            Comments_PostLikes?.map((e) => e?.toJson())?.toList()
+        'post_id': post_id,
+        'user_id': user_id
       };
 
-  static final QueryField ID = QueryField(fieldName: "postComments.id");
+  static final QueryField ID = QueryField(fieldName: "postComment.id");
   static final QueryField COMMENT = QueryField(fieldName: "comment");
   static final QueryField PARENT_ID = QueryField(fieldName: "parent_id");
-  static final QueryField POSTSID = QueryField(fieldName: "postsID");
-  static final QueryField USERSID = QueryField(fieldName: "usersID");
-  static final QueryField COMMENTS_POSTLIKES = QueryField(
-      fieldName: "Comments_PostLikes",
-      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
-          ofModelName: (PostLikes).toString()));
+  static final QueryField POST_ID = QueryField(fieldName: "post_id");
+  static final QueryField USER_ID = QueryField(fieldName: "user_id");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "PostComments";
+    modelSchemaDefinition.name = "PostComment";
     modelSchemaDefinition.pluralName = "PostComments";
 
     modelSchemaDefinition.authRules = [
@@ -165,38 +141,32 @@ class PostComments extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: PostComments.COMMENT,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: PostComments.PARENT_ID,
+        key: PostComment.COMMENT,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: PostComments.POSTSID,
-        isRequired: true,
+        key: PostComment.PARENT_ID,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: PostComments.USERSID,
-        isRequired: true,
+        key: PostComment.POST_ID,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
-    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
-        key: PostComments.COMMENTS_POSTLIKES,
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: PostComment.USER_ID,
         isRequired: false,
-        ofModelName: (PostLikes).toString(),
-        associatedKey: PostLikes.POSTCOMMENTSID));
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });
 }
 
-class _PostCommentsModelType extends ModelType<PostComments> {
-  const _PostCommentsModelType();
+class _PostCommentModelType extends ModelType<PostComment> {
+  const _PostCommentModelType();
 
   @override
-  PostComments fromJson(Map<String, dynamic> jsonData) {
-    return PostComments.fromJson(jsonData);
+  PostComment fromJson(Map<String, dynamic> jsonData) {
+    return PostComment.fromJson(jsonData);
   }
 }

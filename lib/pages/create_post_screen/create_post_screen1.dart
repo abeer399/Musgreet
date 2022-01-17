@@ -23,7 +23,7 @@ import 'package:path_provider/path_provider.dart';
 
 class CreatePostScreen extends StatefulWidget {
   ///unComment these lines when we are passing the User details from other classes
-  final Users sessionUser;
+  final User sessionUser;
   //final String UserProfileImage;
   //final String UserName;
   //CreatePostScreen({this.UserProfileImage, this.UserName});
@@ -44,12 +44,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   //bool isCamera = false;
   File _image ;
   //print("inside create post");
-  Users UserObject;
+  User UserObject;
   //String LogedInUserID = "61b35418-9426-4652-9e59-a65ad173117c";
   String LogedInUserID;
 
   BottomNavigationWidgetArgumentClass args;
-  Users sessionUser;
+  User sessionUser;
 
 
   Future getImage(bool isCamera) async {
@@ -110,7 +110,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     // }
     sessionUser = widget.sessionUser;
     LogedInUserID = sessionUser.id;
-    return FutureBuilder<Users>(
+    return FutureBuilder<User>(
       future: _getUser(LogedInUserID),
       builder: (ctx, snapshot) {
         //List<Posts> PostsData = snapshot.data;
@@ -135,7 +135,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     );
   }
 
-  Widget _buildUI(Users UserObject, Users sessionUser) {
+  Widget _buildUI(User UserObject, User sessionUser) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.white,
@@ -147,11 +147,11 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
 
-  Future<Users> _getUser(String usersID) async {
+  Future<User> _getUser(String usersID) async {
     print("User");
     print(usersID);
     try {
-      List<Users>UserObjectList = await Amplify.DataStore.query(Users.classType ,where :Users.ID.eq(usersID));
+      List<User>UserObjectList = await Amplify.DataStore.query(User.classType ,where :User.ID.eq(usersID));
       //print(User[0].first_name);
       print(UserObjectList.length);
       print(UserObjectList[0].first_name);
@@ -162,7 +162,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     }
   }
 
-  _getBottomNavigation(Users sessionUser) {
+  _getBottomNavigation(User sessionUser) {
     return BottomNavigationWidget(
       //MosqueFollowersList: UserMosqueFollowingList,
       //CallingFunction: _navigateback(),
@@ -568,18 +568,18 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     print(postVisibility);
     print("inside Save Posts");
     try {
-    final item = Posts(
+    final item = Post(
         post: _thoughtsController.text,
         post_image_path: S3ImageURL.split('?')[0],
         description: "Keep Smiling",
         visibility: postVisibility,
-        usersID: sessionUser.id,
+        user_id: sessionUser.id,
         //usersID: "40d605ff-0ce4-4b4f-ae43-9e97d37c6cfc",
         //usersID: UserObject.ID,
         //usersID: "49e213cb-2849-4164-b5c6-4e6ab971c4c7",
-        mosquesID: "",
-        Post_Comments: [],
-        Post_Likes: []);
+        mosque_id: "");
+        // Post_Comments: [],
+        // Post_Likes: []);
     await Amplify.DataStore.save(item);
     print("saved post Successfully by sindhuja");
     _thoughtsController.clear();

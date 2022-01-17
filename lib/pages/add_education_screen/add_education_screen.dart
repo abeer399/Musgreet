@@ -9,11 +9,11 @@ import 'package:mus_greet/core/widgets/drop_down_text_field.dart';
 import 'package:mus_greet/main.dart';
 import 'package:mus_greet/models/UserEducation.dart';
 import 'package:mus_greet/models/UserProfile.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:amplify_flutter/amplify.dart';
 
 class AddEducationScreen extends StatefulWidget {
-  Users sessionUser;
+  User sessionUser;
   AddEducationScreen({this.sessionUser});
   @override
   _AddEducationScreenState createState() => _AddEducationScreenState();
@@ -316,7 +316,7 @@ class _AddEducationScreenState extends State<AddEducationScreen> {
     );
   }
 
-  educationList(Users sessionUser)
+  educationList(User sessionUser)
   {
 
     print("inside the educationlist method");
@@ -328,7 +328,7 @@ class _AddEducationScreenState extends State<AddEducationScreen> {
         {
           for(int i=0;i<userEducation.length;i++)
           {
-            if (loggedInUser== userEducation[i].usersID) {
+            if (loggedInUser== userEducation[i].user_id) {
               count ++;
               print("inside the callback method");
               updateUserEducation(widget.sessionUser);
@@ -361,25 +361,25 @@ class _AddEducationScreenState extends State<AddEducationScreen> {
     }
   }
 
-  updateUserEducation(Users sessionUser) async{
+  updateUserEducation(User sessionUser) async{
     print("inside the updated education");
     final updatedItem = userEducation[0].copyWith(
         institution: college,
         course: degree,
         from: addDateFrom,
         to: addDateTo,
-        usersID: sessionUser.id);
+        user_id: sessionUser.id);
     await Amplify.DataStore.save(updatedItem);
   }
 
-  createUserEducationTable(Users sessionUser) async{
+  createUserEducationTable(User sessionUser) async{
     print(college + "" +degree + " " + addDateFrom + "" + addDateTo);
     final item = UserEducation(
         institution: college,
         course: degree,
         from: addDateFrom,
         to: addDateTo,
-       usersID :sessionUser.id);
+       user_id :sessionUser.id);
     await Amplify.DataStore.save(item);
     await Future.delayed(Duration(seconds: 5));
   }

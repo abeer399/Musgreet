@@ -11,7 +11,7 @@ import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/utils/size_config.dart';
 import 'package:mus_greet/core/widgets/drop_down_text_field.dart';
 import 'package:mus_greet/core/widgets/login_screen_text_field_widget.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/address-verification/confirm_address_2_screen.dart';
 import 'package:mus_greet/pages/final/nearly_finished_page.dart';
 
@@ -23,7 +23,7 @@ class ConfirmAddressView extends StatefulWidget {
 }
 
 class _ConfirmAddressViewState extends State<ConfirmAddressView> {
-  List<Users> users;
+  List<User> users;
   var status = false;
   List<String> results = [];
   bool isLoading = false;
@@ -41,7 +41,7 @@ class _ConfirmAddressViewState extends State<ConfirmAddressView> {
   //var postcode = "E62JJ";
 
   AddressVerificationArgumentClass args;
-  Users sessionUser;
+  User sessionUser;
 
   @override
   Widget build(BuildContext context) {
@@ -467,7 +467,7 @@ class _ConfirmAddressViewState extends State<ConfirmAddressView> {
             postcode: _postCodeController.text,
             address_verification_mode: "Manual",
             manual_address_taken_date: new TemporalDate(DateTime.now()),
-            manul_address_code:123355,
+            manual_address_code:"123355",
             manual_address_code_sent_date:new TemporalDate(DateTime.now()),
             address_verification: false);
 
@@ -493,7 +493,7 @@ class _ConfirmAddressViewState extends State<ConfirmAddressView> {
 }
 
 class ConfirmAddress1ArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   ConfirmAddress1ArgumentClass(this.sessionUser);
 }
 

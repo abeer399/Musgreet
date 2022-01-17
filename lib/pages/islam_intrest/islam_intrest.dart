@@ -10,12 +10,12 @@ import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/core/widgets/drop_down_text_field.dart';
 import 'package:mus_greet/models/UserProfile.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 
 import '../../main.dart';
 
 class IslamIntrest extends StatefulWidget {
-  Users sessionUser;
+  User sessionUser;
   IslamIntrest({this.sessionUser});
   @override
   _MyIslamIntrestScreenState createState() => _MyIslamIntrestScreenState();
@@ -170,7 +170,7 @@ class _MyIslamIntrestScreenState extends State<IslamIntrest> {
   Future<void> about() async {
     try {
       userProfile = await Amplify.DataStore.query(UserProfile.classType,
-          where: UserProfile.USERSID.eq(loggedInUser));
+          where: UserProfile.USER_ID.eq(loggedInUser));
       print(userProfile);
       print("inside the user profile");
     } catch (e) {

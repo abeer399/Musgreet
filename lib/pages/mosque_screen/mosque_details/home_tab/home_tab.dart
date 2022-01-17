@@ -16,27 +16,27 @@ import 'package:mus_greet/pages/mosque_screen/mosque_details/mosque_prayers/mosq
 
 class HomeTab extends StatefulWidget {
   final List<Mosque> mosque;
-  final Users sessionUser;
+  final User sessionUser;
   HomeTab({this.mosque, this.sessionUser});
   @override
   _HomeTabState createState() => _HomeTabState();
 }
 
 class _HomeTabState extends State<HomeTab> {
-  List<MosquePrayers> mosquePrayers;
+  List<MosquePrayer> mosquePrayers;
   DateTime date = DateTime.now();
   int count=0;
   int countback=0;
   bool _isIcon =true;
   Mosque MosqueObject;
-  List<Posts> Postss =[];
+  List<Post> Postss =[];
   bool mosqueAdmin;
   @override
   Widget build(BuildContext context) {
     mosqueAdmin = widget.sessionUser.mosque_admin;
     MosqueObject = widget.mosque[0];
     print('in home tab build');
-    return FutureBuilder<List<MosquePrayers>>(
+    return FutureBuilder<List<MosquePrayer>>(
       future: getMosquePrayers(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -454,11 +454,11 @@ class _HomeTabState extends State<HomeTab> {
   }
 
 
-  Future<List<MosquePrayers>> getMosquePrayers() async {
+  Future<List<MosquePrayer>> getMosquePrayers() async {
     try {
      //mosquePrayers = await Amplify.DataStore.query(MosquePrayers.classType , where: MosquePrayers.DATE.eq(DateFormat('yyyy-MM-dd').format(date)));
-      mosquePrayers = await Amplify.DataStore.query(MosquePrayers.classType, where: MosquePrayers.MOSQUEID.eq(MosqueObject.id));
-     List mosquePrayers1 = await Amplify.DataStore.query(MosquePrayers.classType);
+      mosquePrayers = await Amplify.DataStore.query(MosquePrayer.classType, where: MosquePrayer.MOSQUE_ID.eq(MosqueObject.id));
+     List mosquePrayers1 = await Amplify.DataStore.query(MosquePrayer.classType);
      print(DateFormat('yyyy-MM-dd').format(date));
      print("printing mosque prayers");
      //print(MosqueObject.id);
@@ -473,10 +473,10 @@ class _HomeTabState extends State<HomeTab> {
       print("Could not query DataStore: " + e.stacktrace);
     }
   }
-  Future<List<Posts>> getMosquePosts(Mosque MosqueObject) async {
+  Future<List<Post>> getMosquePosts(Mosque MosqueObject) async {
     try {
       //List<Posts>
-      Postss = await Amplify.DataStore.query(Posts.classType, where: Posts.MOSQUESID.eq(MosqueObject.id));
+      Postss = await Amplify.DataStore.query(Post.classType, where: Post.MOSQUE_ID.eq(MosqueObject.id));
       print(Postss);
       print("inside posts");
       return Postss;
@@ -486,8 +486,8 @@ class _HomeTabState extends State<HomeTab> {
   }
 
 
-  buildGetPosts(List<MosquePrayers> mosquePrayers, Mosque MosqueObject) {
-    return FutureBuilder<List<Posts>>(
+  buildGetPosts(List<MosquePrayer> mosquePrayers, Mosque MosqueObject) {
+    return FutureBuilder<List<Post>>(
       future: getMosquePosts(MosqueObject),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -502,7 +502,7 @@ class _HomeTabState extends State<HomeTab> {
 
   }
 
-  buildMosquePosts(List<MosquePrayers> mosquePrayers, Mosque MosqueObject, List<Posts> posts){
+  buildMosquePosts(List<MosquePrayer> mosquePrayers, Mosque MosqueObject, List<Post> posts){
     return Column(
       children: [
         Container(
@@ -635,7 +635,7 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  _getPosts(Mosque MosqueObject,List<Posts> posts) {
+  _getPosts(Mosque MosqueObject,List<Post> posts) {
     return Container(
       width: double.infinity,
       color: AppColors.white,
@@ -724,7 +724,7 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  Widget getpostcardWidget(Posts postData, Mosque mosqueObject) {
+  Widget getpostcardWidget(Post postData, Mosque mosqueObject) {
     return FutureBuilder<int>(
       future: _countComments(postData.id),
       builder: (ctx, snapshot) {
@@ -766,7 +766,7 @@ class _HomeTabState extends State<HomeTab> {
     int CommentsCount = 0;
     print(CommentsCount);
     try {
-      List<PostComments> Comments = await Amplify.DataStore.query(PostComments.classType, where: PostComments.POSTSID.eq(PostID));
+      List<PostComment> Comments = await Amplify.DataStore.query(PostComment.classType, where: PostComment.POST_ID.eq(PostID));
       print("Comments Length" + Comments.length.toString());
       if(Comments.isNotEmpty){
         for(var i in Comments){
@@ -783,7 +783,7 @@ class _HomeTabState extends State<HomeTab> {
     }
   }
 
-  _loadCommentScreen(Posts PostObject, Mosque MosqueObject, String CommentsCount) {
+  _loadCommentScreen(Post PostObject, Mosque MosqueObject, String CommentsCount) {
     //Navigation.intent(context, CommentScreen(PostID: PostID,UserName: UserName, Post: Post, Post_image_path: Post_Image_path));
     print(CommentsCount);
     Navigator.push(context,

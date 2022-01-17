@@ -16,67 +16,70 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
-import 'Facilitiesmaster.dart';
+import 'Facilities.dart';
+import 'Friend.dart';
 import 'FriendRequest.dart';
-import 'Friends.dart';
-import 'Languagespoken.dart';
-import 'MasterIntrests.dart';
+import 'Interest.dart';
+import 'Language.dart';
 import 'Mosque.dart';
-import 'MosqueFollowers.dart';
-import 'MosquePhotos.dart';
-import 'MosquePrayers.dart';
-import 'MosqueUsers.dart';
-import 'PostComments.dart';
-import 'PostLikes.dart';
-import 'Posts.dart';
+import 'MosqueFollower.dart';
+import 'MosquePhoto.dart';
+import 'MosquePrayer.dart';
+import 'MosqueUser.dart';
+import 'Notification.dart';
+import 'Post.dart';
+import 'PostComment.dart';
+import 'PostLike.dart';
+import 'User.dart';
 import 'UserEducation.dart';
 import 'UserFamily.dart';
-import 'UserPhotos.dart';
+import 'UserPhoto.dart';
 import 'UserProfile.dart';
-import 'Users.dart';
 
-export 'Facilitiesmaster.dart';
+export 'Facilities.dart';
+export 'Friend.dart';
 export 'FriendRequest.dart';
-export 'Friends.dart';
-export 'Languagespoken.dart';
-export 'MasterIntrests.dart';
+export 'Interest.dart';
+export 'Language.dart';
 export 'Mosque.dart';
-export 'MosqueFollowers.dart';
-export 'MosquePhotos.dart';
-export 'MosquePrayers.dart';
-export 'MosqueUsers.dart';
-export 'PostComments.dart';
-export 'PostLikes.dart';
-export 'Posts.dart';
+export 'MosqueFollower.dart';
+export 'MosquePhoto.dart';
+export 'MosquePrayer.dart';
+export 'MosqueUser.dart';
+export 'Notification.dart';
+export 'Post.dart';
+export 'PostComment.dart';
+export 'PostLike.dart';
+export 'User.dart';
 export 'UserEducation.dart';
 export 'UserFamily.dart';
-export 'UserPhotos.dart';
+export 'UserPhoto.dart';
 export 'UserProfile.dart';
-export 'Users.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "57c95d53a6a6a890a8e3872c175c0408";
+  String version = "017c854708b97c012313d16c665d3bb0";
   @override
   List<ModelSchema> modelSchemas = [
-    Facilitiesmaster.schema,
+    Facilities.schema,
+    Friend.schema,
     FriendRequest.schema,
-    Friends.schema,
-    Languagespoken.schema,
-    MasterIntrests.schema,
+    Interest.schema,
+    Language.schema,
     Mosque.schema,
-    MosqueFollowers.schema,
-    MosquePhotos.schema,
-    MosquePrayers.schema,
-    MosqueUsers.schema,
-    PostComments.schema,
-    PostLikes.schema,
-    Posts.schema,
+    MosqueFollower.schema,
+    MosquePhoto.schema,
+    MosquePrayer.schema,
+    MosqueUser.schema,
+    Notification.schema,
+    Post.schema,
+    PostComment.schema,
+    PostLike.schema,
+    User.schema,
     UserEducation.schema,
     UserFamily.schema,
-    UserPhotos.schema,
-    UserProfile.schema,
-    Users.schema
+    UserPhoto.schema,
+    UserProfile.schema
   ];
   static final ModelProvider _instance = ModelProvider();
 
@@ -84,9 +87,14 @@ class ModelProvider implements ModelProviderInterface {
 
   ModelType getModelTypeByModelName(String modelName) {
     switch (modelName) {
-      case "Facilitiesmaster":
+      case "Facilities":
         {
-          return Facilitiesmaster.classType;
+          return Facilities.classType;
+        }
+        break;
+      case "Friend":
+        {
+          return Friend.classType;
         }
         break;
       case "FriendRequest":
@@ -94,19 +102,14 @@ class ModelProvider implements ModelProviderInterface {
           return FriendRequest.classType;
         }
         break;
-      case "Friends":
+      case "Interest":
         {
-          return Friends.classType;
+          return Interest.classType;
         }
         break;
-      case "Languagespoken":
+      case "Language":
         {
-          return Languagespoken.classType;
-        }
-        break;
-      case "MasterIntrests":
-        {
-          return MasterIntrests.classType;
+          return Language.classType;
         }
         break;
       case "Mosque":
@@ -114,39 +117,49 @@ class ModelProvider implements ModelProviderInterface {
           return Mosque.classType;
         }
         break;
-      case "MosqueFollowers":
+      case "MosqueFollower":
         {
-          return MosqueFollowers.classType;
+          return MosqueFollower.classType;
         }
         break;
-      case "MosquePhotos":
+      case "MosquePhoto":
         {
-          return MosquePhotos.classType;
+          return MosquePhoto.classType;
         }
         break;
-      case "MosquePrayers":
+      case "MosquePrayer":
         {
-          return MosquePrayers.classType;
+          return MosquePrayer.classType;
         }
         break;
-      case "MosqueUsers":
+      case "MosqueUser":
         {
-          return MosqueUsers.classType;
+          return MosqueUser.classType;
         }
         break;
-      case "PostComments":
+      case "Notification":
         {
-          return PostComments.classType;
+          return Notification.classType;
         }
         break;
-      case "PostLikes":
+      case "Post":
         {
-          return PostLikes.classType;
+          return Post.classType;
         }
         break;
-      case "Posts":
+      case "PostComment":
         {
-          return Posts.classType;
+          return PostComment.classType;
+        }
+        break;
+      case "PostLike":
+        {
+          return PostLike.classType;
+        }
+        break;
+      case "User":
+        {
+          return User.classType;
         }
         break;
       case "UserEducation":
@@ -159,19 +172,14 @@ class ModelProvider implements ModelProviderInterface {
           return UserFamily.classType;
         }
         break;
-      case "UserPhotos":
+      case "UserPhoto":
         {
-          return UserPhotos.classType;
+          return UserPhoto.classType;
         }
         break;
       case "UserProfile":
         {
           return UserProfile.classType;
-        }
-        break;
-      case "Users":
-        {
-          return Users.classType;
         }
         break;
       default:

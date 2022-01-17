@@ -5,8 +5,7 @@ import 'package:mus_greet/core/widgets/asset_image_widget.dart';
 import 'package:mus_greet/core/widgets/rounded_button_widget.dart';
 import 'package:mus_greet/core/widgets/tab_style_widget.dart';
 import 'package:mus_greet/models/FriendRequest.dart';
-import 'package:mus_greet/models/Users.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 
 
 class FriendTab extends StatefulWidget {
@@ -19,7 +18,7 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
   TabController _tabFriendsController;
   List<FriendRequest> friendRequest;
    String loginUserId="19d1eb65-ae18-4619-b94b-4670abfd5196";
-   List<Users> users;
+   List<User> users;
    List<String> FRIENDSLIST=[];
   @override
   void initState() {
@@ -594,8 +593,8 @@ class _FriendTabState extends State<FriendTab> with SingleTickerProviderStateMix
   }
   
   Future<void> getUserOfFriends() async {
-    users = await Amplify.DataStore.query(Users.classType);
-    print(Users);
+    users = await Amplify.DataStore.query(User.classType);
+    print(User);
    // return users;
     //return friendRequest;
   }

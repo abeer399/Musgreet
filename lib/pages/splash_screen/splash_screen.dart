@@ -1,7 +1,7 @@
 //import 'package:amplify_api/amplify_api.dart';
 import 'package:flutter/material.dart';
 import 'package:mus_greet/models/UserProfile.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 //import 'package:mus_greet/pages/home_screen/home_screen.dart';
 //import 'package:mus_greet/pages/splash_screen/splash_screen_second.dart';
 import 'dart:async';
@@ -28,8 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: SingleChildScrollView(
-        child: Center(
+      body: //SingleChildScrollView(
+        Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ],
             ),
           ),
-      ),
+      //),
       ),
     );
   }

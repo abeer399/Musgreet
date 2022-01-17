@@ -18,12 +18,13 @@
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Languagespoken type in your schema. */
+/** This is an auto generated class representing the Friend type in your schema. */
 @immutable
-class Languagespoken extends Model {
-  static const classType = const _LanguagespokenModelType();
+class Friend extends Model {
+  static const classType = const _FriendModelType();
   final String id;
-  final String languages;
+  final String friends_list;
+  final String user_id;
 
   @override
   getInstanceType() => classType;
@@ -33,11 +34,13 @@ class Languagespoken extends Model {
     return id;
   }
 
-  const Languagespoken._internal({@required this.id, this.languages});
+  const Friend._internal({@required this.id, this.friends_list, this.user_id});
 
-  factory Languagespoken({String id, String languages}) {
-    return Languagespoken._internal(
-        id: id == null ? UUID.getUUID() : id, languages: languages);
+  factory Friend({String id, String friends_list, String user_id}) {
+    return Friend._internal(
+        id: id == null ? UUID.getUUID() : id,
+        friends_list: friends_list,
+        user_id: user_id);
   }
 
   bool equals(Object other) {
@@ -47,9 +50,10 @@ class Languagespoken extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Languagespoken &&
+    return other is Friend &&
         id == other.id &&
-        languages == other.languages;
+        friends_list == other.friends_list &&
+        user_id == other.user_id;
   }
 
   @override
@@ -59,31 +63,37 @@ class Languagespoken extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write("Languagespoken {");
+    buffer.write("Friend {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("languages=" + "$languages");
+    buffer.write("friends_list=" + "$friends_list" + ", ");
+    buffer.write("user_id=" + "$user_id");
     buffer.write("}");
 
     return buffer.toString();
   }
 
-  Languagespoken copyWith({String id, String languages}) {
-    return Languagespoken(
-        id: id ?? this.id, languages: languages ?? this.languages);
+  Friend copyWith({String id, String friends_list, String user_id}) {
+    return Friend(
+        id: id ?? this.id,
+        friends_list: friends_list ?? this.friends_list,
+        user_id: user_id ?? this.user_id);
   }
 
-  Languagespoken.fromJson(Map<String, dynamic> json)
+  Friend.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        languages = json['languages'];
+        friends_list = json['friends_list'],
+        user_id = json['user_id'];
 
-  Map<String, dynamic> toJson() => {'id': id, 'languages': languages};
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'friends_list': friends_list, 'user_id': user_id};
 
-  static final QueryField ID = QueryField(fieldName: "languagespoken.id");
-  static final QueryField LANGUAGES = QueryField(fieldName: "languages");
+  static final QueryField ID = QueryField(fieldName: "friend.id");
+  static final QueryField FRIENDS_LIST = QueryField(fieldName: "friends_list");
+  static final QueryField USER_ID = QueryField(fieldName: "user_id");
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "Languagespoken";
-    modelSchemaDefinition.pluralName = "Languagespokens";
+    modelSchemaDefinition.name = "Friend";
+    modelSchemaDefinition.pluralName = "Friends";
 
     modelSchemaDefinition.authRules = [
       AuthRule(authStrategy: AuthStrategy.PUBLIC, operations: [
@@ -97,17 +107,22 @@ class Languagespoken extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Languagespoken.LANGUAGES,
+        key: Friend.FRIENDS_LIST,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: Friend.USER_ID,
         isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
   });
 }
 
-class _LanguagespokenModelType extends ModelType<Languagespoken> {
-  const _LanguagespokenModelType();
+class _FriendModelType extends ModelType<Friend> {
+  const _FriendModelType();
 
   @override
-  Languagespoken fromJson(Map<String, dynamic> jsonData) {
-    return Languagespoken.fromJson(jsonData);
+  Friend fromJson(Map<String, dynamic> jsonData) {
+    return Friend.fromJson(jsonData);
   }
 }

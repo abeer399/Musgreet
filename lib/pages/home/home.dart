@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/widgets/bottom_navigation_bar_widget.dart';
-import 'package:mus_greet/models/MosqueFollowers.dart';
+import 'package:mus_greet/models/MosqueFollower.dart';
 import 'package:mus_greet/pages/create_post_screen/create_post_screen.dart';
 import 'package:mus_greet/pages/friend_search/friend_search.dart';
 import 'package:mus_greet/pages/home_screen/home_screen.dart';
@@ -26,7 +26,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
   PageController _pageController = PageController();
   bool shouldNavigateToSearch = false;
   bool shouldNavigateToMosqueSearch = false;
-  List<MosqueFollowers> MosqueFollowerss =[];
+  List<MosqueFollower> MosqueFollowerss =[];
 
   _onWillPop() {
     if (shouldNavigateToSearch) {
@@ -56,7 +56,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
 
   ///This will render the body of home.
   _getBody() {
-    return FutureBuilder<List<MosqueFollowers>>(
+    return FutureBuilder<List<MosqueFollower>>(
       future: listMosqueFollowers(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -71,7 +71,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
 
   }
 
-  _getUI(List<MosqueFollowers> mosqueFollowerss) {
+  _getUI(List<MosqueFollower> mosqueFollowerss) {
     return SizedBox.expand(
       child: PageView(
         controller: _pageController,
@@ -167,9 +167,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
     });
   }
 
-  Future<List<MosqueFollowers>> listMosqueFollowers() async{
+  Future<List<MosqueFollower>> listMosqueFollowers() async{
     try {
-      MosqueFollowerss = await Amplify.DataStore.query(MosqueFollowers.classType);
+      MosqueFollowerss = await Amplify.DataStore.query(MosqueFollower.classType);
       print(MosqueFollowerss);
       return MosqueFollowerss;
     } catch (e) {

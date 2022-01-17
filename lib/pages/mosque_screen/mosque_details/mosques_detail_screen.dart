@@ -11,12 +11,10 @@ import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/core/widgets/dot_indicator.dart';
 import 'package:mus_greet/core/widgets/following_mosque_list_grid.dart';
 import 'package:mus_greet/core/widgets/tab_style_widget.dart';
-import 'package:mus_greet/models/Facilitiesmaster.dart';
+import 'package:mus_greet/models/Facilities.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
 import 'package:mus_greet/models/ModelProvider.dart';
-import 'package:mus_greet/models/MosqueFollowers.dart';
-import 'package:mus_greet/models/MosqueFollowers.dart';
-import 'package:mus_greet/models/MosqueFollowers.dart';
+import 'package:mus_greet/models/MosqueFollower.dart';
 import 'package:mus_greet/pages/create_mosque/create_mosque_screen.dart';
 import 'package:mus_greet/pages/home_screen/home_screen.dart';
 import 'package:mus_greet/pages/mosque_screen/mosque_details/contact_tab/contect_tab.dart';
@@ -37,8 +35,8 @@ class MosquesDetailsScreen extends StatefulWidget {
   final String CallingScreen;
   final bool Status;
   final String UserID;
-  final MosqueFollowers MosqueFollowerObject;
-  final Users sessionUser;
+  final MosqueFollower MosqueFollowerObject;
+  final User sessionUser;
   const MosquesDetailsScreen({Key key, this.backCallBack, this.MosqueObject, this.CallingScreen, this.Status, this.UserID, this.MosqueFollowerObject, this.sessionUser}) : super(key: key);
   @override
   _MosquesDetailsScreenState createState() => _MosquesDetailsScreenState();
@@ -61,7 +59,7 @@ class _MosquesDetailsScreenState extends State<MosquesDetailsScreen>
   //bool status ;
   String CallingScreen = "";
   bool buttonClickEvent = false;
-  List<MosqueFollowers> UserMosqueFollowingList = [];
+  List<MosqueFollower> UserMosqueFollowingList = [];
   //List<MosqueFollowers> MosqueFollowers = [];
   List<Mosque> adminMosques = [];
   bool mosqueAdmin;
@@ -130,7 +128,7 @@ class _MosquesDetailsScreenState extends State<MosquesDetailsScreen>
   }
 
   _getMosqueFollowersUI(List<Mosque> mosque){
-    return FutureBuilder<List<MosqueFollowers>>(
+    return FutureBuilder<List<MosqueFollower>>(
       future: UserMosqueFollowList(),
       builder: (ctx, snapshot) {
         switch (snapshot.connectionState) {
@@ -698,7 +696,7 @@ class _MosquesDetailsScreenState extends State<MosquesDetailsScreen>
     print("inside delete mosqueFollowers");
     try {
     for(var m in UserMosqueFollowingList){
-      if(m.mosqueID == widget.MosqueObject.id && m.usersID == widget.UserID){
+      if(m.mosque_id == widget.MosqueObject.id && m.user_id == widget.UserID){
         await Amplify.DataStore.delete(m);
         Timer(
             Duration(milliseconds: 200),
@@ -724,9 +722,9 @@ class _MosquesDetailsScreenState extends State<MosquesDetailsScreen>
     print(widget.MosqueObject.id);
     print(widget.UserID);
     try {
-      final item = MosqueFollowers(
-          mosqueID: widget.MosqueObject.id,
-          usersID: widget.UserID);
+      final item = MosqueFollower(
+          mosque_id: widget.MosqueObject.id,
+          user_id: widget.UserID);
       await Amplify.DataStore.save(item);
       print("going to set state");
       setState(() {
@@ -739,9 +737,9 @@ class _MosquesDetailsScreenState extends State<MosquesDetailsScreen>
     }
   }
 
-  Future<List<MosqueFollowers>> UserMosqueFollowList() async{
+  Future<List<MosqueFollower>> UserMosqueFollowList() async{
     try {
-      UserMosqueFollowingList = await Amplify.DataStore.query(MosqueFollowers.classType, where:MosqueFollowers.USERSID.eq(widget.UserID));
+      UserMosqueFollowingList = await Amplify.DataStore.query(MosqueFollower.classType, where:MosqueFollower.USER_ID.eq(widget.UserID));
       print(UserMosqueFollowingList);
       return UserMosqueFollowingList;
     } catch (e) {

@@ -8,7 +8,7 @@ import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/utils/routes.dart';
 import 'package:mus_greet/core/utils/size_config.dart';
 import 'package:mus_greet/core/widgets/otp_field_widget.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 import 'package:mus_greet/pages/address-verification/address_verification_screen.dart';
 import 'package:mus_greet/pages/age/age_registration_page.dart';
 import 'package:mus_greet/pages/parent/parent_verification.dart';
@@ -24,7 +24,7 @@ class ParentEmailVerificationView extends StatefulWidget {
 class _ParentEmailVerificationViewState
     extends State<ParentEmailVerificationView> {
   ParentEmailArgumentClass args;
-  Users sessionUser;
+  User sessionUser;
   bool checked = false;
   final TextEditingController _codeController = TextEditingController();
   String email;
@@ -436,7 +436,7 @@ class _ParentEmailVerificationViewState
 }
 
 class ParentEmailVerificationArgumentClass {
-  final Users sessionUser;
+  final User sessionUser;
   ParentEmailVerificationArgumentClass(this.sessionUser);
 }
 //

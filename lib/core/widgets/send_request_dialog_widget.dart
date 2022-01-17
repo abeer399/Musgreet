@@ -9,11 +9,11 @@ import 'package:mus_greet/core/utils/constants.dart';
 import 'package:mus_greet/core/widgets/action_button_widget.dart';
 import 'package:mus_greet/core/widgets/custom_spacer_widget.dart';
 import 'package:mus_greet/models/FriendRequest.dart';
-import 'package:mus_greet/models/Users.dart';
+import 'package:mus_greet/models/User.dart';
 
 class SendRequestDialogWidget extends StatefulWidget {
 
-  final Users userObject;
+  final User userObject;
  // DateTimeFormat dateTimeFormat;
   final String loginUserId;
   SendRequestDialogWidget({this.userObject, this.loginUserId});
